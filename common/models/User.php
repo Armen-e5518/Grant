@@ -113,7 +113,7 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
 
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
+        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }
@@ -185,5 +185,18 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * @return array|ActiveRecord[]
+     */
+    public static function GetAllUsers()
+    {
+        return self::find()->asArray()->all();
+    }
+
+    public static function GetUserDataById($id)
+    {
+        return self::find()->asArray()->all();
     }
 }

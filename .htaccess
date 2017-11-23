@@ -9,13 +9,6 @@ AddDefaultCharset utf-8
   RewriteCond %{REQUEST_URI} !^/(backend/web|admin)
    RewriteRule !^frontend/web /frontend/web%{REQUEST_URI} [L]
 
-   # redirect to the page without a trailing slash
-  #RewriteCond %{REQUEST_URI} ^/admin/$
-  #RewriteRule ^(admin)/ /$1 [L,R=301]
-  # the main rewrite rule for the backend application
-
-#  RewriteRule .* frontend/web/$0
-
   RewriteCond %{REQUEST_URI} ^/admin
    RewriteRule ^admin(.*) /backend/web/$1 [L]
 

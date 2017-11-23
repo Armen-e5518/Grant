@@ -7,33 +7,49 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Login';
+$this->registerCssFile('/main/assets/css/login.css');
+
+$this->title = 'Grant Thornton | An instinct for growth&trade;';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Please fill out the following fields to login:</p>
-
-    <div class="row">
-        <div class="col-lg-5">
+<div class="container">
+    <div class="logo">
+        <a href="/"><img src="/main/assets/images/logo.png" alt="Grant Thornton | An instinct for growth&trade;"
+                         title="Grant Thornton | An instinct for growth&trade;"></a>
+    </div>
+    <div class="access-area">
+        <h1>Pipeline Management System</h1>
+        <div class="access-form">
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
-                <?= $form->field($model, 'password')->passwordInput() ?>
-
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
-                <div style="color:#999;margin:1em 0">
-                    If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
-                </div>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
+            <div class="welcome-heading">Sign-in to access your account</div>
+            <div class="login-component">
+                <label class="username">
+<!--                    <input type="text" placeholder="Username / Email">-->
+                    <?= $form->field($model, 'username')->textInput([
+                            'autofocus' => true,
+                        'placeholder'=> 'Username / Email'
+                    ]) ?>
+                </label>
+            </div>
+            <div class="login-component">
+                <label class="password">
+<!--                    <input type="text" placeholder="Password">-->
+                    <?= $form->field($model, 'password')->passwordInput([
+                        'placeholder'=> 'Password'
+                    ]) ?>
+                </label>
+            </div>
+            <div class="login-component">
+                <label>
+                    <span class="remember-me"><input type="checkbox">remember me</span>
+                    <a href="#"><i class="fa fa-angle-right"></i>forgot password</a>
+                </label>
+            </div>
+            <div class="login-component">
+                <button>sign-in</button>
+            </div>
         </div>
+        <?php ActiveForm::end(); ?>
     </div>
 </div>
+

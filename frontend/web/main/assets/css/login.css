@@ -1,0 +1,214 @@
+html,
+body {
+	height:100%;
+	font-family: Roboto;
+}
+
+	.login-page {
+		position:relative;
+		background:#9a3d37 url("../images/login-page-bg.jpg");
+		background-size:cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+	}
+
+	.login-page:before,
+	.login-page:after {
+		content:"";
+		position:fixed;
+		top:0;
+		right:0;
+		bottom:0;
+		left:0;
+	}
+
+	.login-page:before {
+		background:rgba(0, 173, 198, .1);
+		z-index:2;
+	}
+	
+	.login-page:after {
+		background:rgba(0, 0, 0, .75);
+		z-index:1;
+	}
+	
+		.login-page .container {
+			position:relative;
+			z-index:2;
+			max-width:1428px;
+			margin:auto;
+			padding-top:45px;
+			padding-bottom:45px;
+			display:flex;
+			height: inherit;
+			flex-direction:column;
+			justify-content: space-between;
+		}
+		
+			.logo {
+				padding-left:33px;
+			}
+			
+				.logo a {
+					display:block;
+				}
+			
+					.logo img {
+						max-width:426px;
+						width:100%;
+					}
+			
+			.access-area {
+				text-align:center;
+				margin: auto;
+			}
+			
+				.access-area h1 {
+					margin-top:30px;
+					font-size:50px;
+					font-weight:700;
+					color:#fff;
+					/*line-height:58px;*/
+				}
+				
+				.access-form {
+					margin:38px auto;
+					/*max-width:710px;*/
+					padding:4vw 8vw;
+					border:1px #6c7b7d solid;
+				}
+				
+					.welcome-heading {
+						margin-bottom:53px;
+						font-size:32px;
+						font-weight:300;
+						color:#fff;
+					}
+					
+					.login-component {
+						font-size:15px;
+						font-weight:400;
+						color:#fff;
+					}
+					
+						.access-form label {
+							position:relative;
+							display:inline-flex;
+							justify-content: space-between;
+							width:80%;
+							margin-bottom:19px;
+						}
+						
+						.access-form label:before {
+							font-family:FontAwesome;
+							position:absolute;
+							left:10px;
+							top:13px;
+							color:#a6abab;
+						}
+						
+						.access-form label.username:before {
+							content:"\f007";
+						}
+						
+						.access-form label.password:before {
+							content:"\f023";
+						}
+						
+							.access-form input[type="text"] {
+								border:1px #e9edf8 solid;
+								width:100%;
+								height:44px;
+								background:transparent;
+								padding-left:40px;
+								padding-right:20px;
+								outline:none;
+								font-family: Roboto;
+								font-size:15px;
+								color:#a6abab;
+							}
+							
+							.access-form input::placeholder {
+								color:#a6abab;
+							}							
+					
+						.login-component .remember-me input[type="checkbox"] {
+							margin-right:5px;
+							margin-left:0;
+							vertical-align: middle;
+						}
+						
+						.login-component label .remember-me {
+						}
+					
+						.login-component label > a {
+							color:#00adc6;
+							text-decoration:underline;
+						}
+					
+						.login-component label > a:hover {
+							text-decoration:none;
+						}
+					
+							.login-component label > a i {
+								margin-right:5px;
+							}
+							
+						.login-component button {
+							border:2px #de012f solid;
+							margin-top:30px;
+							padding:0;
+							padding-left:45px;
+							padding-right:45px;
+							line-height:42px;
+							background:transparent;
+							outline:none;
+							font-family: Roboto;
+							font-size:18px;
+							font-weight:400;
+							color:#fff;
+							text-transform:uppercase;
+							cursor:pointer;
+							
+							transition:all .5s;
+						}
+						
+						.login-component button:hover {
+							color:#00adc6;
+						}
+					
+					
+@media screen and (max-width:736px) {
+	.login-page .container {
+		padding: 10px 20px;
+	}	
+		
+		.logo {
+			padding-left:10px;
+			padding-right:10px;
+		}
+		
+			.access-area h1 {
+				margin-top:0;
+				font-size: 30px;
+			}
+			
+			.access-form {
+				margin: 15px auto 0;
+			}
+				
+				.welcome-heading {
+					font-size: 24px;
+					margin-bottom: 20px;
+				}
+				
+				.access-form label {
+					width:100%;
+					margin-bottom: 10px;
+				}
+				
+				.login-component button {
+					margin-top: 0;
+				}
+}
