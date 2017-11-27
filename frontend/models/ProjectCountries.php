@@ -69,4 +69,20 @@ class ProjectCountries extends \yii\db\ActiveRecord
         }
         return [];
     }
+
+    public static function GetCountriesByProjectIdAllData($project_id = null)
+    {
+        if (!empty($project_id)) {
+            return $rows = (new \yii\db\Query())
+                ->select(
+                    [
+                        'c.*',
+                    ])
+                ->from('project_members as pm')
+                ->leftJoin(Countries::tableName() . ' c', 'c.id = pc.country_id')
+                ->where(['pm.project_id' => $project_id])
+                ->all();
+        }
+        return [];
+    }
 }

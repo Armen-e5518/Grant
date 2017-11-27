@@ -1,8 +1,10 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use kartik\widgets\ActiveForm;
 use kartik\date\DatePicker;
+use kartik\file\FileInput;
+
 
 //use kartik\daterange\DateRangePicker;
 /* @var $this yii\web\View */
@@ -16,7 +18,7 @@ use kartik\date\DatePicker;
 
 <div class="projects-form row">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <div class="col-md-6">
         <?= $form->field($model, 'ifi_name')->textInput(['maxlength' => true]) ?>
@@ -64,6 +66,37 @@ use kartik\date\DatePicker;
             ?>
         </div>
 
+        <?php if (!empty($attachments)): ?>
+            <div class="attachments">
+                <?php foreach ($attachments as $attachment): ?>
+                    <div class="attachment">
+                        <?php if($attachment['type'] == 'png' || $attachment['type'] == 'jpg'):?>
+                            <div class="attachment-img">
+                                <img src="<?= Yii::$app->params['attachments_url'] . $attachment['src'] ?>" alt="">
+                            </div>
+                        <?php endif; ?>
+                        <a download
+                           href="<?= Yii::$app->params['attachments_url'] . $attachment['src'] ?>"><?= $attachment['src'] ?></a>
+                        <i class="fa fa-trash-o delete-attachment" data-id="<?= $attachment['id'] ?>"
+                           aria-hidden="true"></i>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+        <leble>Add Attachments</leble>
+
+        <?= FileInput::widget([
+            'model' => $model,
+            'name' => 'attachments[]',
+            'attribute' => 'attachments[]',
+            'options' => [
+                'multiple' => true,
+            ],
+            'pluginOptions' => [
+                'showUpload' => false,
+            ]
+        ]);
+        ?>
     </div>
 
     <div class="col-md-6">
@@ -78,6 +111,9 @@ use kartik\date\DatePicker;
         <?= $form->field($model, 'beneficiary_stakeholder')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'status')->dropDownList(['0' => 'In progress', '1' => 'Applied']); ?>
+
+        <?= $form->field($model, 'status_important')->dropDownList(['0' => 'Important 1', '1' => 'Important 2', '2' => 'Important 3']); ?>
+
 
         <lable>Select a Members</lable>
 

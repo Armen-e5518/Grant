@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="main m-members">
             <h1><?= Html::encode($this->title) ?></h1>
             <p>
-                <?= Html::a('Create Member', ['create'], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a('Add Country', ['create'], ['class' => 'btn btn-primary']) ?>
             </p>
             <div>
                 <?= GridView::widget([

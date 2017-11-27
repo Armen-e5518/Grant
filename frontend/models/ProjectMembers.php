@@ -67,4 +67,20 @@ class ProjectMembers extends \yii\db\ActiveRecord
         }
         return [];
     }
+
+    public static function GetMembersByProjectIdAllData($project_id = null)
+    {
+        if (!empty($project_id)) {
+            return $rows = (new \yii\db\Query())
+                ->select(
+                    [
+                        'u.*',
+                    ])
+                ->from('project_members as pm')
+                ->leftJoin(User::tableName() . ' u', 'u.id = pm.user_id')
+                ->where(['pm.project_id' => $project_id])
+                ->all();
+        }
+        return [];
+    }
 }

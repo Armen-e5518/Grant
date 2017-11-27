@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "projects".
@@ -30,6 +31,11 @@ use Yii;
 class Projects extends \yii\db\ActiveRecord
 {
     /**
+     * @var UploadedFile[]
+     */
+    public $attachments;
+
+    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -43,8 +49,10 @@ class Projects extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['attachments'], 'file'],
+            [['ifi_name'], 'required'],
             [['tender_stage'], 'string'],
-            [['status', 'state','status_important'], 'integer'],
+            [['status', 'state', 'status_important'], 'integer'],
             [['create_de', 'update_de'], 'safe'],
             [['ifi_name', 'project_name', 'project_dec', 'request_issued', 'deadline', 'budget', 'duration', 'eligibility_restrictions', 'selection_method', 'submission_method', 'evaluation_decision_making', 'beneficiary_stakeholder'], 'string', 'max' => 255],
         ];
@@ -74,8 +82,10 @@ class Projects extends \yii\db\ActiveRecord
             'state' => 'State',
             'create_de' => 'Create De',
             'update_de' => 'Update De',
+            'status_important' => 'Importance',
         ];
     }
+
 
     public static function GetAllProjectsAllJoin()
     {
@@ -99,4 +109,6 @@ class Projects extends \yii\db\ActiveRecord
     {
         return self::find()->asArray()->all();
     }
+
+
 }

@@ -36,3 +36,15 @@
 .my-content {
     height: 100%;
 }
+
+.attachment {
+    display: flex;
+}
+
+.attachment img {
+    width: 100px;
+}
+
+.attachment .delete-attachment {
+    cursor: pointer;
+}

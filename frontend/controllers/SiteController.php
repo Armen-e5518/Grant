@@ -85,10 +85,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        echo '<pre>';
-        print_r(Projects::GetAllProjects());
-        exit;
-        return $this->render('index');
+        return $this->render('index',[
+            'projects' => Projects::GetAllProjects()
+        ]);
     }
 
     /**
