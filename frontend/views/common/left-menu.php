@@ -17,10 +17,10 @@
                class="d-block <?= $active == 'members' ? 'active' : '' ?> members no-underline white-txt"><i
                         class="fa fa-users"></i>Members</a>
         </li>
-        <li><a href="#" class="d-block reports no-underline white-txt"><i class="fa fa-bar-chart"></i>Reports</a>
+<!--        <li><a href="#" class="d-block reports no-underline white-txt"><i class="fa fa-bar-chart"></i>Reports</a>-->
         </li>
-        <li><a href="#" class="d-block countries no-underline white-txt"><i class="fa fa-globe"></i>Countries</a>
+        <li><a href="/countries" class="d-block  <?= $active == 'country' ? 'active' : '' ?> countries no-underline white-txt"><i class="fa fa-globe"></i>Countries</a>
         </li>
     </ul>
-    <a href="#" class="add-new-block no-underline white-txt"><i></i>Add new prospect</a>
+    <a href="/projects/create" class="add-new-block  no-underline white-txt"><i></i>Add new prospect</a>
 </div>

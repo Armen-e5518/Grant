@@ -1,6 +1,8 @@
 <?php
 namespace frontend\controllers;
 
+use frontend\models\Projects;
+use phpDocumentor\Reflection\Project;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -83,6 +85,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        echo '<pre>';
+        print_r(Projects::GetAllProjects());
+        exit;
         return $this->render('index');
     }
 

@@ -67,6 +67,7 @@ class UserRules extends \yii\db\ActiveRecord
     public static function SaveRulesByUserId($rules = null, $user_id = null)
     {
         $flag = true;
+        self::deleteAll(['user_id' => $user_id]);
         if (!empty($rules) && !empty($user_id)) {
             foreach ($rules as $rule) {
                 $model = new self();
@@ -80,28 +81,6 @@ class UserRules extends \yii\db\ActiveRecord
         return $flag;
     }
 
-    /**
-     * @param null $rules
-     * @param null $user_id
-     * @return bool
-     */
-    public static function UpdateRulesByUserId($rules = null, $user_id = null)
-    {
-        $flag = true;
-        if (!empty($rules) && !empty($user_id)) {
-            if (self::deleteAll(['user_id' => $user_id])) {
-                foreach ($rules as $rule) {
-                    $model = new self();
-                    $model->user_id = $user_id;
-                    $model->rule_id = $rule;
-                    if (!$model->save()) {
-                        $flag = false;
-                    }
-                }
-            }
-        }
-        return $flag;
-    }
 
     /**
      * @param null $user_id

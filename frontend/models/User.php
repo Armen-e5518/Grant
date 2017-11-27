@@ -116,4 +116,9 @@ class User extends \yii\db\ActiveRecord
         }
         return false;
     }
+
+    public static function GetUsers()
+    {
+        return self::find()->select(["CONCAT(`firstname`,' ',`lastname`) as name",'id'])->indexBy('id')->column();
+    }
 }

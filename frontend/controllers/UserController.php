@@ -38,8 +38,7 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        var_dump(Yii::$app->rule_check->CheckByKay(['by_assigned']));
-        exit;
+
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -57,7 +56,6 @@ class UserController extends Controller
     public function actionView($id)
     {
         $user_rules = UserRules::GetUserRulesNamesByUserId($id);
-
         return $this->render('view', [
             'model' => $this->findModel($id),
             'user_rules' => $user_rules
@@ -112,7 +110,7 @@ class UserController extends Controller
         }
         if ($model->load(Yii::$app->request->post())) {
             $id = $model->UpdateUser($id);
-            if (!empty($id) && UserRules::UpdateRulesByUserId(Yii::$app->request->post('rules'), $id)) {
+            if (!empty($id) && UserRules::SaveRulesByUserId(Yii::$app->request->post('rules'), $id)) {
                 return $this->redirect(['view', 'id' => $id]);
             }
         }
