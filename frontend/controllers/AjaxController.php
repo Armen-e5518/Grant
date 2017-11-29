@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 
 use frontend\models\ProjectAttachments;
+use frontend\models\ProjectFavorite;
 use Yii;
 use yii\web\Controller;
 use \yii\web\Response;
@@ -32,4 +33,14 @@ class AjaxController extends Controller
         }
     }
 
+    public function actionAddOrDeleteFavorite()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                return ProjectFavorite::SaveOrDeleteFavorite($post['id']);
+            }
+        }
+    }
 }

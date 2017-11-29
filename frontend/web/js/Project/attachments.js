@@ -1,6 +1,5 @@
 
 $(document).ready(function () {
-
     $('.delete-attachment').click(function () {
         var ob = $(this);
         var data = {};

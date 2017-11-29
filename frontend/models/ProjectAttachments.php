@@ -67,6 +67,7 @@ class ProjectAttachments extends \yii\db\ActiveRecord
         return [];
     }
 
+
     public static function DeleteAttachmentById($id = null)
     {
         $model = self::findOne(['id'=> $id]);

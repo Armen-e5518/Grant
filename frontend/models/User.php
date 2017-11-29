@@ -19,6 +19,7 @@ use yii\web\UploadedFile;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $country_id
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -43,7 +44,7 @@ class User extends \yii\db\ActiveRecord
         return [
             [['imageFile'], 'file', 'extensions' => 'png, jpg'],
             [['username', 'lastname', 'firstname', 'email'], 'required'],
-            [['status', 'created_at', 'updated_at'], 'integer'],
+            [['status', 'created_at', 'updated_at','country_id'], 'integer'],
             [['username', 'lastname', 'firstname', 'password_hash', 'password_reset_token', 'email','image_url'], 'string', 'max' => 255],
             [['auth_key', 'email'], 'string', 'max' => 32],
             [['username'], 'unique'],
@@ -70,6 +71,7 @@ class User extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'image_url' => 'Image',
+            'country_id' => 'Country',
         ];
     }
 
@@ -112,6 +114,7 @@ class User extends \yii\db\ActiveRecord
             $user->firstname = $this->firstname;
             $user->lastname = $this->lastname;
             $user->image_url = $this->image_url;
+            $user->country_id = $this->country_id;
             return $user->save() ? $user->id : false;
         }
         return false;

@@ -2,5 +2,6 @@
 return [
     'adminEmail' => 'admin@example.com',
     'domain' => 'http://grant.dev',
-    'attachments_url' => '/attachments/'
+    'attachments_url' => '/attachments/',
+    'user_url' => '/uploads/',
 ];

@@ -1,6 +1,8 @@
 <?php
 namespace frontend\controllers;
 
+use frontend\components\Helper;
+use frontend\models\ProjectFavorite;
 use frontend\models\Projects;
 use phpDocumentor\Reflection\Project;
 use Yii;
@@ -56,7 +58,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['get'],
                 ],
             ],
         ];
@@ -85,8 +87,16 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index',[
-            'projects' => Projects::GetAllProjects()
+
+        $projects = Projects::GetAllProjects(Yii::$app->request->get());
+//        $projects = Helper::ChangeProjectsFormat($projects);
+//        echo '<pre>';
+//        print_r(Helper::GetFilterUrl(['/site/'],['v1' => 8,'v2' => 10],'v2',77));
+//        exit;
+        return $this->render('index', [
+            'date' => Helper::ChangeProjectsFormat($projects),
+            'favorites' => ProjectFavorite::GetFavoritesByUserId(),
+            'params' => Helper::GetFilterResets(['/site/index'], Yii::$app->request->get()),
         ]);
     }
 

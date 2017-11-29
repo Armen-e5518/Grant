@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use frontend\models\Countries;
 use frontend\models\RulesName;
 use frontend\models\UserRules;
 use Yii;
@@ -81,7 +82,7 @@ class UserController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $id = $model->SaveUser();
             if (!empty($id) && UserRules::SaveRulesByUserId(Yii::$app->request->post('rules'), $id)) {
-                return $this->redirect(['view', 'id' => $id]);
+                return $this->redirect(['update', 'id' => $id]);
             }
         }
         return $this->render('create', [
@@ -101,6 +102,8 @@ class UserController extends Controller
         $model = $this->findModel($id);
         $rules = RulesName::GetRules();
         $user_rules = UserRules::GetUserRulesByUserId($id);
+        $user_country = UserRules::GetUserRulesByUserId($id);
+        $countries = Countries::GetCountries();
         if (Yii::$app->request->isPost) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             $name = $model->upload();
@@ -118,6 +121,8 @@ class UserController extends Controller
             'model' => $model,
             'rules' => $rules,
             'user_rules' => $user_rules,
+            'countries' => $countries,
+            'user_country' => [],
         ]);
     }
 

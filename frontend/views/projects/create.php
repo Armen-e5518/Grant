@@ -6,6 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\User */
 /* @var $members
+/* @var $countries
  */
 
 $this->registerCssFile('/css/src.css');

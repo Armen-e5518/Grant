@@ -54,8 +54,6 @@ class ProjectCountries extends \yii\db\ActiveRecord
                 $model->country_id = $country;
                 if (!$model->save()) {
                     $flag = false;
-                    print_r($model->getErrors());
-                    exit;
                 }
             }
         }

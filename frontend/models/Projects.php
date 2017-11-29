@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 use yii\web\UploadedFile;
 
 /**
@@ -25,6 +26,7 @@ use yii\web\UploadedFile;
  * @property integer $status
  * @property integer $state
  * @property integer $status_important
+ * @property integer $submitted
  * @property string $create_de
  * @property string $update_de
  */
@@ -34,6 +36,22 @@ class Projects extends \yii\db\ActiveRecord
      * @var UploadedFile[]
      */
     public $attachments;
+
+    const STATUS_ARCHIVE = 2;
+
+    const STATUS_ACTIVE = 1;
+
+    const STATUS_DELETE = 0;
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -50,10 +68,10 @@ class Projects extends \yii\db\ActiveRecord
     {
         return [
             [['attachments'], 'file'],
-            [['ifi_name'], 'required'],
+            [['ifi_name', 'project_name', 'deadline', 'request_issued'], 'required'],
             [['tender_stage'], 'string'],
-            [['status', 'state', 'status_important'], 'integer'],
-            [['create_de', 'update_de'], 'safe'],
+            [['status', 'state', 'pending_approval', 'submitted', 'submission_process'], 'integer'],
+            [['created_at', 'updated_at'], 'safe'],
             [['ifi_name', 'project_name', 'project_dec', 'request_issued', 'deadline', 'budget', 'duration', 'eligibility_restrictions', 'selection_method', 'submission_method', 'evaluation_decision_making', 'beneficiary_stakeholder'], 'string', 'max' => 255],
         ];
     }
@@ -82,14 +100,16 @@ class Projects extends \yii\db\ActiveRecord
             'state' => 'State',
             'create_de' => 'Create De',
             'update_de' => 'Update De',
-            'status_important' => 'Importance',
+            'pending_approval' => 'Pending approval',
+            'submitted' => 'Submitted',
+            'submission_process' => 'Submission process',
         ];
     }
 
 
     public static function GetAllProjectsAllJoin()
     {
-        return $rows = (new \yii\db\Query())
+        return (new \yii\db\Query())
             ->select(
                 [
                     'p.*',
@@ -105,10 +125,37 @@ class Projects extends \yii\db\ActiveRecord
             ->all();
     }
 
-    public static function GetAllProjects()
+    public static function GetAllProjects($params = null)
     {
-        return self::find()->asArray()->all();
+
+        $query = (new \yii\db\Query())
+            ->select(
+                [
+                    'p.*',
+                ])
+            ->from('projects as p');
+
+        if (!empty($params['a'])) {
+            $query->andWhere(['p.state' => self::STATUS_ARCHIVE]);
+        } else {
+            $query->andWhere(['p.state' => self::STATUS_ACTIVE]);
+        }
+        if (!empty($params['f'])) {
+            $query->rightJoin(ProjectFavorite::tableName() . ' f', 'f.project_id = p.id AND f.user_id = ' . Yii::$app->user->identity->getId());
+        }
+        return $query
+            ->orderBy(['p.deadline' => SORT_DESC])
+            ->all();
     }
 
+    public static function ChangeStatusToArchive($id)
+    {
+        $model = self::findOne(['id' => $id]);
+        if (!empty($model)) {
+            $model->state = self::STATUS_ARCHIVE;
+            return $model->save();
+        }
+        return false;
+    }
 
 }

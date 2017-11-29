@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\file\FileInput;
-
+use kartik\checkbox\CheckboxX;
 
 //use kartik\daterange\DateRangePicker;
 /* @var $this yii\web\View */
@@ -70,7 +70,7 @@ use kartik\file\FileInput;
             <div class="attachments">
                 <?php foreach ($attachments as $attachment): ?>
                     <div class="attachment">
-                        <?php if($attachment['type'] == 'png' || $attachment['type'] == 'jpg'):?>
+                        <?php if ($attachment['type'] == 'png' || $attachment['type'] == 'jpg'): ?>
                             <div class="attachment-img">
                                 <img src="<?= Yii::$app->params['attachments_url'] . $attachment['src'] ?>" alt="">
                             </div>
@@ -112,7 +112,11 @@ use kartik\file\FileInput;
 
         <?= $form->field($model, 'status')->dropDownList(['0' => 'In progress', '1' => 'Applied']); ?>
 
-        <?= $form->field($model, 'status_important')->dropDownList(['0' => 'Important 1', '1' => 'Important 2', '2' => 'Important 3']); ?>
+        <?= $form->field($model, 'pending_approval')->checkbox([]); ?>
+
+        <?= $form->field($model, 'submitted')->checkbox(); ?>
+
+        <?= $form->field($model, 'submission_process')->checkbox([]); ?>
 
 
         <lable>Select a Members</lable>

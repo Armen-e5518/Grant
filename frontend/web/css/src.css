@@ -48,3 +48,29 @@
 .attachment .delete-attachment {
     cursor: pointer;
 }
+.user-name{
+    position: relative;
+}
+.user-name .user-down {
+    text-align: right;
+    background: #e7e7e7;
+    position: absolute;
+    width: 115px;
+    height: 18px;
+}
+.fa{
+    cursor: pointer;
+}
+
+.fa-archive-active {
+    color: #333;
+}
+#projects-pending_approval{
+    color: #de012f;
+}
+#projects-submitted{
+    color: #96d700;
+}
+#projects-submission_process{
+    color: #512178;
+}

@@ -5,7 +5,8 @@ use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $user_rules
-/* @var $model
+/* @var $countries
+ * /* @var $model
  * /* @var $model frontend\models\User
  */
 /* @var $form yii\widgets\ActiveForm */
@@ -27,9 +28,29 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'status')->dropDownList(['10' => 'Yes', '0' => 'No']); ?>
 
     <?= $form->field($model, 'imageFile')->fileInput() ?>
+    <p>
+        <img width="100px" src="/uploads/<?= $model->image_url ?>" alt="">
+    </p>
 
-    <img width="100px" src="/uploads/<?= $model->image_url ?>" alt="">
+    <lable>Select a country</lable>
 
+    <div class="add-country">
+        <?= \kartik\select2\Select2::widget([
+            'name' => 'country_id',
+            'attribute' => 'country_id',
+            'model' => $model,
+            'data' => $countries,
+            'maintainOrder' => true,
+            'options' => [
+                'placeholder' => 'Select a country...',
+            ],
+            'pluginOptions' => [
+                'tags' => true,
+            ],
+        ]);
+        ?>
+    </div>
+    <lable>Select a rules</lable>
     <div class="add-rules">
         <?= \kartik\select2\Select2::widget([
             'name' => 'rules',
@@ -39,7 +60,6 @@ use yii\widgets\ActiveForm;
             'options' => ['placeholder' => 'Select a rules ...', 'multiple' => true],
             'pluginOptions' => [
                 'tags' => true,
-//                        'maximumInputLength' => 10
             ],
         ]);
         ?>

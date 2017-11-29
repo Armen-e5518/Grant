@@ -168,6 +168,19 @@ class ProjectsController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionDeleteProject($id)
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['/site']);
+    }
+
+    public function actionAddArchive($id)
+    {
+        Projects::ChangeStatusToArchive($id);
+        return $this->redirect(['/site']);
+    }
+
     /**
      * Finds the Projects model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
