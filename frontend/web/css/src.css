@@ -52,11 +52,11 @@
     position: relative;
 }
 .user-name .user-down {
-    text-align: right;
-    background: #e7e7e7;
     position: absolute;
     width: 115px;
-    height: 18px;
+    /*height: 18px;
+    background: #e7e7e7;
+    text-align: right;*/
 }
 .fa{
     cursor: pointer;

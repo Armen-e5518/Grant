@@ -14,8 +14,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container">
     <div class="logo">
-        <a href="/"><img src="/main/assets/images/logo.png" alt="Grant Thornton | An instinct for growth&trade;"
-                         title="Grant Thornton | An instinct for growth&trade;"></a>
+        <a href="/">
+            <img src="/main/assets/images/logo.png"
+                 alt="Grant Thornton | An instinct for growth&trade;"
+                 title="Grant Thornton | An instinct for growth&trade;">
+        </a>
     </div>
     <div class="access-area">
         <h1>Pipeline Management System</h1>
@@ -24,19 +27,17 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="welcome-heading">Sign-in to access your account</div>
             <div class="login-component">
                 <label class="username">
-<!--                    <input type="text" placeholder="Username / Email">-->
                     <?= $form->field($model, 'username')->textInput([
-                            'autofocus' => true,
-                        'placeholder'=> 'Username / Email'
-                    ]) ?>
+                        'autofocus' => true,
+                        'placeholder' => 'Username / Email'
+                    ])->label(false) ?>
                 </label>
             </div>
             <div class="login-component">
                 <label class="password">
-<!--                    <input type="text" placeholder="Password">-->
                     <?= $form->field($model, 'password')->passwordInput([
-                        'placeholder'=> 'Password'
-                    ]) ?>
+                        'placeholder' => 'Password'
+                    ])->label(false) ?>
                 </label>
             </div>
             <div class="login-component">

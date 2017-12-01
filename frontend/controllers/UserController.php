@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use frontend\models\Companies;
 use frontend\models\Countries;
 use frontend\models\RulesName;
 use frontend\models\UserRules;
@@ -72,6 +73,7 @@ class UserController extends Controller
     {
         $model = new User();
         $rules = RulesName::GetRules();
+
         if (Yii::$app->request->isPost) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             $name = $model->upload();
@@ -79,12 +81,14 @@ class UserController extends Controller
                 $model->image_url = (string)$name;
             }
         }
+
         if ($model->load(Yii::$app->request->post())) {
             $id = $model->SaveUser();
             if (!empty($id) && UserRules::SaveRulesByUserId(Yii::$app->request->post('rules'), $id)) {
                 return $this->redirect(['update', 'id' => $id]);
             }
         }
+
         return $this->render('create', [
             'model' => $model,
             'rules' => $rules,
@@ -102,8 +106,9 @@ class UserController extends Controller
         $model = $this->findModel($id);
         $rules = RulesName::GetRules();
         $user_rules = UserRules::GetUserRulesByUserId($id);
-        $user_country = UserRules::GetUserRulesByUserId($id);
         $countries = Countries::GetCountries();
+        $companies = Companies::GetCompanies();
+
         if (Yii::$app->request->isPost) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             $name = $model->upload();
@@ -111,18 +116,20 @@ class UserController extends Controller
                 $model->image_url = (string)$name;
             }
         }
+
         if ($model->load(Yii::$app->request->post())) {
             $id = $model->UpdateUser($id);
             if (!empty($id) && UserRules::SaveRulesByUserId(Yii::$app->request->post('rules'), $id)) {
                 return $this->redirect(['view', 'id' => $id]);
             }
         }
+
         return $this->render('update', [
             'model' => $model,
             'rules' => $rules,
             'user_rules' => $user_rules,
             'countries' => $countries,
-            'user_country' => [],
+            'companies' => $companies,
         ]);
     }
 

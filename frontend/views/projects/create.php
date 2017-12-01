@@ -8,7 +8,9 @@ use yii\helpers\Html;
 /* @var $members
 /* @var $countries
  */
-
+$this->registerJsFile('https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js');
+$this->registerJsFile('/js/members/src.js');
+$this->registerJsFile('/js/Project/create-project.js');
 $this->registerCssFile('/css/src.css');
 $this->registerCssFile('/main/assets/css/style.css');
 $this->registerCssFile('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css');
@@ -36,3 +38,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
+<script>
+    var __User_img_url = "<?=Yii::$app->params['user_url']?>";
+</script>

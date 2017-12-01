@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use Yii;
 use yii\web\UploadedFile;
+
 /**
  * This is the model class for table "user".
  *
@@ -20,6 +21,7 @@ use yii\web\UploadedFile;
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $country_id
+ * @property integer company_id
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -44,8 +46,8 @@ class User extends \yii\db\ActiveRecord
         return [
             [['imageFile'], 'file', 'extensions' => 'png, jpg'],
             [['username', 'lastname', 'firstname', 'email'], 'required'],
-            [['status', 'created_at', 'updated_at','country_id'], 'integer'],
-            [['username', 'lastname', 'firstname', 'password_hash', 'password_reset_token', 'email','image_url'], 'string', 'max' => 255],
+            [['status', 'created_at', 'updated_at', 'country_id', 'company_id'], 'integer'],
+            [['username', 'lastname', 'firstname', 'password_hash', 'password_reset_token', 'email', 'image_url'], 'string', 'max' => 255],
             [['auth_key', 'email'], 'string', 'max' => 32],
             [['username'], 'unique'],
             [['email'], 'email'],
@@ -72,9 +74,13 @@ class User extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'image_url' => 'Image',
             'country_id' => 'Country',
+            'company_id' => 'Company',
         ];
     }
 
+    /**
+     * @return bool|string
+     */
     public function upload()
     {
         if (!empty($this->imageFile)) {
@@ -86,7 +92,9 @@ class User extends \yii\db\ActiveRecord
         return false;
     }
 
-
+    /**
+     * @return bool|int|mixed|string
+     */
     public function SaveUser()
     {
         if (!$this->validate()) {
@@ -102,6 +110,10 @@ class User extends \yii\db\ActiveRecord
         return $user->save() ? $user->getId() : false;
     }
 
+    /**
+     * @param null $id
+     * @return bool|int
+     */
     public function UpdateUser($id = null)
     {
         if (!empty($id)) {
@@ -115,13 +127,44 @@ class User extends \yii\db\ActiveRecord
             $user->lastname = $this->lastname;
             $user->image_url = $this->image_url;
             $user->country_id = $this->country_id;
+            $user->company_id = $this->company_id;
             return $user->save() ? $user->id : false;
         }
         return false;
     }
 
+    /**
+     * @return array
+     */
     public static function GetUsers()
     {
-        return self::find()->select(["CONCAT(`firstname`,' ',`lastname`) as name",'id'])->indexBy('id')->column();
+        return self::find()->select(["CONCAT(`firstname`,' ',`lastname`) as name", 'id'])->indexBy('id')->column();
+    }
+
+    /**
+     * @param $id
+     * @return static
+     */
+    public static function GetUserImage($id)
+    {
+        return self::findOne(['id' => $id]);
+    }
+
+    /**
+     * @param $id
+     * @return null
+     */
+    public function GetCompany($id)
+    {
+        return !empty(Companies::GetCompanyNameById($id)['name']) ? Companies::GetCompanyNameById($id)['name'] : null;
+    }
+
+    /**
+     * @param $id
+     * @return null
+     */
+    public function GetCountry($id)
+    {
+        return !empty(Countries::GetCountryNameById($id)['country_name']) ? Countries::GetCountryNameById($id)['country_name'] : null;
     }
 }

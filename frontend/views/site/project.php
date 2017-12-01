@@ -6,11 +6,16 @@
 $members = \frontend\models\ProjectMembers::GetMembersByProjectIdAllData($project['id']);
 $attachments = \frontend\models\ProjectAttachments::GetAttachmentsByProjectId($project['id']);
 $fav_id = array_search($project['id'], $favorites);
-$favorite_class = (isset($fav_id)) ? 'fa-star' : 'fa-star-o';
+if ($fav_id !== false) {
+    $favorite_class = 'fa-star';
+} else {
+    $favorite_class = 'fa-star-o';
+}
+$arch_class = ($project['state'] == 2) ? 'fa-archive-active' : '';
 
 ?>
 
-<div class="post-item">
+<div class="post-item project" data-id="<?= $project['id'] ?>">
     <div class="post-title-bar d-flex font-15 txt-upper">
         <div class="post-status applied font-w-700">
             <?= $project['status'] == 0 ?
@@ -84,11 +89,11 @@ $favorite_class = (isset($fav_id)) ? 'fa-star' : 'fa-star-o';
         <div class="post-actions d-flex brd-rad-4 white-bg">
             <a href="#" data-id="<?= $project['id'] ?>"
                class="favorite-project fa <?= $favorite_class ?> rating no-underline black-txt"></a>
-            <a href="#" class="fa fa-eye-slash publicity no-underline black-txt"></a>
+            <a href="/projects/add-archive?id=<?= $project['id'] ?>"
+               class="fa fa-archive <?= $arch_class ?> sharing no-underline"></a>
             <a href="/projects/delete-project?id=<?= $project['id'] ?>"
                class="fa fa-trash removal no-underline black-txt"></a>
             <a href="/projects/update?id=<?= $project['id'] ?>" class="fa fa fa-pencil sharing no-underline"></a>
-            <a href="/projects/add-archive?id=<?= $project['id'] ?>" class="fa fa-share sharing no-underline"></a>
         </div>
     </div>
 </div>

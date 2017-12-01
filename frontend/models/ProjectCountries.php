@@ -43,23 +43,36 @@ class ProjectCountries extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function SaveCountriesByProjectId($project_id = null, $countries = null)
+    /**
+     * @param null $project_id
+     * @param null $countries
+     * @return bool
+     */
+    public static function SaveCountriesByProjectId($project_id = null, $countries = null, $international_status = null)
     {
         $flag = true;
-        self::deleteAll(['project_id' => $project_id]);
-        if (!empty($project_id) && !empty($countries)) {
-            foreach ($countries as $country) {
-                $model = new self();
-                $model->project_id = $project_id;
-                $model->country_id = $country;
-                if (!$model->save()) {
-                    $flag = false;
+        if ($international_status == 0) {
+            self::deleteAll(['project_id' => $project_id]);
+            if (!empty($project_id) && !empty($countries)) {
+                foreach ($countries as $country) {
+                    $model = new self();
+                    $model->project_id = $project_id;
+                    $model->country_id = $country;
+                    if (!$model->save()) {
+                        $flag = false;
+                    }
                 }
             }
+        } else {
+            self::deleteAll(['project_id' => $project_id]);
         }
         return $flag;
     }
 
+    /**
+     * @param null $project_id
+     * @return array
+     */
     public static function GetCountriesByProjectId($project_id = null)
     {
         if (!empty($project_id)) {
@@ -68,6 +81,10 @@ class ProjectCountries extends \yii\db\ActiveRecord
         return [];
     }
 
+    /**
+     * @param null $project_id
+     * @return array
+     */
     public static function GetCountriesByProjectIdAllData($project_id = null)
     {
         if (!empty($project_id)) {

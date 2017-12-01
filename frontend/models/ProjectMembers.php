@@ -43,6 +43,11 @@ class ProjectMembers extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @param null $project_id
+     * @param null $members
+     * @return bool
+     */
     public static function SaveMembersByProjectId($project_id = null, $members = null)
     {
         $flag = true;
@@ -60,6 +65,10 @@ class ProjectMembers extends \yii\db\ActiveRecord
         return $flag;
     }
 
+    /**
+     * @param null $project_id
+     * @return array
+     */
     public static function GetMembersByProjectId($project_id = null)
     {
         if (!empty($project_id)) {
@@ -68,6 +77,10 @@ class ProjectMembers extends \yii\db\ActiveRecord
         return [];
     }
 
+    /**
+     * @param null $project_id
+     * @return array
+     */
     public static function GetMembersByProjectIdAllData($project_id = null)
     {
         if (!empty($project_id)) {

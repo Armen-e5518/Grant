@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ]);
                                 },
                                 'update' => function ($url, $model) {
-                                    return Html::a('', $url, [
+                                    return Html::a('<i class="fa fa-pencil" aria-hidden="true"></i>', $url, [
                                         'title' => Yii::t('app', 'lead-update'),
                                     ]);
                                 },

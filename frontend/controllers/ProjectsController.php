@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use frontend\models\Companies;
 use frontend\models\Countries;
 use frontend\models\ProjectAttachments;
 use frontend\models\ProjectCountries;
@@ -74,11 +75,12 @@ class ProjectsController extends Controller
         $members = User::GetUsers();
         $countries = Countries::GetCountries();
 
+
         if (
             $model->load(Yii::$app->request->post())
             && $model->save()
             && ProjectMembers::SaveMembersByProjectId($model->id, Yii::$app->request->post('members'))
-            && ProjectCountries::SaveCountriesByProjectId($model->id, Yii::$app->request->post('countries'))
+            && ProjectCountries::SaveCountriesByProjectId($model->id, Yii::$app->request->post('countries'), Yii::$app->request->post('international_status'))
         ) {
             if (Yii::$app->request->isPost) {
                 $model->attachments = UploadedFile::getInstances($model, 'attachments');
@@ -123,7 +125,7 @@ class ProjectsController extends Controller
         if ($model->load(Yii::$app->request->post())
             && $model->save()
             && ProjectMembers::SaveMembersByProjectId($model->id, Yii::$app->request->post('members'))
-            && ProjectCountries::SaveCountriesByProjectId($model->id, Yii::$app->request->post('countries'))
+            && ProjectCountries::SaveCountriesByProjectId($model->id, Yii::$app->request->post('countries'), $model->international_status)
         ) {
             if (Yii::$app->request->isPost) {
                 $model->attachments = UploadedFile::getInstances($model, 'attachments');

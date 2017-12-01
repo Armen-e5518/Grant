@@ -18,7 +18,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
-
     <?= $form->field($model, 'firstname')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'lastname')->textInput(['maxlength' => true]) ?>
@@ -50,7 +49,27 @@ use yii\widgets\ActiveForm;
         ]);
         ?>
     </div>
+
+    <lable>Select a companies</lable>
+
+    <div class="add-companies">
+        <?= \kartik\select2\Select2::widget([
+            'name' => 'company_id',
+            'attribute' => 'company_id',
+            'model' => $model,
+            'data' => $companies,
+            'maintainOrder' => true,
+            'options' => [
+                'placeholder' => 'Select a company...',
+            ],
+            'pluginOptions' => [
+                'tags' => true,
+            ],
+        ]);
+        ?>
+    </div>
     <lable>Select a rules</lable>
+
     <div class="add-rules">
         <?= \kartik\select2\Select2::widget([
             'name' => 'rules',

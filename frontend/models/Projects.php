@@ -70,7 +70,7 @@ class Projects extends \yii\db\ActiveRecord
             [['attachments'], 'file'],
             [['ifi_name', 'project_name', 'deadline', 'request_issued'], 'required'],
             [['tender_stage'], 'string'],
-            [['status', 'state', 'pending_approval', 'submitted', 'submission_process'], 'integer'],
+            [['status', 'state', 'pending_approval', 'submitted', 'submission_process', 'international_status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['ifi_name', 'project_name', 'project_dec', 'request_issued', 'deadline', 'budget', 'duration', 'eligibility_restrictions', 'selection_method', 'submission_method', 'evaluation_decision_making', 'beneficiary_stakeholder'], 'string', 'max' => 255],
         ];
@@ -103,10 +103,13 @@ class Projects extends \yii\db\ActiveRecord
             'pending_approval' => 'Pending approval',
             'submitted' => 'Submitted',
             'submission_process' => 'Submission process',
+            'international_status' => 'International / open for non residents',
         ];
     }
 
-
+    /**
+     * @return array
+     */
     public static function GetAllProjectsAllJoin()
     {
         return (new \yii\db\Query())
@@ -125,6 +128,10 @@ class Projects extends \yii\db\ActiveRecord
             ->all();
     }
 
+    /**
+     * @param null $params
+     * @return array
+     */
     public static function GetAllProjects($params = null)
     {
 
@@ -148,6 +155,10 @@ class Projects extends \yii\db\ActiveRecord
             ->all();
     }
 
+    /**
+     * @param $id
+     * @return bool
+     */
     public static function ChangeStatusToArchive($id)
     {
         $model = self::findOne(['id' => $id]);
@@ -158,4 +169,8 @@ class Projects extends \yii\db\ActiveRecord
         return false;
     }
 
+    public static function GetProjectDataById($id)
+    {
+        return self::findOne(['id' => $id]);
+    }
 }

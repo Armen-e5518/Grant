@@ -44,8 +44,20 @@ class Countries extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @return array
+     */
     public static function GetCountries()
     {
         return self::find()->select(["country_name", 'id'])->indexBy('id')->column();
+    }
+
+    /**
+     * @param $id
+     * @return static
+     */
+    public static function GetCountryNameById($id)
+    {
+        return self::findOne(['id' => $id]);
     }
 }

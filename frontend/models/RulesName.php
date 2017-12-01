@@ -46,6 +46,9 @@ class RulesName extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @return array
+     */
     public static function GetRules()
     {
         return self::find()->select('name,id')->indexBy('id')->column();

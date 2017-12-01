@@ -12,6 +12,7 @@ use yii\helpers\Html;
 
 $this->registerJsFile('https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js');
 $this->registerJsFile('/js/Project/attachments.js');
+$this->registerJsFile('/js/Project/create-project.js');
 $this->registerCssFile('/css/src.css');
 $this->registerCssFile('/main/assets/css/style.css');
 $this->registerCssFile('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css');

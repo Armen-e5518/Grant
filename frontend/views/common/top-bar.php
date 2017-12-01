@@ -18,11 +18,11 @@
             </a>
         </div>
         <div class="user-name">
-            <a href="#" class="font-14 no-underline">
+            <a href="#" class="font-14 no-underline" id="user-profile">
                 <?= Yii::$app->user->identity->firstname . ' ' . Yii::$app->user->identity->lastname ?>
                 <i class="fa fa-angle-down"></i>
             </a>
-            <div class="user-down">
+            <div class="user-down d-none padding-5 font-12 txt-center gray-bg">
                 <a class="btn btn-default btn-flat" href="/site/logout" data-method="post">Sign out</a>
             </div>
         </div>

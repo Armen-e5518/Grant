@@ -155,6 +155,16 @@ body {
 								margin-right:5px;
 							}
 							
+							.login-component label div.form-group {
+								width:100%;
+							}
+							
+							.login-component label p.help-block-error {
+								text-align: left;
+								padding-left: 40px;
+								padding-top: 5px;
+							}
+							
 						.login-component button {
 							border:2px #de012f solid;
 							margin-top:30px;

@@ -92,12 +92,28 @@ body .font-14 {
 	font-size:16px;
 }
 
+.font-18 {
+	font-size:18px;
+}
+
 body .white-bg {
 	background-color:#fff;
 }
 
 body .gray-bg {
 	background-color:#E2E4E6;
+}
+
+body .green-bg {
+	background-color:#96d700;
+}
+
+body .transparent-bg {
+	background-color:transparent;
+}
+
+.italic {
+	font-style:italic;
 }
 
 .white-txt,
@@ -109,13 +125,33 @@ body .gray-bg {
 	color:#000;
 }
 
+.gray-txt {
+	color:#8d8d8d;
+}
+
+.white-txt {
+	color:#fff !important;
+}
+
+.green-txt {
+	color:#96d700 !important;
+}
+
+.violet-txt {
+	color:#512178 !important;
+}
+
+.red-txt {
+	color:#de012f !important;
+}
+
 .no-underline,
 .related-documents a:hover {
 	text-decoration:none;
 }
 
 .txt-center {
-	text-align:center;
+	text-align:center !important;
 }
 
 .txt-left {
@@ -134,6 +170,18 @@ body .gray-bg {
 	width:100%;
 }
 
+.margin-btn-5 {
+	margin-bottom:5px !important;
+}
+
+.padding-btn-5 {
+	padding-bottom:5px !important;
+}
+
+.padding-5 {
+	padding:5px !important;
+}
+
 .no-margin {
 	margin:0 !important;
 }
@@ -142,10 +190,57 @@ body .gray-bg {
 	padding:0 !important;
 }
 
+.no-border {
+	border:0 !important;
+}
+
+.green-border {
+	border-color:#96d700 !important;
+}
+.green-border:hover {
+	background:#96d700;
+	color:#fff !important;
+}
+
+.red-border {
+	border-color:#de012f !important;
+}
+.red-border:hover {
+	background:#de012f;
+	color:#fff !important;
+}
+
+.violet-border {
+	border-color:#512178 !important;
+}
+.violet-border:hover {
+	background:#512178;
+	color:#fff !important;
+}
+
+.gray-border {
+	border-color:#8d8d8d !important;
+}
+.gray-border:hover {
+	background:#8d8d8d;
+	color:#fff !important;
+}
+
 .ellipsis {
 	white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.disabled-area:after {
+	content:"";
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	background:rgba(255, 255, 255, .4);
+	cursor: not-allowed;
 }
 
 	.container {
@@ -207,6 +302,7 @@ body .gray-bg {
 				.add-new-block i:before {
 					margin-right:10px;
 					font-size:30px;
+					font-style: normal;
 					vertical-align: sub;
 					content:"+";
 				}
@@ -219,7 +315,7 @@ body .gray-bg {
 				justify-content: space-between;
 				align-items: center;
 				padding-left:15px;
-				padding-right:20px;
+				padding-right:10px;
 				height:53px;
 				border:1px #e8e8e8 solid;
 			}
@@ -257,6 +353,10 @@ body .gray-bg {
 						height:25px;
 						background:#f3f2ee;
 					}
+					
+						.user-avatar a {
+							display:block;
+						}
 			
 						.user-avatar a,
 						.user-avatar img {
@@ -370,11 +470,11 @@ body .gray-bg {
 							
 								.filtering-popup.card-detail-popup {
 									width: 100% !important;
-									max-width: 800px;
+									max-width: 950px;
 									font-family: Roboto;
 								}
 								
-							.filter-tools .filtering > input[type="checkbox"]:checked ~ .filtering-popup-layer {
+							.filtering-popup-layer.active-popup {
 								position: fixed;
 								left: 0;
 								right: 0;
@@ -389,7 +489,7 @@ body .gray-bg {
 								background: rgba(0, 0, 0, .75);
 							}
 								
-								.filter-tools .filtering > input[type="checkbox"]:checked ~ .filtering-popup-layer .filtering-popup {
+								.filtering-popup-layer.active-popup .filtering-popup {
 									display:block;
 									
 									width:360px;
@@ -420,22 +520,27 @@ body .gray-bg {
 										font-size: 24px;
 									}
 									
+									.filtering-popup .card-detail-title {
+										padding-bottom: 5px;
+										margin-right: 15px;
+									}
+									
 									.filtering-popup > label {
 										width:50%;
 										float:left;
 										margin-bottom:17px;
 									}
 								
-										.filtering-popup > label span {
+										label span {
 											font-family: Roboto;
 											font-size:15px;
 										}
 										
-										.filtering-popup > label input[type="checkbox"] {
+										label input[type="checkbox"] {
 											display:none;
 										}
 										
-										.filtering-popup > label .bullet {
+										label .bullet {
 											display:inline-block;
 											width:25px;
 											height:25px;
@@ -443,9 +548,10 @@ body .gray-bg {
 											vertical-align:middle;
 										}
 										
-										.filtering-popup > label input[type="checkbox"] ~ .bullet:before {
+										label input[type="checkbox"] ~ .bullet:before {
 											position: absolute;
 											content: "\f00c";
+											font-family: FontAwesome;
 											font-size:20px;
 											color:#de012f;
 											top: 2px;
@@ -453,7 +559,7 @@ body .gray-bg {
 											opacity:0;
 										}
 										
-										.filtering-popup > label input[type="checkbox"]:checked ~ .bullet:before {
+										label input[type="checkbox"]:checked ~ .bullet:before {
 											opacity:1;
 										}
 										
@@ -510,15 +616,17 @@ body .gray-bg {
 									.filtering-popup button {
 										margin: 20px auto 0;
 										border:2px #de012f solid;
-										padding-left:33px;
-										padding-right:33px;
+										/*padding-left:33px;
+										padding-right:33px;*/
+										padding-left:10px;
+										padding-right:10px;
 										color:#de012f;
 										line-height:34px;
 										cursor:pointer;
 									}
 												
 									.filtering-popup button:hover {
-										background:#de012f;
+										/*background:#de012f;*/
 									}
 									
 									.txt-with-icon {
@@ -530,7 +638,7 @@ body .gray-bg {
 									
 										.txt-with-icon .fa {
 											margin-right:5px;
-											width: 30px;
+											/*width: 30px;*/
 										}
 									
 										.txt-with-icon .fa:before {
@@ -565,6 +673,9 @@ body .gray-bg {
 
 										.card-detail-title textarea {
 											background: transparent;
+											padding-right: 10px;
+											padding-left: 0;
+											height: 25px;
 											font-size: 20px;
 											color:#333;
 										}
@@ -610,7 +721,7 @@ body .gray-bg {
 									}
 									
 										.card-post-items {
-											flex:4;
+											flex:3.9;
 											margin-right:15px;
 										}
 										
@@ -693,7 +804,7 @@ body .gray-bg {
 														}
 									
 										.card-control-toolkit {
-											flex:1;
+											flex:1.1;
 										}
 										
 											.card-control-toolkit ul {
@@ -784,6 +895,10 @@ body .gray-bg {
 													.card-control-toolkit ul li .toolkit-btn > i {
 														margin-right:10px;
 													}
+													
+											.card-control-toolkit .change-status-type {
+												border:1px #8d8d8d solid;
+											}
 			
 				.center-area {
 					flex:1;
@@ -822,6 +937,10 @@ body .gray-bg {
 							
 								.post-status {
 									margin-right:20px;
+								}
+							
+								.post-status.pending {
+									color:#de012f;
 								}
 							
 								.post-status.applied {
@@ -995,8 +1114,10 @@ body .gray-bg {
 									}
 									
 									.post-actions > div {
+										margin-top: 3px;
 										margin-left:13px;
 										font-size: 26px;
+										color: #000;
 									}
 		
 				.right-slide {
@@ -1013,12 +1134,20 @@ body .gray-bg {
 							padding-right:13px;
 							height:57px;
 							background:#f4f4f4;
-							justify-content: space-between;
+							/*justify-content: space-between;*/
 							align-items: center;
 						}
 							
 								.add-member i {
 									margin-right:4px;
+								}
+								
+								.widget-title-bar .add-member {
+									margin-left: 30px;
+								}
+								
+								.widget-title-bar .close-item {
+									margin-left: auto;
 								}
 							
 							.close-item {
@@ -1040,8 +1169,8 @@ body .gray-bg {
 								height:40px;
 								margin-right:4px;
 								margin-bottom:7px;
-								/*background:#f3f2ee;*/
-								border: 1px #ddd solid;
+								background:#f3f2ee;
+								/*border: 1px #ddd solid;*/
 							}
 							
 								.member-photo > a,
@@ -1083,6 +1212,10 @@ body .gray-bg {
 									line-height:18px;
 								}
 								
+								.card-post-items .member-photo {
+									border: 1px #ddd solid;
+								}
+								
 								.member-post a {
 									color:inherit;
 								}
@@ -1120,6 +1253,7 @@ body .gray-bg {
 	.filter-tools .filtering > input[type="checkbox"] ~ .filtering-popup,
 	.filtering-popup > label input[type="checkbox"] ~ .bullet:before,
 	.filtering-popup button,
+	.filtering-popup select,
 	.posts-list .post-item,
 	.member-photo > a .tooltip,
 	.post-priority span .tooltip,
@@ -1130,13 +1264,13 @@ body .gray-bg {
 	#show-left-slide,
 	.person-action .attachment-preview:before,
 	.attachment-thumbnail,
-	.filter-tools .filtering > input[type="checkbox"] ~ .filtering-popup-layer,
-	.filter-tools .filtering > input[type="checkbox"] ~ .filtering-popup-layer .filtering-popup,
+	/*.filter-tools .filtering > input[type="checkbox"] ~ .filtering-popup-layer,
+	.filter-tools .filtering > input[type="checkbox"] ~ .filtering-popup-layer .filtering-popup,*/
 	.card-detail-title textarea,
 	.card-control-toolkit ul li .toolkit-btn input[type="checkbox"] ~ .toolkit-popover,
 	.card-control-toolkit ul li .toolkit-btn,
 	.toolkit-popover .txt-with-icon .person-icon,
-	.toolkit-popover input[type="text"]{
+	.toolkit-popover input[type="text"] {
 		transition:all .5s;
 	}
 								

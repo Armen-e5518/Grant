@@ -17,19 +17,12 @@ use kartik\checkbox\CheckboxX;
 ?>
 
 <div class="projects-form row">
-
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data',]]); ?>
     <div class="col-md-6">
-        <?= $form->field($model, 'ifi_name')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'project_name')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'project_dec')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'tender_stage')->dropDownList(['Propasal' => 'Propasal', 'Eol' => 'Eol',], ['prompt' => '']) ?>
-
-        <p>Valid Dates</p>
+        <?= $form->field($model, 'ifi_name')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('ifi_name')])->label(false) ?>
+        <?= $form->field($model, 'project_name')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('project_name')])->label(false) ?>
+        <?= $form->field($model, 'project_dec')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('project_dec')])->label(false) ?>
+        <?= $form->field($model, 'tender_stage')->dropDownList(['Propasal' => 'Propasal', 'Eol' => 'Eol',], ['prompt' => ''])->label(false) ?>
         <?= DatePicker::widget([
             'model' => $model,
             'name' => 'request_issued',
@@ -46,26 +39,22 @@ use kartik\checkbox\CheckboxX;
             ]
         ]);
         ?>
-
-        <?= $form->field($model, 'budget')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'duration')->textInput(['maxlength' => true]) ?>
-
-        <div class="add-members">
-            <leble>Select Countries</leble>
+        <?= $form->field($model, 'budget')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('budget')])->label(false) ?>
+        <?= $form->field($model, 'duration')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('duration')])->label(false) ?>
+        <div class="add-countries">
             <?= \kartik\select2\Select2::widget([
                 'name' => 'countries',
                 'value' => $select_countries,
                 'data' => $countries,
                 'maintainOrder' => true,
-                'options' => ['placeholder' => 'Countries ...', 'multiple' => true],
+                'options' => ['placeholder' => 'Countries ...', 'id' => 'add-country', 'multiple' => true],
                 'pluginOptions' => [
                     'tags' => true,
                 ],
             ]);
             ?>
         </div>
-
+        <?= $form->field($model, 'international_status')->checkbox([])->label(false); ?>
         <?php if (!empty($attachments)): ?>
             <div class="attachments">
                 <?php foreach ($attachments as $attachment): ?>
@@ -83,8 +72,6 @@ use kartik\checkbox\CheckboxX;
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
-        <leble>Add Attachments</leble>
-
         <?= FileInput::widget([
             'model' => $model,
             'name' => 'attachments[]',
@@ -98,29 +85,16 @@ use kartik\checkbox\CheckboxX;
         ]);
         ?>
     </div>
-
     <div class="col-md-6">
-        <?= $form->field($model, 'eligibility_restrictions')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'selection_method')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'submission_method')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'evaluation_decision_making')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'beneficiary_stakeholder')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'status')->dropDownList(['0' => 'In progress', '1' => 'Applied']); ?>
-
-        <?= $form->field($model, 'pending_approval')->checkbox([]); ?>
-
-        <?= $form->field($model, 'submitted')->checkbox(); ?>
-
-        <?= $form->field($model, 'submission_process')->checkbox([]); ?>
-
-
-        <lable>Select a Members</lable>
-
+        <?= $form->field($model, 'eligibility_restrictions')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('eligibility_restrictions')])->label(false) ?>
+        <?= $form->field($model, 'selection_method')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('selection_method')])->label(false) ?>
+        <?= $form->field($model, 'submission_method')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('submission_method')])->label(false) ?>
+        <?= $form->field($model, 'evaluation_decision_making')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('evaluation_decision_making')])->label(false) ?>
+        <?= $form->field($model, 'beneficiary_stakeholder')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('beneficiary_stakeholder')])->label(false) ?>
+        <?= $form->field($model, 'status')->dropDownList(['0' => 'In progress', '1' => 'Applied'])->label(false); ?>
+        <?= $form->field($model, 'pending_approval')->checkbox([])->label(false); ?>
+        <?= $form->field($model, 'submitted')->checkbox([])->label(false); ?>
+        <?= $form->field($model, 'submission_process')->checkbox()->label(false); ?>
         <div class="add-members">
             <?= \kartik\select2\Select2::widget([
                 'name' => 'members',
@@ -136,11 +110,8 @@ use kartik\checkbox\CheckboxX;
         </div>
 
     </div>
-
     <div class="form-group col-md-12">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => 'btn btn-success']) ?>
     </div>
-
     <?php ActiveForm::end(); ?>
-
 </div>

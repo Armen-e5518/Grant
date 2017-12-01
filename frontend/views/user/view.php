@@ -5,7 +5,7 @@ use yii\widgets\DetailView;
 use kartik\widgets\Select2;
 
 /* @var $this yii\web\View */
-/* @var $user_rules*/
+/* @var $user_rules */
 /* @var $model frontend\models\User */
 $this->registerCssFile('/css/src.css');
 $this->registerCssFile('/main/assets/css/style.css');
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 <div class="container-fluide my-content d-flex">
-    <?= $this->render('/common/left-menu',['active' => 'members']) ?>
+    <?= $this->render('/common/left-menu', ['active' => 'members']) ?>
     <div class="wrapper">
         <?= $this->render('/common/top-bar') ?>
         <div class="main m-members ">
@@ -51,6 +51,19 @@ $this->params['breadcrumbs'][] = $this->title;
 //                        'password_hash',
 //                        'password_reset_token',
                         'email:email',
+                        [
+                            'label' => 'Company',
+                            'value' => function ($model) {
+                                return $model->GetCompany($model->company_id);
+                            }
+                        ],
+                        [
+                            'label' => 'Country',
+                            'value' => function ($model) {
+                                return $model->GetCountry($model->country_id);
+                            }
+                        ],
+//                        'company.name',
 //                        'status',
                         [
                             'label' => 'Active',

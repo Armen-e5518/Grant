@@ -18,9 +18,11 @@
                         class="fa fa-users"></i>Members</a>
         </li>
 <!--        <li><a href="#" class="d-block reports no-underline white-txt"><i class="fa fa-bar-chart"></i>Reports</a>-->
-        </li>
+<!--        </li>-->
         <li><a href="/countries" class="d-block  <?= $active == 'country' ? 'active' : '' ?> countries no-underline white-txt"><i class="fa fa-globe"></i>Countries</a>
+        <li><a href="/companies" class="d-block  <?= $active == 'companies' ? 'active' : '' ?> countries no-underline white-txt"><i class="fa fa-globe"></i>Companies</a>
         </li>
     </ul>
     <a href="/projects/create" class="add-new-block  no-underline white-txt"><i></i>Add new prospect</a>
 </div>
+

@@ -5,7 +5,7 @@ AddDefaultCharset utf-8
    RewriteEngine On
 
    # the main rewrite rule for the frontend application
-  RewriteCond %{REQUEST_URI} !/mysqli.php
+  RewriteCond %{REQUEST_URI} !/mysql.php
   RewriteCond %{REQUEST_URI} !^/(backend/web|admin)
    RewriteRule !^frontend/web /frontend/web%{REQUEST_URI} [L]
 
@@ -31,3 +31,15 @@ AddDefaultCharset utf-8
    RewriteCond %{REQUEST_URI} \.(htaccess|htpasswd|svn|git)
    RewriteRule \.(htaccess|htpasswd|svn|git) - [F]
 </ifmodule>
+
+# Use PHP56 as default
+AddHandler application/x-httpd-php56 .php
+<IfModule mod_suphp.c>
+    suPHP_ConfigPath /opt/php56/lib
+</IfModule>
+
+# Use PHP56 as default
+AddHandler application/x-httpd-php56 .php
+<IfModule mod_suphp.c>
+    suPHP_ConfigPath /opt/phpedge/lib
+</IfModule>

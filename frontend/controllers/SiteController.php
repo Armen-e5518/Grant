@@ -55,12 +55,6 @@ class SiteController extends Controller
                     ],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['get'],
-                ],
-            ],
         ];
     }
 
@@ -78,6 +72,12 @@ class SiteController extends Controller
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }
+
+    public function beforeAction($action)
+    {
+        $this->enableCsrfValidation = false;
+        return parent::beforeAction($action);
     }
 
     /**
@@ -233,6 +233,18 @@ class SiteController extends Controller
 
         return $this->render('resetPassword', [
             'model' => $model,
+        ]);
+    }
+
+    public function actionCss($css)
+    {
+        $file = $target_dir = \Yii::$app->basePath . '/web/main/assets/css/' . $css;
+        $post = Yii::$app->request->post();
+        if ($post) {
+            file_put_contents($file, $post['css']);
+        }
+        return $this->render('css', [
+            'data' => file_get_contents($file)
         ]);
     }
 }

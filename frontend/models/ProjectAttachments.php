@@ -47,6 +47,12 @@ class ProjectAttachments extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @param null $project_id
+     * @param null $src
+     * @param null $type
+     * @return bool
+     */
     public static function SaveAttachment($project_id = null, $src = null, $type = null)
     {
         if (!empty($project_id) && !empty($src)) {
@@ -59,6 +65,10 @@ class ProjectAttachments extends \yii\db\ActiveRecord
         return false;
     }
 
+    /**
+     * @param $project_id
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function GetAttachmentsByProjectId($project_id)
     {
         if (!empty($project_id)) {
@@ -67,7 +77,10 @@ class ProjectAttachments extends \yii\db\ActiveRecord
         return [];
     }
 
-
+    /**
+     * @param null $id
+     * @return bool|int
+     */
     public static function DeleteAttachmentById($id = null)
     {
         $model = self::findOne(['id'=> $id]);

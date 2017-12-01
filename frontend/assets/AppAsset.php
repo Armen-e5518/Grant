@@ -18,7 +18,7 @@ class AppAsset extends AssetBundle
         'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900',
     ];
     public $js = [
-
+        '/js/common/src.js'
     ];
     public $depends = [
 //        'yii\web\JqueryAsset' => false,
