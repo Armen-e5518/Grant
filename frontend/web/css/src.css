@@ -58,6 +58,9 @@
     background: #e7e7e7;
     text-align: right;*/
 }
+.user-name .user-down a {
+    text-decoration: underline;
+}
 .fa{
     cursor: pointer;
 }

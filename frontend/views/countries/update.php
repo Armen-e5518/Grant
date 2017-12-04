@@ -19,8 +19,9 @@ $this->title = 'Update Countrie: ' . $model->country_name;
     <div class="wrapper">
         <?= $this->render('/common/top-bar') ?>
         <div class="main m-members ">
-
-            <h1><?= Html::encode($this->title) ?></h1>
+		<div class="filter-bar">
+	            	<span class="font-14 font-w-300 gray-txt"><?= Html::encode($this->title) ?></span>
+		</div>
 
             <div class="access-form">
                 <?= $this->render('_form', [

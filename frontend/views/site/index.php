@@ -11,6 +11,7 @@ $this->registerJsFile('/js/Project/favorite.js');
 $this->registerJsFile('/js/popups/src.js');
 $this->registerJsFile('/js/Project/popup.js');
 $this->registerJsFile('/js/Project/set-data-popup.js');
+$this->registerJsFile('/js/Project/Members.js');
 
 $this->registerCssFile('/main/assets/css/style.css');
 
@@ -149,76 +150,42 @@ $this->title = 'Grant Thornton';
 </div>
 
 <div id="popup-project" class="filtering-popup-layer">
-    <div class="filtering-popup card-detail-popup brd-rad-4 font-15 p-rel">
+    <div id="id_project" data-id="" class="filtering-popup card-detail-popup brd-rad-4 font-15 p-rel">
         <i class="popup-close p-abs" title="Close"></i>
         <div class="card-detail-title txt-without-icon">
-            <textarea class="font-w-700 brd-rad-4 w-100-perc">Project title</textarea>
+            <textarea id="id_project_title" class="font-w-700 brd-rad-4 w-100-perc"></textarea>
         </div>
 
         <div class="card-body">
             <div class="card-post-items">
 
                 <div class="txt-without-icon">
-                    in list <a href="#">Armenia / Audit</a>
+                    in list <a href="#"><span id="id_project_country"></span> / Audit</a>
                 </div>
                 <br><br>
                 <div class="txt-without-icon">
                     <div class="post-responsible-people font-15 font-w-700">
                         <span class="d-block">Responsible people</span>
-                        <div class="member-photo brd-rad-4">
-                            <a href="#" class="d-block p-rel">
-                                <img src="assets/images/members/member-1.png">
-                                <em class="tooltip p-abs brd-rad-4 font-12 white-txt">anun azganun</em>
-                            </a>
-                        </div>
-                        <div class="member-photo brd-rad-4">
-                            <a href="#" class="d-block p-rel">
-                                <img src="assets/images/members/member-4.png">
-                                <em class="tooltip p-abs brd-rad-4 font-12 white-txt">anun azganun</em>
-                            </a>
-                        </div>
-                        <div class="member-photo brd-rad-4">
-                            <a href="#" class="d-block p-rel">
-                                <img src="assets/images/members/member-8.png">
-                                <em class="tooltip p-abs brd-rad-4 font-12 white-txt">Vladimir Muradyan</em>
-                            </a>
-                        </div>
-                        <div class="member-photo brd-rad-4">
-                            <a href="#" class="d-block p-rel">
-                                <img src="assets/images/members/member-6.png">
-                                <em class="tooltip p-abs brd-rad-4 font-12 white-txt">anun azganun</em>
-                            </a>
-                        </div>
-                        <div class="member-photo brd-rad-4">
-                            <a href="#" class="d-block p-rel">
-                                <img src="assets/images/members/member-7.png">
-                                <em class="tooltip p-abs brd-rad-4 font-12 white-txt">anun azganun</em>
-                            </a>
-                        </div>
+                        <span id="id_project_members"></span>
                         &nbsp;
-                        <a href="#" class="add-member font-14 font-w-700"><i class="fa fa-user-plus"></i>Assign other members</a>
+                        <a href="#" id="id_add_members" class="add-member font-14 font-w-700"><i class="fa fa-user-plus"></i>Assign other members</a>
+                        <select id="id_members" style="display: none"  class="change-status-type padding-5 transparent-bg gray-border gray-txt font-15">
+                            <option value="0">Select a members</option>
+                        </select>
                     </div>
                 </div>
 
 
                 <div class="txt-without-icon">
                     Description <a href="#">Edit</a>
-                    <span class="d-block description-txt">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</span>
+                    <span id="id_project_des" class="d-block description-txt"></span>
                 </div>
                 <br>
                 <div class="txt-without-icon">
                     <h6 class="font-w-700 font-16">Attachments</h6>
                 </div>
-                <div class="txt-without-icon">
-                    <div class="related-documents">
-                        <a href="#" class="d-block font-w-300 font-14"><i class="fa fa-file-word-o"></i>Related document title.docx</a>
-                    </div>
-                </div>
-                <div class="txt-without-icon">
-                    <div class="related-documents">
-                        <a href="#" class="d-block font-w-300 font-14"><i class="fa fa-file-pdf-o"></i>Related document title.pdf</a>
-                    </div>
-                </div>
+                <span id="id_project_attachments"></span>
+
                 <div class="txt-without-icon">
                     <a href="#" class="add-member font-14 font-w-700"><i class="fa fa-paperclip"></i>Attach file</a>
                 </div>
@@ -245,13 +212,13 @@ $this->title = 'Grant Thornton';
                     <span class="d-block gray-txt font-w-300 margin-btn-5">Responsible: Olga Semyonova, Isabella Khaneyan</span>
                     <div class="member-photo brd-rad-4">
                         <a href="#" class="d-block p-rel">
-                            <img src="assets/images/members/member-7.png">
+                            <img src="/assets/images/members/member-7.png">
                             <em class="tooltip p-abs brd-rad-4 font-12 white-txt">anun azganun</em>
                         </a>
                     </div>
                     <div class="member-photo brd-rad-4">
                         <a href="#" class="d-block p-rel">
-                            <img src="assets/images/members/member-1.png">
+                            <img src="/assets/images/members/member-1.png">
                             <em class="tooltip p-abs brd-rad-4 font-12 white-txt">anun azganun</em>
                         </a>
                     </div>
@@ -267,7 +234,7 @@ $this->title = 'Grant Thornton';
                     <span class="d-block gray-txt font-w-300 margin-btn-5">Responsible: Isabella Khaneyan</span>
                     <div class="member-photo brd-rad-4">
                         <a href="#" class="d-block p-rel">
-                            <img src="assets/images/members/member-1.png">
+                            <img src="/assets/images/members/member-1.png">
                             <em class="tooltip p-abs brd-rad-4 font-12 white-txt">anun azganun</em>
                         </a>
                     </div>
@@ -445,10 +412,10 @@ $this->title = 'Grant Thornton';
             <div class="card-control-toolkit">
                 <ul>
                     <li>
-                        <span class="d-block gray-txt margin-btn-5 font-w-300"><i class="fa fa-clock-o"></i> Created: 20 Oct 2017</span>
+                        <span class="d-block gray-txt margin-btn-5 font-w-300"><i class="fa fa-clock-o"></i> Created: <span id="id_project_created"></span></span>
                     </li>
                     <li>
-                        <span class="d-block gray-txt margin-btn-5 font-w-700"><i class="fa fa-clock-o"></i> Deadline: 28 Nov 2017</span>
+                        <span class="d-block gray-txt margin-btn-5 font-w-700"><i class="fa fa-clock-o"></i> Deadline: <span id="id_project_deadline"></span></span>
                     </li>
                 </ul>
                 <h6 class="font-w-700 font-16">Project Status</h6>

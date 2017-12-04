@@ -93,9 +93,9 @@ class ProjectCountries extends \yii\db\ActiveRecord
                     [
                         'c.*',
                     ])
-                ->from('project_members as pm')
+                ->from('project_countries as pc')
                 ->leftJoin(Countries::tableName() . ' c', 'c.id = pc.country_id')
-                ->where(['pm.project_id' => $project_id])
+                ->where(['pc.project_id' => $project_id])
                 ->all();
         }
         return [];

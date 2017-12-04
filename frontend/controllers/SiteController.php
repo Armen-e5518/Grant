@@ -3,7 +3,9 @@ namespace frontend\controllers;
 
 use frontend\components\Helper;
 use frontend\models\ProjectFavorite;
+use frontend\models\ProjectMembers;
 use frontend\models\Projects;
+use frontend\models\User;
 use phpDocumentor\Reflection\Project;
 use Yii;
 use yii\base\InvalidParamException;
@@ -91,12 +93,13 @@ class SiteController extends Controller
         $projects = Projects::GetAllProjects(Yii::$app->request->get());
 //        $projects = Helper::ChangeProjectsFormat($projects);
 //        echo '<pre>';
-//        print_r(Helper::GetFilterUrl(['/site/'],['v1' => 8,'v2' => 10],'v2',77));
+//        print_r(ProjectMembers::GetMembersByProjectId(20));
 //        exit;
         return $this->render('index', [
             'date' => Helper::ChangeProjectsFormat($projects),
             'favorites' => ProjectFavorite::GetFavoritesByUserId(),
             'params' => Helper::GetFilterResets(['/site/index'], Yii::$app->request->get()),
+//            'members' => User::GetAllUsers()
         ]);
     }
 

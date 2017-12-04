@@ -66,6 +66,21 @@ class ProjectMembers extends \yii\db\ActiveRecord
     }
 
     /**
+     * @param null $post
+     * @return bool
+     */
+    public static function SaveMemberByProjectId($post = null)
+    {
+        if (!empty($post['project_id']) && !empty($post['id'])) {
+            $model = new self();
+            $model->project_id = $post['project_id'];
+            $model->user_id = $post['id'];
+            return $model->save();
+        }
+        return false;
+    }
+
+    /**
      * @param null $project_id
      * @return array
      */
@@ -84,7 +99,7 @@ class ProjectMembers extends \yii\db\ActiveRecord
     public static function GetMembersByProjectIdAllData($project_id = null)
     {
         if (!empty($project_id)) {
-            return $rows = (new \yii\db\Query())
+            return  (new \yii\db\Query())
                 ->select(
                     [
                         'u.*',
@@ -96,4 +111,6 @@ class ProjectMembers extends \yii\db\ActiveRecord
         }
         return [];
     }
+
+
 }

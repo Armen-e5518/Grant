@@ -284,6 +284,7 @@ body .transparent-bg {
 				.left-slide-menu a.active,
 				.left-slide-menu a:hover {
 					background:#413d88;
+					text-decoration:none;
 				}
 				
 			.add-new-block {
@@ -297,6 +298,7 @@ body .transparent-bg {
 			.add-new-block:hover {
 				border:2px #fff solid;
 				color:#512178;
+				text-decoration: none;
 			}
 			
 				.add-new-block i:before {
@@ -343,8 +345,10 @@ body .transparent-bg {
 					align-items: center;
 				}
 					
+					.user a:focus,
 					.user a:hover {
 						color:#333;
+						text-decoration: none;
 					}
 			
 					.user-avatar {
@@ -1273,6 +1277,30 @@ body .transparent-bg {
 	.toolkit-popover input[type="text"] {
 		transition:all .5s;
 	}
+	
+/*necessary customizations "breaking" some framework styles*/
+body .container-fluid {
+	padding-right: 0;
+	padding-left: 0;
+}
+
+	.access-form,
+	.main.m-members .grid-view {
+		border-top: 1px #e8e8e8 solid;
+		padding: 50px;
+	}
+		
+		.access-form input[type="text"] {
+			box-shadow: none;
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+		
+		.access-form input[type="text"] ~ .help-block {
+			font-size: 13px;
+			padding-left: 10px;
+			color: #de012f;
+		}
 								
 @media screen and (max-width:1280px) {
 		.top-bar,

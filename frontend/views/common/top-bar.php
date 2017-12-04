@@ -23,7 +23,7 @@
                 <i class="fa fa-angle-down"></i>
             </a>
             <div class="user-down d-none padding-5 font-12 txt-center gray-bg">
-                <a class="btn btn-default btn-flat" href="/site/logout" data-method="post">Sign out</a>
+                <a class="black-txt" href="/site/logout" data-method="post">Sign out</a>
             </div>
         </div>
         <!--        <div class="user-settings"><a href="#" class="fa fa-cog no-underline"></a></div>-->

@@ -141,6 +141,14 @@ class User extends \yii\db\ActiveRecord
         return self::find()->select(["CONCAT(`firstname`,' ',`lastname`) as name", 'id'])->indexBy('id')->column();
     }
 
+    public static function GetAllUsersNotProject($project_id)
+    {
+        return self::find()
+            ->where(['NOT IN', 'id', ProjectMembers::GetMembersByProjectId($project_id)])
+            ->asArray()
+            ->all();
+    }
+
     /**
      * @param $id
      * @return static

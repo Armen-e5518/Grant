@@ -4,10 +4,10 @@ $(document).ready(function () {
         e.stopPropagation();
     })
 
-    $('#projects .project').click(function (e) {
-        $('#popup-project').addClass('active-popup')
-        e.stopPropagation();
-    });
+    // $('#projects .project').click(function (e) {
+    //     $('#popup-project').addClass('active-popup')
+    //     e.stopPropagation();
+    // });
 
     $('#popup-project,i.popup-close').click(function (e) {
         $('#popup-project').removeClass('active-popup')

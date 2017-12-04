@@ -18,26 +18,28 @@ $this->title = $model->name;
     <div class="wrapper">
         <?= $this->render('/common/top-bar') ?>
         <div class="main m-members ">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'name',
-//            'country',
-        ],
-    ]) ?>
-
+		<div class="filter-bar">
+			<span class="font-14 font-w-300 gray-txt"><?= Html::encode($this->title) ?></span>
+		</div>
+		<div class="grid-view">
+		    <p align="center">
+		        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+		        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+		            'class' => 'btn btn-danger',
+		            'data' => [
+		                'confirm' => 'Are you sure you want to delete this item?',
+		                'method' => 'post',
+		            ],
+		        ]) ?>
+		    </p>
+			<br>
+		    <?= DetailView::widget([
+		        'model' => $model,
+		        'attributes' => [
+		            'id',
+		            'name',
+		//            'country',
+		        ],
+		    ]) ?>
+		</div>
 </div>

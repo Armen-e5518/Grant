@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 
 use frontend\models\ProjectAttachments;
+use frontend\models\ProjectCountries;
 use frontend\models\ProjectFavorite;
 use frontend\models\ProjectMembers;
 use frontend\models\Projects;
@@ -96,6 +97,39 @@ class AjaxController extends Controller
             $post = Yii::$app->request->post();
             if (!empty($post)) {
                 return ProjectAttachments::GetAttachmentsByProjectId($post['id']);
+            }
+        }
+    }
+
+    public function actionGetCountriesByProjectId()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                return ProjectCountries::GetCountriesByProjectIdAllData($post['id']);
+            }
+        }
+    }
+
+    public function actionGetMembersNotProject()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                return User::GetAllUsersNotProject($post['id']);
+            }
+        }
+    }
+
+    public function actionSaveMemberByProjectId()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                return ProjectMembers::SaveMemberByProjectId($post);
             }
         }
     }

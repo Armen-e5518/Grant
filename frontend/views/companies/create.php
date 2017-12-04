@@ -21,12 +21,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $this->render('/common/top-bar') ?>
 
-        <div class="main m-members ">
+        <div class="main m-members">
+		<div class="filter-bar">
+	    		<span class="font-14 font-w-300 gray-txt"><?= Html::encode($this->title) ?></span>
+		</div>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
+		<div class="grid-view">
+	
+			<?= $this->render('_form', [
+			'model' => $model,
+			]) ?>
+		
+		</div>
+	</div>
 </div>
