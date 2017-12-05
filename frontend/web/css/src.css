@@ -77,3 +77,6 @@
 #projects-submission_process{
     color: #512178;
 }
+#w0 label input[type="checkbox"] {
+    display: block;
+}

@@ -11,6 +11,7 @@ $(document).ready(function () {
 
     $('#popup-project,i.popup-close').click(function (e) {
         $('#popup-project').removeClass('active-popup')
+        location.reload();
         e.stopPropagation();
     })
 

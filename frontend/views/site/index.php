@@ -6,14 +6,19 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $favorites */
 
-$this->registerJsFile('https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js');
+$this->registerJsFile('http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
+$this->registerJsFile('http://hayageek.github.io/jQuery-Upload-File/4.0.11/jquery.uploadfile.min.js');
+$this->registerJsFile('/js/Project/attachments.js');
 $this->registerJsFile('/js/Project/favorite.js');
 $this->registerJsFile('/js/popups/src.js');
 $this->registerJsFile('/js/Project/popup.js');
 $this->registerJsFile('/js/Project/set-data-popup.js');
 $this->registerJsFile('/js/Project/Members.js');
-
+//<link href="http://hayageek.github.io/jQuery-Upload-File/4.0.11/uploadfile.css" rel="stylesheet">
+//<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+//<script src="http://hayageek.github.io/jQuery-Upload-File/4.0.11/jquery.uploadfile.min.js"></script>
 $this->registerCssFile('/main/assets/css/style.css');
+$this->registerCssFile('http://hayageek.github.io/jQuery-Upload-File/4.0.11/uploadfile.css');
 
 $this->title = 'Grant Thornton';
 ?>
@@ -32,6 +37,7 @@ $this->title = 'Grant Thornton';
                         <a href="#" class="no-underline">Pipeline Management System</a>
                         <i class="fa fa-angle-right"></i>
                         <a href="#" class="no-underline">Prospects</a>
+
                     </div>
                     <div class="selected-filters font-13 font-w-300">
                         <ul>
@@ -187,7 +193,8 @@ $this->title = 'Grant Thornton';
                 <span id="id_project_attachments"></span>
 
                 <div class="txt-without-icon">
-                    <a href="#" class="add-member font-14 font-w-700"><i class="fa fa-paperclip"></i>Attach file</a>
+                    <div id="fileuploader" style="display: none">Upload</div>
+                    <a href="#" id="id_attach_file" class="add-member font-14 font-w-700"><i class="fa fa-paperclip"></i>Attach file</a>
                 </div>
                 <br>
                 <div class="txt-with-icon no-margin">

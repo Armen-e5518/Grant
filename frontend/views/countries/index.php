@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<div class="filter-bar">
 			<span class="font-14 font-w-300 gray-txt"><?= Html::encode($this->title) ?></span>
 		</div>
-            <p>
+            <p align="center" >
                 <?= Html::a('Add Country', ['create'], ['class' => 'btn btn-primary']) ?>
             </p>
             <div>
