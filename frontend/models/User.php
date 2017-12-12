@@ -62,9 +62,9 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'username' => 'Username',
-            'lastname' => 'Lastname',
-            'firstname' => 'Firstname',
+            'username' => 'User name',
+            'lastname' => 'Last name',
+            'firstname' => 'First name',
             'auth_key' => 'Auth Key',
             'password_hash' => 'Password',
             'password_reset_token' => 'Password Reset Token',
@@ -174,5 +174,18 @@ class User extends \yii\db\ActiveRecord
     public function GetCountry($id)
     {
         return !empty(Countries::GetCountryNameById($id)['country_name']) ? Countries::GetCountryNameById($id)['country_name'] : null;
+    }
+
+    public static function GetAllUsers()
+    {
+        return self::find()->asArray()->all();
+    }
+
+    public static function GetUsersByIds($ids = null)
+    {
+        if (!empty($ids)) {
+            return self::find()->where(['id' => $ids])->asArray()->all();
+        }
+        return [];
     }
 }

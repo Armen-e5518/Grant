@@ -28,10 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="wrapper">
         <?= $this->render('/common/top-bar') ?>
         <div class="main m-members">
-		<div class="filter-bar">
-			<span class="font-14 font-w-300 gray-txt"><?= Html::encode($this->title) ?></span>
-		</div>
-            <p align="center" >
+            <div class="filter-bar">
+                <span class="font-14 font-w-300 gray-txt"><?= Html::encode($this->title) ?></span>
+            </div>
+            <p align="center">
                 <?= Html::a('Create Member', ['create'], ['class' => 'btn btn-primary']) ?>
             </p>
             <div>
@@ -40,14 +40,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'filterModel' => $searchModel,
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
-
-//                        'id',
                         'username',
                         'lastname',
                         'firstname',
-//                    'auth_key',
-                        // 'password_hash',
-                        // 'password_reset_token',
                         'email:email',
                         [
                             'attribute' => 'Rules',
@@ -62,25 +57,21 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return $s;
                             },
                         ],
-//                        'status',
                         [
                             'attribute' => 'image_url',
                             'format' => 'html',
                             'value' => function ($data) {
-                                return Html::img('/uploads/' . $data->image_url,
+                                $img = !empty($data->image_url) ? $data->image_url : 'no-user.png';
+                                return Html::img('/uploads/' . $img,
                                     ['width' => '50px']);
                             },
                         ],
                         [
                             'attribute' => 'Active',
-//                'format' => 'html',
                             'value' => function ($data) {
                                 return ($data->status == 10) ? "Yes" : "No";
                             },
                         ],
-                        // 'created_at',
-                        // 'updated_at',
-
                         [
                             'class' => 'yii\grid\ActionColumn',
                             'header' => 'Actions',
@@ -92,7 +83,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                         'title' => Yii::t('app', 'lead-view'),
                                     ]);
                                 },
-
                                 'update' => function ($url, $model) {
                                     return Html::a('<i class="fa fa-pencil" aria-hidden="true"></i>', $url, [
                                         'title' => Yii::t('app', 'lead-update'),
@@ -107,25 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         'data-method' => 'post',
                                     ]);
                                 }
-//                        <a href="/user/delete?id=1" title="Delete" aria-label="Delete" data-pjax="0" data-confirm="" data-method="post"><span class="glyphicon glyphicon-trash"></span></a>
-//
                             ],
-//                            'urlCreator' => function ($action, $model, $key, $index) {
-//                                if ($action === 'view') {
-//                                    $url = '/user/view?id=' . $model->id;
-//                                    return $url;
-//                                }
-//
-//                                if ($action === 'update') {
-//                                    $url = '/user/update?id=' . $model->id;
-//                                    return $url;
-//                                }
-//                                if ($action === 'delete') {
-//                                    $url = '/user/delete?id=' . $model->id;
-//                                    return $url;
-//                                }
-//
-//                            }
                         ],
                     ],
                 ]); ?>

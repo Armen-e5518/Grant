@@ -6,14 +6,21 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $favorites */
 
+$this->registerCssFile('//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css');
+
 $this->registerJsFile('http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
+$this->registerJsFile('https://code.jquery.com/ui/1.12.1/jquery-ui.js');
 $this->registerJsFile('http://hayageek.github.io/jQuery-Upload-File/4.0.11/jquery.uploadfile.min.js');
+$this->registerJsFile('/js/Jquery/jquery.timeago.js');
+$this->registerJsFile('/js/Project/SaveTexts.js');
 $this->registerJsFile('/js/Project/attachments.js');
 $this->registerJsFile('/js/Project/favorite.js');
 $this->registerJsFile('/js/popups/src.js');
 $this->registerJsFile('/js/Project/popup.js');
 $this->registerJsFile('/js/Project/set-data-popup.js');
 $this->registerJsFile('/js/Project/Members.js');
+$this->registerJsFile('/js/Project/checklists.js');
+
 //<link href="http://hayageek.github.io/jQuery-Upload-File/4.0.11/uploadfile.css" rel="stylesheet">
 //<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 //<script src="http://hayageek.github.io/jQuery-Upload-File/4.0.11/jquery.uploadfile.min.js"></script>
@@ -174,8 +181,10 @@ $this->title = 'Grant Thornton';
                         <span class="d-block">Responsible people</span>
                         <span id="id_project_members"></span>
                         &nbsp;
-                        <a href="#" id="id_add_members" class="add-member font-14 font-w-700"><i class="fa fa-user-plus"></i>Assign other members</a>
-                        <select id="id_members" style="display: none"  class="change-status-type padding-5 transparent-bg gray-border gray-txt font-15">
+                        <a href="#" id="id_add_members" class="add-member font-14 font-w-700"><i
+                                    class="fa fa-user-plus"></i>Assign other members</a>
+                        <select id="id_members" style="display: none"
+                                class="change-status-type padding-5 transparent-bg gray-border gray-txt font-15">
                             <option value="0">Select a members</option>
                         </select>
                     </div>
@@ -183,8 +192,10 @@ $this->title = 'Grant Thornton';
 
 
                 <div class="txt-without-icon">
-                    Description <a href="#">Edit</a>
+                    Description <a href="#" id="id_edit_project_des">Edit</a>
                     <span id="id_project_des" class="d-block description-txt"></span>
+                    <textarea style="display: none" class="d-block description-txt w-100-perc"
+                              id="id_project_des_text"></textarea>
                 </div>
                 <br>
                 <div class="txt-without-icon">
@@ -194,235 +205,56 @@ $this->title = 'Grant Thornton';
 
                 <div class="txt-without-icon">
                     <div id="fileuploader" style="display: none">Upload</div>
-                    <a href="#" id="id_attach_file" class="add-member font-14 font-w-700"><i class="fa fa-paperclip"></i>Attach file</a>
+                    <a href="#" id="id_attach_file" class="add-member font-14 font-w-700"><i
+                                class="fa fa-paperclip"></i>Attach file</a>
                 </div>
                 <br>
                 <div class="txt-with-icon no-margin">
                     <h6 class="font-w-700 font-15 txt-upper"><i class="fa fa-calendar-check-o"></i>Checklist</h6>
-                    &nbsp;
+                    &nbsp
                     <a href="#">Edit</a>
                 </div>
-
                 <div class="txt-with-icon">
                     <div class="post-priority d-flex w-100-perc gray-bg">
-                        <span class="green brd-rad-4" style="flex:unset; width:50%;"></span>
+                        <span class="green brd-rad-4" id="id_slider" style="flex:unset; width:50%;"></span>
                     </div>
-                    <span>50%</span>
+                    <span id="id_slider_text">50%</span>
                 </div>
-
-                <div class="txt-without-icon p-rel disabled-area">
-                    <label for="checklist-id-1" class="p-abs" style="left:0;">
-                        <input type="checkbox" checked id="checklist-id-1">
-                        <strong class="bullet p-rel brd-rad-4"></strong>
-                    </label>
-                    <del class="d-block gray-txt font-w-500 margin-btn-5 italic">Prepare proposal and send for review to Gurgen.</del>
-                    <span class="d-block gray-txt font-w-300 margin-btn-5">Responsible: Olga Semyonova, Isabella Khaneyan</span>
-                    <div class="member-photo brd-rad-4">
-                        <a href="#" class="d-block p-rel">
-                            <img src="/assets/images/members/member-7.png">
-                            <em class="tooltip p-abs brd-rad-4 font-12 white-txt">anun azganun</em>
-                        </a>
-                    </div>
-                    <div class="member-photo brd-rad-4">
-                        <a href="#" class="d-block p-rel">
-                            <img src="/assets/images/members/member-1.png">
-                            <em class="tooltip p-abs brd-rad-4 font-12 white-txt">anun azganun</em>
-                        </a>
-                    </div>
-                    <span class="d-block red-txt font-w-300">Deadline: 28 Nov 2017</span>
-                </div>
-
-                <div class="txt-without-icon p-rel">
-                    <label for="checklist-id-2" class="p-abs" style="left:0;">
-                        <input type="checkbox" id="checklist-id-2">
-                        <strong class="bullet p-rel brd-rad-4"></strong>
-                    </label>
-                    <span class="d-block font-w-500 margin-btn-5">Discuss technical details and budget and submit proposal.</span>
-                    <span class="d-block gray-txt font-w-300 margin-btn-5">Responsible: Isabella Khaneyan</span>
-                    <div class="member-photo brd-rad-4">
-                        <a href="#" class="d-block p-rel">
-                            <img src="/assets/images/members/member-1.png">
-                            <em class="tooltip p-abs brd-rad-4 font-12 white-txt">anun azganun</em>
-                        </a>
-                    </div>
-                    <span class="d-block red-txt font-w-300">Deadline: 28 Nov 2017</span>
-                </div>
+                <span id="id_checklists_data"></span>
 
                 <div class="txt-with-icon">
                     <div class="w-100-perc">
                         <h6 class="font-w-700 font-15 txt-upper">Discussion board</h6>
                     </div>
                 </div>
+                <div class="user-tag" id="id_users_tag" style="display: none">
+                    <div class="user-tag-list">
+                        <ul id="id_users_list"></ul>
+                    </div>
+                </div>
                 <div class="txt-with-icon">
-                    <i class="person-icon font-w-700" data-foo="HB" title="Haik Beglaryan"></i>
+                    <i class="person-icon font-w-700"
+                       data-foo="<?= Helper::GetUserCharacters() ?>"
+                       title="<?= Helper::GetUserName() ?>"></i>
                     <div class="w-100-perc">
-                        <textarea class="d-block font-w-300 brd-rad-4 w-100-perc" placeholder="Wright a comment..."></textarea>
-                        <button class="font-13 white-bg font-w-300" readonly>Send</button>
+                        <textarea id="id_comment" class="d-block font-w-300 brd-rad-4 w-100-perc"
+                                  placeholder="Wright a comment..."></textarea>
+                        <button class="font-13 white-bg font-w-300" id="id_sent_comment" readonly>Send</button>
                     </div>
                 </div>
-
-                <div class="txt-with-icon">
-                    <i class="person-icon person-small-icon font-w-700" data-foo="DT" title="Davit Torosyan"></i>
-                    <div class="person-action">
-                        <a href="#" class="no-underline font-w-700">Davit Torosyan</a>
-                        <span>moved this card from Validated to Doing</span>
-                        <a href="#" class="d-block font-13 no-underline">18 Oct at 15:15</a>
-                    </div>
-                </div>
-
-                <div class="txt-with-icon">
-                    <i class="person-icon font-w-700" data-foo="IB" title="Irena Balayan"></i>
-                    <div class="person-repost">
-                        <a href="#" class="d-block no-underline font-w-700">Irena Balayan</a>
-                        <span class="brd-rad-4 white-bg"><strong class="font-w-700">@davittorosyan</strong> jan sa voncvor arvel e !</span>
-                        <a href="#" class="font-13 no-underline">18 Oct at 13:56</a> - <a href="#" class="font-13">Reply</a>
-                    </div>
-                </div>
-
-                <div class="txt-with-icon">
-                    <i class="person-icon person-small-icon font-w-700" data-foo="IB" title="Irena Balayan"></i>
-                    <div class="person-action">
-                        <a href="#" class="no-underline font-w-700">Irena Balayan</a>
-                        <span>moved this card from Doing to Validated</span>
-                        <a href="#" class="d-block font-13 no-underline">18 Oct at 13:56</a>
-                    </div>
-                </div>
-
-                <div class="txt-with-icon">
-                    <i class="person-icon font-w-700" data-foo="IB" title="Irena Balayan"></i>
-                    <div class="person-repost">
-                        <a href="#" class="d-block no-underline font-w-700">Irena Balayan</a>
-                        <span class="brd-rad-4 white-bg"><strong class="font-w-700">@davittorosyan</strong> jisht es, sorry))</span>
-                        <a href="#" class="font-13 no-underline">16 Oct at 11:59</a> - <a href="#" class="font-13">Reply</a>
-                    </div>
-                </div>
-
-                <div class="txt-with-icon">
-                    <i class="person-icon font-w-700" data-foo="DT" title="Davit Torosyan"></i>
-                    <div class="person-repost">
-                        <a href="#" class="d-block no-underline font-w-700">Davit Torosyan</a>
-                        <span class="brd-rad-4 white-bg"><strong class="font-w-700">@irenabalayan1</strong> jan taskere mix en exel, indz tvuma sa email problem taski patasxanner</span>
-                        <a href="#" class="font-13 no-underline">16 Oct at 11:39</a> - <a href="#" class="font-13">Reply</a>
-                    </div>
-                </div>
-
-                <div class="txt-with-icon">
-                    <i class="person-icon font-w-700" data-foo="IB" title="Irena Balayan"></i>
-                    <div class="person-repost">
-                        <a href="#" class="d-block no-underline font-w-700">Irena Balayan</a>
-                        <span class="brd-rad-4 white-bg"><strong class="font-w-700">@davittorosyan</strong> jan chenq stanum, nor pordzecinq</span>
-                        <a href="#" class="font-13 no-underline">16 Oct at 11:38</a> - <a href="#" class="font-13">Reply</a>
-                    </div>
-                </div>
-
-                <div class="txt-with-icon">
-                    <i class="person-icon font-w-700" data-foo="DT" title="Davit Torosyan"></i>
-                    <div class="person-repost">
-                        <a href="#" class="d-block no-underline font-w-700">Davit Torosyan</a>
-                        <span class="brd-rad-4 white-bg"><strong class="font-w-700">@irenabalayan1</strong> jan problem fixed</span>
-                        <a href="#" class="font-13 no-underline">16 Oct at 11:27</a> - <a href="#" class="font-13">Reply</a>
-                    </div>
-                </div>
-
-                <div class="txt-with-icon">
-                    <i class="person-icon font-w-700" data-foo="IB" title="Irena Balayan"></i>
-                    <div class="person-repost">
-                        <a href="#" class="d-block no-underline font-w-700">Irena Balayan</a>
-                        <span class="brd-rad-4 white-bg"><strong class="font-w-700">@davittorosyan</strong> jan, mobile-ov mardik chen karoxanum grancvel. Xndir@ da e. Duq el pordzeq ktesneq. ej@ kisat e</span>
-                        <a href="#" class="font-13 no-underline">16 Oct at 09:42</a> - <a href="#" class="font-13">Reply</a>
-                    </div>
-                </div>
-
-                <div class="txt-with-icon">
-                    <i class="person-icon font-w-700" data-foo="DT" title="Davit Torosyan"></i>
-                    <div class="person-repost">
-                        <a href="#" class="d-block no-underline font-w-700">Davit Torosyan</a>
-                        <span class="brd-rad-4 white-bg"><strong class="font-w-700">@irenabalayan1</strong> jan <a href="#">donate.apps.am</a> um eq nayum?<br>bolor popoxutyunnere petqa <a href="#">donate.apps.am</a> estex nayeq, hastateq, heto nor qcenq <a href="#">donate.am</a></span>
-                        <a href="#" class="font-13 no-underline">15 Oct at 17:05</a> - <a href="#" class="font-13">Reply</a>
-                    </div>
-                </div>
-
-                <div class="txt-with-icon">
-                    <i class="person-icon font-w-700" data-foo="IB" title="Irena Balayan"></i>
-                    <div class="person-repost">
-                        <a href="#" class="d-block no-underline font-w-700">Irena Balayan</a>
-                        <span class="brd-rad-4 white-bg">Davit jan mobileov chi linum grancvel, ej@ kisat e berum, U @ndhanrapes vorosh ejer kisat en, "FB, Tweeter ..." ays sheet-i patjarov</span>
-                        <a href="#" class="font-13 no-underline">15 Oct at 11:58</a> - <a href="#" class="font-13">Reply</a>
-                    </div>
-                </div>
-
-                <div class="txt-with-icon">
-                    <i class="person-icon person-small-icon font-w-700" data-foo="DT" title="Davit Torosyan"></i>
-                    <div class="person-action">
-                        <a href="#" class="no-underline font-w-700">Davit Torosyan</a>
-                        <span>moved this card from Done to Doing</span>
-                        <a href="#" class="d-block font-13 no-underline">12 Oct at 12:53</a>
-                    </div>
-                </div>
-
-                <div class="txt-with-icon">
-                    <i class="person-icon person-small-icon font-w-700" data-foo="IB" title="Irena Balayan mo"></i>
-                    <div class="person-action">
-                        <a href="#" class="no-underline font-w-700">Irena Balayan mo</a>
-                        <span>moved this card from Done to Doing</span>
-                        <a href="#" class="d-block font-13 no-underline">12 Oct at 09:45</a>
-                    </div>
-                </div>
-
-                <div class="txt-with-icon">
-                    <i class="person-icon person-small-icon font-w-700" data-foo="DT" title="Davit Torosyan"></i>
-                    <div class="person-action">
-                        <a href="#" class="no-underline font-w-700">Davit Torosyan</a>
-                        <span>moved this card from Done to Doing</span>
-                        <a href="#" class="d-block font-13 no-underline">11 Oct at 18:24</a>
-                    </div>
-                </div>
-
-                <div class="txt-with-icon">
-                    <i class="person-icon person-small-icon font-w-700" data-foo="DT" title="Davit Torosyan"></i>
-                    <div class="person-action">
-                        <a href="#" class="no-underline font-w-700">Davit Torosyan</a>
-                        <span>moved this card from Backlog / Tasks to Done</span>
-                        <a href="#" class="d-block font-13 no-underline">11 Oct at 12:40</a>
-                    </div>
-                </div>
-
-                <div class="txt-with-icon">
-                    <i class="person-icon person-small-icon font-w-700" data-foo="DT" title="Davit Torosyan"></i>
-                    <div class="person-action">
-                        <a href="#" class="no-underline font-w-700">Davit Torosyan</a>
-                        <span>added this card to Backlog / Tasks</span>
-                        <a href="#" class="d-block font-13 no-underline">11 Oct at 12:40</a>
-                    </div>
-                </div>
-
-                <div class="txt-with-icon">
-                    <i class="person-icon person-small-icon font-w-700" data-foo="GJ" title="Grigor Janikyan"></i>
-                    <div class="person-repost">
-                        <a href="#" class="no-underline font-w-700">Grigor Janikyan</a>
-                        <span class="d-block brd-rad-4 white-bg"><a href="#">Capture.PNG</a></span>
-                        <a href="#" class="font-13 no-underline">11 Oct at 12:40</a> - <a href="#" class="font-13">Reply</a>
-                    </div>
-                </div>
-
-                <div class="txt-with-icon">
-                    <i class="person-icon person-small-icon font-w-700" data-foo="GJ" title="Grigor Janikyan"></i>
-                    <div class="person-action">
-                        <a href="#" class="no-underline font-w-700">Grigor Janikyan</a>
-                        <span>attached Capture.PNG to this card</span>
-                        <a href="#" class="d-block attachment-preview p-rel"><img src="https://trello-attachments.s3.amazonaws.com/5a0aba4f2bf80c84d086800d/600x269/760606b0279ee1f57531bd3f7b57f894/Capture.PNG.png" alt=""></a>
-                        <a href="#" class="font-13 no-underline">11 Oct at 12:40</a> - <a href="#" class="font-13">Reply</a>
-                    </div>
-                </div>
+                <span id="id_commnets_data"></span>
             </div>
-
             <div class="card-control-toolkit">
                 <ul>
                     <li>
-                        <span class="d-block gray-txt margin-btn-5 font-w-300"><i class="fa fa-clock-o"></i> Created: <span id="id_project_created"></span></span>
+                        <span class="d-block gray-txt margin-btn-5 font-w-300">
+                            <i class="fa fa-clock-o"></i> Created: <span id="id_project_created"></span>
+                        </span>
                     </li>
                     <li>
-                        <span class="d-block gray-txt margin-btn-5 font-w-700"><i class="fa fa-clock-o"></i> Deadline: <span id="id_project_deadline"></span></span>
+                        <span class="d-block gray-txt margin-btn-5 font-w-700">
+                            <i class="fa fa-clock-o"></i> Deadline: <span id="id_project_deadline"></span>
+                        </span>
                     </li>
                 </ul>
                 <h6 class="font-w-700 font-16">Project Status</h6>
@@ -433,19 +265,75 @@ $this->title = 'Grant Thornton';
                 </ul>
                 <ul>
                     <li>
-                        <button class="txt-upper green-txt transparent-bg green-border font-18 w-100-perc font-w-700 padding-5"><i class="fa fa-check"></i> Submit</button>
+                        <button class="txt-upper green-txt transparent-bg green-border font-18 w-100-perc font-w-700 padding-5">
+                            <i class="fa fa-check"></i> Submit
+                        </button>
                     </li>
                 </ul>
                 <ul>
                     <li>
-                        <select size="1" class="change-status-type padding-5 transparent-bg gray-border gray-txt font-15 w-100-perc">
+                        <select size="1"
+                                class="change-status-type padding-5 transparent-bg gray-border gray-txt font-15 w-100-perc">
                             <option>Change status</option>
                         </select>
                     </li>
                 </ul>
+                <div class="create-checklist">
+                    <div class="">
+
+                    </div>
+                </div>
                 <ul>
                     <li>
-                        <button class="transparent-bg violet-border violet-txt font-15 w-100-perc font-w-500"><i class="fa fa-calendar-check-o"></i> Create checklist</button>
+                        <button id="id_add_checklist" class="transparent-bg violet-border violet-txt font-15 w-100-perc font-w-500">
+                            <i class="fa fa-calendar-check-o"></i> Create checklist
+                        </button>
+
+                        <div style="display: none" id="id_create_checklist" class="subpopup filtering-popup card-detail-popup brd-rad-4 p-rel">
+                            <div class="list-data">
+                                <span>Title</span>
+                                <input id="id_checklist_title" type="text" class="d-block font-w-300 brd-rad-4 w-100-perc">
+                            </div>
+                            <div class="list-data">
+                                <span>Description</span>
+                                <div class="txt-without-icon no-padding">
+                                    <textarea id="id_checklist_desc" class="d-block font-w-300 brd-rad-4 w-100-perc"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="list-data">
+                                <span>Deadline</span>
+                                <input id="id_checklist_deadline" type="text" class="d-block font-w-300 brd-rad-4 w-100-perc">
+                            </div>
+                            <div class="post-responsible-people font-15 font-w-700">
+                                <span class="d-block">Responsible people</span>
+                                <span id="id_checklist_members">
+                                    <div class="member-photo brd-rad-4">
+                                        <a href="#" class="d-block p-rel"><img src="/uploads/1511439223.4865.jpg"><em
+                                                    class="tooltip p-abs brd-rad-4 font-12 white-txt">Admin Azganun</em></a>
+                                    </div>
+                                </span>
+                                &nbsp;
+                                <a href="#" id="id_checklist_add_members" class="add-member font-14 font-w-700">
+                                    <i class="fa fa-user-plus"></i>Assign other members
+                                </a>
+                                <select id="id_checklist_members_list"
+                                        style="display: none"
+                                        class="change-status-type padding-5 transparent-bg gray-border gray-txt font-15">
+                                    <option>Select a members</option>
+                                </select>
+                            </div>
+<!--                            <label for="checklist-status" style="width:auto;">-->
+<!--                                <input type="checkbox" id="checklist-status">-->
+<!--                                <strong class="bullet p-rel brd-rad-4"></strong>-->
+<!--                                <span class="font-w-300">Checklist Status</span>-->
+<!--                            </label>-->
+                            <div class="list-data">
+
+                                <button id="id_save_checklist" class="red-border d-block font-15 white-bg font-w-700">Create</button>
+                                <button id="id_cancel_checklist" class="red-border d-block font-15 white-bg font-w-700">Cancel</button>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>

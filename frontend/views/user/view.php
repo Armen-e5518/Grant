@@ -21,29 +21,32 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="wrapper">
         <?= $this->render('/common/top-bar') ?>
         <div class="main m-members">
-		<div class="filter-bar">
-	            	<span class="font-14 font-w-300 gray-txt"><?= Html::encode($this->title) ?></span>
-		</div>
+            <div class="filter-bar">
+                <span class="font-14 font-w-300 gray-txt"><?= Html::encode($this->title) ?></span>
+            </div>
 
             <div class="access-form">
-	            <p align="center">
-	                <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-	                <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-	                    'class' => 'btn btn-danger',
-	                    'data' => [
-	                        'confirm' => 'Are you sure you want to delete this item?',
-	                        'method' => 'post',
-	                    ],
-	                ]) ?>
-	            </p>
-		    <br>
+                <p align="center">
+                    <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                    <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+                        'class' => 'btn btn-danger',
+                        'data' => [
+                            'confirm' => 'Are you sure you want to delete this item?',
+                            'method' => 'post',
+                        ],
+                    ]) ?>
+                </p>
+                <br>
                 <?= DetailView::widget([
                     'model' => $model,
                     'attributes' => [
 //                        'id',
                         [
                             'attribute' => 'image_url',
-                            'value' => '/uploads/' . $model->image_url,
+                            'value' => function ($model) {
+                                $img = !empty($model->image_url) ? $model->image_url : 'no-user.png';
+                                return '/uploads/' . $img;
+                            },
                             'format' => ['image', ['width' => '100']]
                         ],
                         'username',
@@ -78,15 +81,15 @@ $this->params['breadcrumbs'][] = $this->title;
 //                        'updated_at',
                     ],
                 ]) ?>
-		
-	            <h1>Rules</h1>
-	            <div class="rules">
-	                <ul>
-	                    <?php foreach ($user_rules as $rule): ?>
-	                        <li><?= $rule ?></li>
-	                    <?php endforeach; ?>
-	                </ul>
-	            </div>
+
+                <h1>Rules</h1>
+                <div class="rules">
+                    <ul>
+                        <?php foreach ($user_rules as $rule): ?>
+                            <li><?= $rule ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

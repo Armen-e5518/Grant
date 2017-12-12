@@ -80,3 +80,35 @@
 #w0 label input[type="checkbox"] {
     display: block;
 }
+.user-tag {
+    position: relative;
+    width: 100%;
+}
+.user-tag-list{
+    position: absolute;
+    background: #c0c6ca;
+    width: 200px;
+    border-radius: 2px;
+    height: 120px;
+    overflow: auto;
+    bottom: 0;
+    left: 199px;
+}
+.user-tag-list li {
+    cursor: pointer;
+    margin: 1px;
+    padding: 5px 8px;
+    border: 1px solid #7b7676;
+    border-radius: 3px;
+}
+.user-tag-list li:hover{
+    background: #b0b6ba;
+}
+
+.user-tag-list li.active-u{
+    background: #b0b6ba;
+}
+
+#id_sent_comment{
+    cursor: pointer;
+}

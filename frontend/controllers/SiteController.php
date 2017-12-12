@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use frontend\components\Helper;
+use frontend\models\ProjectComments;
 use frontend\models\ProjectFavorite;
 use frontend\models\ProjectMembers;
 use frontend\models\Projects;
@@ -37,17 +38,9 @@ class SiteController extends Controller
                     [
                         'actions' => ['login',
                             'error',
-                            'save-zip-file',
-                            'save', 'no-file',
-                            'form',
-                            'set-pdf',
-                            'save-pdf',
-                            'dom',
-                            'reset-password',
-                            'css',
-                            'delete',
-                            'delete-in-form',
-                            'info'],
+                            'test',
+
+                        ],
                         'allow' => true,
                     ],
                     [
@@ -99,8 +92,13 @@ class SiteController extends Controller
             'date' => Helper::ChangeProjectsFormat($projects),
             'favorites' => ProjectFavorite::GetFavoritesByUserId(),
             'params' => Helper::GetFilterResets(['/site/index'], Yii::$app->request->get()),
-//            'members' => User::GetAllUsers()
+//            'momments' => ProjectComments::GetAllUsers()
         ]);
+    }
+
+    public function actionTest()
+    {
+        print_r(Helper::GetFirstCharacters('arm', 'dav'));
     }
 
     /**

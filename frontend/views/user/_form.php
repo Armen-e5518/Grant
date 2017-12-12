@@ -12,17 +12,17 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'username')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('username')])->label(false) ?>
 
-    <?= $form->field($model, 'lastname')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'lastname')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('lastname')])->label(false) ?>
 
-    <?= $form->field($model, 'firstname')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'firstname')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('firstname')])->label(false) ?>
 
-    <?= $form->field($model, 'password_hash')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'password_hash')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('password_hash')])->label(false) ?>
 
-    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'email')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('email')])->label(false) ?>
 
-    <?= $form->field($model, 'status')->dropDownList(['1' => 'Yes', '0' => 'No']); ?>
+    <?= $form->field($model, 'status')->dropDownList(['1' => 'Yes', '0' => 'No'],[ 'prompt'=>'Select status'])->label(false); ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use kartik\helpers\Html;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\web\UploadedFile;
@@ -69,10 +70,10 @@ class Projects extends \yii\db\ActiveRecord
         return [
             [['attachments'], 'file'],
             [['ifi_name', 'project_name', 'deadline', 'request_issued'], 'required'],
-            [['tender_stage'], 'string'],
+            [['tender_stage', 'project_dec'], 'string'],
             [['status', 'state', 'pending_approval', 'submitted', 'submission_process', 'international_status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['ifi_name', 'project_name', 'project_dec', 'request_issued', 'deadline', 'budget', 'duration', 'eligibility_restrictions', 'selection_method', 'submission_method', 'evaluation_decision_making', 'beneficiary_stakeholder'], 'string', 'max' => 255],
+            [['ifi_name', 'project_name', 'request_issued', 'deadline', 'budget', 'duration', 'eligibility_restrictions', 'selection_method', 'submission_method', 'evaluation_decision_making', 'beneficiary_stakeholder'], 'string', 'max' => 255],
         ];
     }
 
@@ -172,5 +173,25 @@ class Projects extends \yii\db\ActiveRecord
     public static function GetProjectDataById($id)
     {
         return self::findOne(['id' => $id]);
+    }
+
+    public static function SaveProjectTitle($post)
+    {
+        if (!empty($post['project_id'])) {
+            $model = self::findOne(['id' => $post['project_id']]);
+            $model->ifi_name = Html::encode($post['text']);
+            return $model->save();
+        }
+        return false;
+    }
+
+    public static function SaveProjectDescription($post)
+    {
+        if (!empty($post['project_id'])) {
+            $model = self::findOne(['id' => $post['project_id']]);
+            $model->project_dec = Html::encode($post['text']);
+            return $model->save();
+        }
+        return false;
     }
 }

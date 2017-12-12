@@ -3,7 +3,11 @@
 namespace frontend\controllers;
 
 
+use frontend\components\Helper;
+use frontend\models\ChecklistUsers;
 use frontend\models\ProjectAttachments;
+use frontend\models\ProjectChecklists;
+use frontend\models\ProjectComments;
 use frontend\models\ProjectCountries;
 use frontend\models\ProjectFavorite;
 use frontend\models\ProjectMembers;
@@ -130,6 +134,90 @@ class AjaxController extends Controller
             $post = Yii::$app->request->post();
             if (!empty($post)) {
                 return ProjectMembers::SaveMemberByProjectId($post);
+            }
+        }
+    }
+
+    public function actionSaveProjectTitle()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                return Projects::SaveProjectTitle($post);
+            }
+        }
+    }
+
+    public function actionSaveProjectDescription()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                return Projects::SaveProjectDescription($post);
+            }
+        }
+    }
+
+    public function actionSaveProjectComment()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                return ProjectComments::SaveProjectComment($post);
+            }
+        }
+    }
+
+    public function actionGetCommentsByProjectId()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                return ProjectComments::GetCommentsByProjectId($post['id']);
+            }
+        }
+    }
+
+    public function actionGetAllUsers()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            return User::GetAllUsers();
+        }
+    }
+
+    public function actionSaveChecklistByProjectId()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                return ProjectChecklists::SaveChecklistByProjectId($post);
+            }
+        }
+    }
+
+    public function actionGetChecklistsByProjectId()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                return Helper::GetChecklist($post['project_id']);
+            }
+        }
+    }
+    public function actionSaveChecklistStatus()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                return ProjectChecklists::GetChecklist($post['project_id']);
             }
         }
     }
