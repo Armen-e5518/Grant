@@ -106,7 +106,17 @@ class ProjectChecklists extends \yii\db\ActiveRecord
         return [];
     }
 
-    public static function ChangeChecklistStatus(){
-
+    public static function ChangeChecklistStatus($id)
+    {
+        if (!empty($id)) {
+            $model = self::findOne(['id' => $id]);
+            $model->status = $model->status == 1 ? 0 : 1;
+            if ($model->save()) {
+                return $model->status;
+            }
+        }
+        return false;
     }
+
+
 }

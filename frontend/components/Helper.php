@@ -86,9 +86,46 @@ class Helper extends Component
     public static function GetChecklist($project_id)
     {
         $Checklists = ProjectChecklists::GetChecklistsByProjectId($project_id);
-        foreach ($Checklists as $kay=>$Checklist) {
+        foreach ($Checklists as $kay => $Checklist) {
             $Checklists[$kay]['members'] = ChecklistUsers::GetUsersByChecklistIds($Checklist['id']);
         }
         return $Checklists;
+    }
+
+    public static function GetStatusTitle($id)
+    {
+        $s = '';
+        $s_class = '';
+        switch ($id) {
+            case 0:
+                $s = 'PENDING APPROVAL';
+                $s_class = 'pending';
+                break;
+            case 1:
+                $s = 'SUBMISSION PROCESS';
+                $s_class = 'in-progress';
+                break;
+            case 2:
+                $s = 'In progress';
+                $s_class = 'in-progress';
+                break;
+            case 3:
+                $s = 'Accepted';
+                $s_class = 'applied';
+                break;
+            case 4:
+                $s = 'Rejected';
+                $s_class = 'in-progress';
+                break;
+            case 5:
+                $s = 'Closed';
+                $s_class = 'in-progress';
+                break;
+        }
+        return [
+            'title' => $s,
+            'class' => $s_class
+        ];
+
     }
 }

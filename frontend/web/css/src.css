@@ -109,6 +109,6 @@
     background: #b0b6ba;
 }
 
-#id_sent_comment{
+#id_sent_comment, .project{
     cursor: pointer;
 }

@@ -10,7 +10,6 @@ $(document).ready(function () {
         var data = {};
         data.id = this.value;
         data.project_id = $('#id_project').attr('data-id');
-
         $.ajax({
             type: "POST",
             url: "/ajax/save-member-by-project-id",
@@ -19,10 +18,12 @@ $(document).ready(function () {
                 if (res) {
                     var img_o = $('#id_members option:selected').attr('data-img');
                     var name = $('#id_members option:selected').html();
+                    var id = $('#id_members option:selected').val();
                     var img = (img_o && img_o != 'null') ? d_params.user_url + img_o : '/images/no-user.png';
                     $('#id_project_members').append(
-                        '<div class="member-photo brd-rad-4">' +
+                        '<div title="' + name + '" class="project-member member-photo brd-rad-4">' +
                         '<a href="#" class="d-block p-rel">' +
+                        '<em data-id = "' + id + '" class="remove-member">X</em>' +
                         '<img src="' + img + '">' +
                         '<em class="tooltip p-abs brd-rad-4 font-12 white-txt">' + name + ' </em>' +
                         '</a>' +

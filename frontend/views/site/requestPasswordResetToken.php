@@ -1,31 +1,45 @@
+
 <?php
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \frontend\models\PasswordResetRequestForm */
+/* @var $model \common\models\LoginForm */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Request password reset';
+$this->registerCssFile('/main/assets/css/login.css');
+
+$this->title = 'Password reset';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
-<div class="site-request-password-reset">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Please fill out your email. A link to reset password will be sent there.</p>
-
-    <div class="row">
-        <div class="col-lg-5">
+<div class="container">
+    <div class="logo">
+        <a href="/">
+            <img src="/main/assets/images/logo.png"
+                 alt="Grant Thornton | An instinct for growth&trade;"
+                 title="Grant Thornton | An instinct for growth&trade;">
+        </a>
+    </div>
+    <div class="access-area">
+        <h1><?= Html::encode($this->title) ?></h1>
+        <div class="access-form">
             <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
-
-                <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Send', ['class' => 'btn btn-primary']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
+            <div class="welcome-heading">Request password reset</div>
+            <div class="login-component">
+                <label class="username">
+                    <?= $form->field($model, 'email')->textInput([
+                        'autofocus' => true,
+                        'placeholder' => 'Email'
+                    ])->label(false) ?>
+                </label>
+            </div>
+            <div class="login-component">
+                <button>sign-in</button>
+            </div>
         </div>
+        <?php ActiveForm::end(); ?>
     </div>
 </div>
+

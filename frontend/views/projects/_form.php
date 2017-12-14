@@ -4,7 +4,6 @@ use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\file\FileInput;
-use kartik\checkbox\CheckboxX;
 
 //use kartik\daterange\DateRangePicker;
 /* @var $this yii\web\View */
@@ -91,7 +90,7 @@ use kartik\checkbox\CheckboxX;
         <?= $form->field($model, 'submission_method')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('submission_method')])->label(false) ?>
         <?= $form->field($model, 'evaluation_decision_making')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('evaluation_decision_making')])->label(false) ?>
         <?= $form->field($model, 'beneficiary_stakeholder')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('beneficiary_stakeholder')])->label(false) ?>
-        <?= $form->field($model, 'status')->dropDownList(['0' => 'In progress', '1' => 'Applied'])->label(false); ?>
+        <?= $form->field($model, 'status')->dropDownList($model::STATUS)->label(false); ?>
         <?= $form->field($model, 'pending_approval')->checkbox([])->label(false); ?>
         <?= $form->field($model, 'submitted')->checkbox([])->label(false); ?>
         <?= $form->field($model, 'submission_process')->checkbox()->label(false); ?>
@@ -108,7 +107,6 @@ use kartik\checkbox\CheckboxX;
             ]);
             ?>
         </div>
-
     </div>
     <div class="form-group col-md-12">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => 'btn btn-success']) ?>

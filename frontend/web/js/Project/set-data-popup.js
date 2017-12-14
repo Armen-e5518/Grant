@@ -9,9 +9,14 @@ $(document).ready(function () {
         $("time.timeago").timeago();
     }, 60 * 1000);
 
+    setTimeout(function () {
+        $('#popup-project').removeClass('active-popup');
+        // $('#id_loader').hide();
+        // $('#id_project').show();
+    }, 500)
 
     $('#projects .project').click(function () {
-
+        $('#popup-project').addClass('active-popup');
         var f_project_data = false;
         var d_project_data;
         var f_members_data = false;
@@ -35,7 +40,8 @@ $(document).ready(function () {
 
         var Inter = setInterval(function () {
             if (f_params && f_members_data && f_project_data && f_attachments && f_countries) {
-                $('#popup-project').addClass('active-popup');
+                $('#id_project').show();
+                $('#id_loader').hide();
                 SetProjectDataInHtml(d_params, d_project_data, d_members_data, d_attachments, d_countries);
                 clearInterval(Inter)
             }
@@ -47,7 +53,7 @@ $(document).ready(function () {
         data.id = ob.attr('data-id');
 
         GetChecklistsByProjectId(data.id);
-
+        GetProjectMembersListByProjectId(data.id);
         console.log(data.id);
         $.ajax({
             type: "POST",
@@ -99,22 +105,6 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "/ajax/get-members-not-project",
-            data: data,
-            success: function (members) {
-                if (members) {
-                    $('#id_members').html('<option value="0">Select a members</option>');
-                    members.forEach(function (val) {
-                        $('#id_members').append(
-                            '<option data-img = "' + val.image_url + '"  value="' + val.id + '">' + val.firstname + ' ' + val.lastname + '</option>'
-                        )
-                    })
-                }
-            }
-        });
-
-        $.ajax({
-            type: "POST",
             url: "/ajax/get-comments-by-project-id",
             data: data,
             success: function (comments) {
@@ -140,24 +130,77 @@ $(document).ready(function () {
                 }
             }
         });
-    })
+    });
 
+    $('#id_project_members').on('click', '.remove-member', function () {
+        var ob = $(this);
+        var data = {};
+        data.user_id = ob.attr('data-id');
+        data.project_id = $('#id_project').attr('data-id');
+        $.ajax({
+            type: "POST",
+            url: "/ajax/delete-project-member",
+            data: data,
+            success: function (res) {
+                if (res) {
+                    ob.closest('.project-member').remove();
+                    GetProjectMembersListByProjectId(data.project_id);
+                }
+            }
+        });
+    })
 });
 
+function GetProjectMembersListByProjectId(id) {
+    var data = {};
+    data.id = id;
+    $.ajax({
+        type: "POST",
+        url: "/ajax/get-members-not-project",
+        data: data,
+        success: function (members) {
+            if (members) {
+                $('#id_members').html('<option value="0">Select a members</option>');
+                members.forEach(function (val) {
+                    $('#id_members').append(
+                        '<option data-img = "' + val.image_url + '"  value="' + val.id + '">' + val.firstname + ' ' + val.lastname + '</option>'
+                    )
+                })
+            }
+        }
+    });
+}
 
 function SetProjectDataInHtml(d_params, d_project_data, d_members_data, d_attachments, d_countries) {
 
+    var Status = GetStatusTile(d_project_data.status);
     $('#id_project').attr('data-id', d_project_data.id);
     $('#id_project_title').html(d_project_data.ifi_name);
     $('#id_project_des').html(d_project_data.project_dec);
     $('#id_project_deadline').html(d_project_data.deadline);
     $('#id_project_created').html(d_project_data.request_issued);
-    $('#id_project_members').html('')
+    $('#id_project_members').html('');
+    $('#id_status_title').html(Status.title).removeClass('in-progress pending').addClass(Status.class);
+
+    if (d_project_data.status == 0) {
+        $('#id_approve').show();
+        $('#id_reject').show();
+    }
+    if (d_project_data.status == 1) {
+        ApproveStatus();
+    }
+    if (d_project_data.status == 2) {
+        SubmitStatus();
+    }
+    if (d_project_data.status == 3 || d_project_data.status == 4 || d_project_data.status == 5) {
+        HideButtons();
+    }
     d_members_data.forEach(function (val, index) {
         var img = val.image_url ? d_params.user_url + val.image_url : '/images/no-user.png';
         $('#id_project_members').append(
-            '<div class="member-photo brd-rad-4">' +
+            '<div title="' + val.firstname + ' ' + val.lastname + '" class="project-member member-photo brd-rad-4">' +
             '<a href="#" class="d-block p-rel">' +
+            '<em data-id = "' + val.id + '" class="remove-member">X</em>' +
             '<img src="' + img + '">' +
             '<em class="tooltip p-abs brd-rad-4 font-12 white-txt">' + val.firstname + ' ' + val.lastname + ' </em>' +
             '</a>' +
@@ -187,7 +230,7 @@ function SetProjectDataInHtml(d_params, d_project_data, d_members_data, d_attach
         $('#id_project_attachments').append(
             '<div class="txt-without-icon"> ' +
             '<div class="related-documents">' +
-            '<a download href="' + d_params.attachments_url + val.src + '" class="d-block font-w-300 font-14">' +
+            '<a download title="' + val.src + '" href="' + d_params.attachments_url + val.src + '" class="d-block font-w-300 font-14">' +
             type +
             val.src.substring(0, 20) + '...' + val.type +
             '</a>' +
@@ -209,10 +252,12 @@ function GetChecklistsByProjectId(id) {
                 $('#id_checklists_data').html('');
                 res.forEach(function (val, i) {
                     var members = '';
-                    var status = val.status == 1 ? 'disabled-area' : ''
+                    var status = val.status == 1 ? 'disabled-area' : '';
+                    var checked = val.status == 1 ? 'checked' : '';
                     val.members.forEach(function (m) {
+
                         var img = (m.image_url && m.image_url != 'null') ? '/uploads/' + m.image_url : '/uploads/no-user.png';
-                        members += '<div class="member-photo brd-rad-4">' +
+                        members += '<div title="' + m.firstname + ' ' + m.lastname + '" class="member-photo brd-rad-4">' +
                             '<a href="#" class="d-block p-rel">' +
                             '<img src="' + img + '">' +
                             '<em class="tooltip p-abs brd-rad-4 font-12 white-txt">' + m.firstname + ' ' + m.lastname + '</em>' +
@@ -222,13 +267,13 @@ function GetChecklistsByProjectId(id) {
                     $('#id_checklists_data').append(
                         '<div class="txt-without-icon p-rel ' + status + '">' +
                         '<label for="checklist-id-' + val.id + '" class="p-abs" style="left:0;">' +
-                        '<input data-id="' + val.id + '" class="checkbox-checklist" type="checkbox" id="checklist-id-' + val.id + '">' +
-                        '<strong class="bullet p-rel brd-rad-4"></strong>' +
+                        '<input ' + checked + ' data-id="' + val.id + '" class="checkbox-checklist" type="checkbox" id="checklist-id-' + val.id + '">' +
+                        '<strong class="bullet p-rel brd-+rad-4"></strong>' +
                         '</label>' +
-                        '<span class="d-block font-w-500 margin-btn-5">' + val.title + '</span>' +
-                        '<span class="d-block gray-txt font-w-300 margin-btn-5">' + val.description + '</span>' +
+                        '<span title="Title" class="d-block font-w-500 margin-btn-5">' + val.title + '</span>' +
+                        '<span title="Description" class="d-block gray-txt font-w-300 margin-btn-5">' + val.description + '</span>' +
                         members +
-                        '<span class="d-block red-txt font-w-300"> Deadline: ' + val.deadline + '</span>' +
+                        '<span title="Deadline" class="d-block red-txt font-w-300"> Deadline: ' + val.deadline + '</span>' +
                         '</div>'
                     )
                 });
@@ -239,10 +284,53 @@ function GetChecklistsByProjectId(id) {
 }
 
 function CheckSliderStatus() {
+    $('.checkbox-checklist:checked').closest('.txt-without-icon').addClass('disabled-area');
     var count = $('.checkbox-checklist').length;
     var checked = $('.checkbox-checklist:checked').length;
     var pr = Math.ceil((checked / count) * 100);
     pr = pr ? pr : 0;
     $('#id_slider').css('width', pr + '%')
     $('#id_slider_text').html(pr + '%')
+}
+
+
+//     0 => "Pending approval",
+//     1 => "In progress",
+//     2 => "Submitted",
+//     3 => "Accepted",
+//     4 => "Rejected",
+//     5 => "Closed",
+function GetStatusTile(id) {
+    var s = '';
+    var s_class = '';
+    switch (id) {
+        case 0:
+            s = 'PENDING APPROVAL';
+            s_class = 'pending';
+            break;
+        case 1:
+            s = 'SUBMISSION PROCESS';
+            s_class = 'in-progress';
+            break;
+        case 2:
+            s = 'In progress';
+            s_class = 'in-progress';
+            break;
+        case 3:
+            s = 'Accepted';
+            s_class = 'applied';
+            break;
+        case 4:
+            s = 'Rejected';
+            s_class = 'in-progress';
+            break;
+        case 5:
+            s = 'Closed';
+            s_class = 'in-progress';
+            break;
+    }
+    return {
+        'title': s,
+        'class': s_class
+    }
 }

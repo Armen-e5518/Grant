@@ -99,7 +99,7 @@ class ProjectMembers extends \yii\db\ActiveRecord
     public static function GetMembersByProjectIdAllData($project_id = null)
     {
         if (!empty($project_id)) {
-            return  (new \yii\db\Query())
+            return (new \yii\db\Query())
                 ->select(
                     [
                         'u.*',
@@ -112,5 +112,12 @@ class ProjectMembers extends \yii\db\ActiveRecord
         return [];
     }
 
+    public static function DeleteProjectMember($project_id = null, $user_id = null)
+    {
+        if (!empty($project_id) && !empty($user_id)) {
+            return self::deleteAll(['project_id' => $project_id, 'user_id' => $user_id]);
+        }
+        return false;
+    }
 
 }

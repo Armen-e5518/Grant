@@ -44,6 +44,15 @@ class Projects extends \yii\db\ActiveRecord
 
     const STATUS_DELETE = 0;
 
+    const STATUS = [
+        0 => "Pending approval",
+        1 => "In progress",
+        2 => "Submitted",
+        3 => "Accepted",
+        4 => "Rejected",
+        5 => "Closed",
+    ];
+
     /**
      * @inheritdoc
      */
@@ -193,5 +202,14 @@ class Projects extends \yii\db\ActiveRecord
             return $model->save();
         }
         return false;
+    }
+
+    public static function ChangeProjectStatus($post)
+    {
+        if (!empty($post['project_id']) && !empty($post['status'])) {
+            $model = self::findOne(['id' => $post['project_id']]);
+            $model->status = (int)$post['status'];
+            return $model->save();
+        }
     }
 }

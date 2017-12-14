@@ -211,13 +211,36 @@ class AjaxController extends Controller
             }
         }
     }
+
     public function actionSaveChecklistStatus()
     {
         if (Yii::$app->request->isAjax) {
             \Yii::$app->response->format = Response::FORMAT_JSON;
             $post = Yii::$app->request->post();
             if (!empty($post)) {
-                return ProjectChecklists::GetChecklist($post['project_id']);
+                return ProjectChecklists::ChangeChecklistStatus($post['id']);
+            }
+        }
+    }
+
+    public function actionSaveChangeStatus()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                return Projects::ChangeProjectStatus($post);
+            }
+        }
+    }
+
+    public function actionDeleteProjectMember()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                return ProjectMembers::DeleteProjectMember($post['project_id'], $post['user_id']);
             }
         }
     }

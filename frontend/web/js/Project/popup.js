@@ -11,10 +11,15 @@ $(document).ready(function () {
     // });
 
     $('#popup-project,i.popup-close').click(function (e) {
-        $('#popup-project').removeClass('active-popup')
+        $('#id_project').hide();
+        $('#id_loader').show();
         location.reload();
         e.stopPropagation();
     })
 
 
 });
+
+function DataUpdateIndex() {
+    
+}

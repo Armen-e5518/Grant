@@ -43,7 +43,9 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="login-component">
                 <label>
                     <span class="remember-me"><input type="checkbox">remember me</span>
-                    <a href="#"><i class="fa fa-angle-right"></i>forgot password</a>
+                    <a href="/site/request-password-reset">
+                        <i class="fa fa-angle-right"></i>forgot password
+                    </a>
                 </label>
             </div>
             <div class="login-component">

@@ -38,8 +38,9 @@ class SiteController extends Controller
                     [
                         'actions' => ['login',
                             'error',
+                            'request-password-reset',
+                            'reset-password',
                             'test',
-
                         ],
                         'allow' => true,
                     ],
@@ -92,7 +93,7 @@ class SiteController extends Controller
             'date' => Helper::ChangeProjectsFormat($projects),
             'favorites' => ProjectFavorite::GetFavoritesByUserId(),
             'params' => Helper::GetFilterResets(['/site/index'], Yii::$app->request->get()),
-//            'momments' => ProjectComments::GetAllUsers()
+            'stats' => Projects::STATUS,
         ]);
     }
 
@@ -199,7 +200,6 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
                 Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-
                 return $this->goHome();
             } else {
                 Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
