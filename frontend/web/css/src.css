@@ -39,18 +39,21 @@
 
 .attachment {
     display: flex;
+    align-items: center;
 }
-
-.attachment img {
-    width: 100px;
-}
-
 .attachment .delete-attachment {
     cursor: pointer;
+    margin-left: auto;
 }
-.user-name{
+.attachment img {
+    width: 100px;
+    margin-right: 10px;
+}
+
+.user-name {
     position: relative;
 }
+
 .user-name .user-down {
     position: absolute;
     width: 115px;
@@ -58,33 +61,41 @@
     background: #e7e7e7;
     text-align: right;*/
 }
+
 .user-name .user-down a {
     text-decoration: underline;
 }
-.fa{
+
+.fa {
     cursor: pointer;
 }
 
 .fa-archive-active {
     color: #333;
 }
-#projects-pending_approval{
+
+#projects-pending_approval {
     color: #de012f;
 }
-#projects-submitted{
+
+#projects-submitted {
     color: #96d700;
 }
-#projects-submission_process{
+
+#projects-submission_process {
     color: #512178;
 }
+
 #w0 label input[type="checkbox"] {
     display: block;
 }
+
 .user-tag {
     position: relative;
     width: 100%;
 }
-.user-tag-list{
+
+.user-tag-list {
     position: absolute;
     background: #c0c6ca;
     width: 200px;
@@ -94,6 +105,7 @@
     bottom: 0;
     left: 199px;
 }
+
 .user-tag-list li {
     cursor: pointer;
     margin: 1px;
@@ -101,14 +113,51 @@
     border: 1px solid #7b7676;
     border-radius: 3px;
 }
-.user-tag-list li:hover{
+
+.user-tag-list li:hover {
     background: #b0b6ba;
 }
 
-.user-tag-list li.active-u{
+.user-tag-list li.active-u {
     background: #b0b6ba;
 }
 
-#id_sent_comment, .project{
+#id_sent_comment, .project {
     cursor: pointer;
+}
+
+.show-left-slide {
+    height: 100% !important;
+}
+
+@media screen and (max-width: 1280px) {
+    #show-right-slide, #show-left-slide {
+        margin-top: -48px !important;
+    }
+}
+
+div#id_checklist_buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+div#id_checklist_buttons button {
+    margin: 20px 0 0 15px;
+}
+
+#id_save_checklist {
+    background: #fff;
+    border-color: #96d700 !important;
+    color: #96d700;;
+}
+
+#id_save_checklist:hover {
+    background: #96d700;
+    color: #fff !important;
+}
+#id_project_title{
+    overflow: hidden;
+}
+.filter-tools{
+    min-width: 125px;
 }

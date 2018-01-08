@@ -20,7 +20,7 @@ use kartik\file\FileInput;
     <div class="col-md-6">
         <?= $form->field($model, 'ifi_name')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('ifi_name')])->label(false) ?>
         <?= $form->field($model, 'project_name')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('project_name')])->label(false) ?>
-        <?= $form->field($model, 'project_dec')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('project_dec')])->label(false) ?>
+        <?= $form->field($model, 'project_dec')->textarea(['maxlength' => true, 'row' => 8, 'placeholder' => $model->getAttributeLabel('project_dec')])->label(false) ?>
         <?= $form->field($model, 'tender_stage')->dropDownList(['Propasal' => 'Propasal', 'Eol' => 'Eol',], ['prompt' => ''])->label(false) ?>
         <?= DatePicker::widget([
             'model' => $model,
@@ -33,7 +33,7 @@ use kartik\file\FileInput;
             'options2' => ['placeholder' => 'Deadline'],
             'pluginOptions' => [
                 'autoclose' => true,
-                'format' => 'dd-M-yyyy',
+                'format' => 'yyyy-mm-dd',
                 'todayBtn' => true,
             ]
         ]);
@@ -57,15 +57,17 @@ use kartik\file\FileInput;
         <?php if (!empty($attachments)): ?>
             <div class="attachments">
                 <?php foreach ($attachments as $attachment): ?>
-                    <div class="attachment">
+                    <div class="attachment gray-bg padding-5 margin-btn-5">
                         <?php if ($attachment['type'] == 'png' || $attachment['type'] == 'jpg'): ?>
                             <div class="attachment-img">
                                 <img src="<?= Yii::$app->params['attachments_url'] . $attachment['src'] ?>" alt="">
                             </div>
                         <?php endif; ?>
                         <a download
+                           class="font-14"
                            href="<?= Yii::$app->params['attachments_url'] . $attachment['src'] ?>"><?= $attachment['src'] ?></a>
                         <i class="fa fa-trash-o delete-attachment" data-id="<?= $attachment['id'] ?>"
+                           title="Delete attachment"
                            aria-hidden="true"></i>
                     </div>
                 <?php endforeach; ?>
@@ -91,9 +93,9 @@ use kartik\file\FileInput;
         <?= $form->field($model, 'evaluation_decision_making')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('evaluation_decision_making')])->label(false) ?>
         <?= $form->field($model, 'beneficiary_stakeholder')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('beneficiary_stakeholder')])->label(false) ?>
         <?= $form->field($model, 'status')->dropDownList($model::STATUS)->label(false); ?>
-        <?= $form->field($model, 'pending_approval')->checkbox([])->label(false); ?>
-        <?= $form->field($model, 'submitted')->checkbox([])->label(false); ?>
-        <?= $form->field($model, 'submission_process')->checkbox()->label(false); ?>
+        <?= $form->field($model, 'importance_1')->checkbox([])->label(false); ?>
+        <?= $form->field($model, 'importance_2')->checkbox([])->label(false); ?>
+        <?= $form->field($model, 'importance_3')->checkbox()->label(false); ?>
         <div class="add-members">
             <?= \kartik\select2\Select2::widget([
                 'name' => 'members',

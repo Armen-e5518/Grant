@@ -29,6 +29,15 @@ class CompaniesController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+
+        if (!Yii::$app->rule_check->CheckByKay(['companies_menage'])) {
+            $this->redirect('/');
+        }
+        return parent::beforeAction($action);
+    }
+
     /**
      * Lists all Companies models.
      * @return mixed
@@ -51,6 +60,7 @@ class CompaniesController extends Controller
      */
     public function actionView($id)
     {
+        $this->redirect('index');
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);

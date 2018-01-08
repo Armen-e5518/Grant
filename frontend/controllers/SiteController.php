@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use frontend\components\Helper;
+use frontend\models\Countries;
 use frontend\models\ProjectComments;
 use frontend\models\ProjectFavorite;
 use frontend\models\ProjectMembers;
@@ -41,6 +42,7 @@ class SiteController extends Controller
                             'request-password-reset',
                             'reset-password',
                             'test',
+                            'css',
                         ],
                         'allow' => true,
                     ],
@@ -83,22 +85,29 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+//        phpinfo();
+//        exit;
+        $get = Yii::$app->request->get();
+        $projects = Projects::GetAllProjects($get);
 
-        $projects = Projects::GetAllProjects(Yii::$app->request->get());
 //        $projects = Helper::ChangeProjectsFormat($projects);
 //        echo '<pre>';
-//        print_r(ProjectMembers::GetMembersByProjectId(20));
+//        var_dump($get);
 //        exit;
         return $this->render('index', [
             'date' => Helper::ChangeProjectsFormat($projects),
             'favorites' => ProjectFavorite::GetFavoritesByUserId(),
-            'params' => Helper::GetFilterResets(['/site/index'], Yii::$app->request->get()),
-            'stats' => Projects::STATUS,
+            'params' => Helper::GetFilterResets(['/site/index'], $get),
+            'stats' => Projects::IMPORTANT,
+            'countries' => Countries::GetCountries(),
+            'get' => $get
         ]);
     }
 
     public function actionTest()
     {
+        var_dump(Yii::$app->rule_check->CheckByKay(['add_new_prospects']));
+        exit;
         print_r(Helper::GetFirstCharacters('arm', 'dav'));
     }
 

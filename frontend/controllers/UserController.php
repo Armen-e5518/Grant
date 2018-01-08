@@ -34,6 +34,16 @@ class UserController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+
+        if (!Yii::$app->rule_check->CheckByKay(['members_menage'])) {
+            $this->redirect('/');
+        }
+        return parent::beforeAction($action);
+    }
+
+
     /**
      * Lists all User models.
      * @return mixed
@@ -57,6 +67,7 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
+        $this->redirect('index');
         $user_rules = UserRules::GetUserRulesNamesByUserId($id);
         return $this->render('view', [
             'model' => $this->findModel($id),

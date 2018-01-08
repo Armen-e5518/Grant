@@ -11,6 +11,8 @@ use yii\helpers\Html;
 /* @var $select_countries */
 
 $this->registerJsFile('https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js');
+//$this->registerJsFile('https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js');
+$this->registerJsFile('/main/assets/js/custom.js');
 $this->registerJsFile('/js/Project/attachments.js');
 $this->registerJsFile('/js/Project/create-project.js');
 $this->registerCssFile('/css/src.css');
@@ -25,6 +27,7 @@ $this->title = 'Update Project: ' . $model->ifi_name;
     <div class="wrapper">
         <?= $this->render('/common/top-bar') ?>
         <div class="main m-members ">
+            <i id="show-left-slide" class="fa fa-arrow-circle-left brd-rad-4"></i>
             <h1><?= Html::encode($this->title) ?></h1>
             <div class="access-form">
                 <?= $this->render('_form', [

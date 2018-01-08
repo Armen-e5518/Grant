@@ -1,4 +1,4 @@
-::-webkit-scrollbar {
+                                                                                                        ::-webkit-scrollbar {
 	width: 6px;
 	height:6px;
 }
@@ -38,6 +38,10 @@ textarea {
 
 .d-block {
 	display: block;
+}
+
+.d-inline-block {
+	display: inline-block;
 }
 
 .d-flex {
@@ -228,8 +232,18 @@ body .transparent-bg {
 
 .ellipsis {
 	white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.filtering-popup-layer.active-popup .filtering-popup.subpopup {
+	position: absolute;
+	right: 15px;
+	max-width: 450px !important;
+	width: calc(100% - 30px) !important;
+	box-shadow: 0 0 5px 2px #ccc;
+	margin-top: 5px;
+	z-index: 1;
 }
 
 .disabled-area:after {
@@ -368,6 +382,19 @@ body .transparent-bg {
 							height:inherit;
 							border-radius:inherit;
 						}
+.user-name .user-down {
+    width: 100%;
+    background-color: #00adc7;
+    color: #fff;
+    padding: 12px 4px !important;
+    margin-top: 7px;
+    z-index: 1;
+    right: 0;
+}
+.user-name .user-down a {
+    color: #fff;
+}
+
 					
 					.user-name {
 						margin-right:8px;
@@ -456,9 +483,38 @@ body .transparent-bg {
 							.filter-tools .filtering > input[type="checkbox"] {
 								display:none;
 							}
-							
-							
-							
+	
+.btn-right {
+    margin-left: auto;
+}
+						
+.btn-right .btn,
+.form-group .btn {
+    border-radius: 0;
+    border: 2px solid #00adc7;
+    background-color: #00adc7;
+    line-height: inherit;
+    padding: 10px 15px;
+    outline:none;
+}
+
+.btn-right .btn:hover,
+.form-group .btn:hover,
+.access-form .btn-success:not([disabled]):not(.disabled).active,.access-form .btn-success:not([disabled]):not(.disabled):active,
+.btn-primary.btn-file:hover {
+    border-color: #512178;
+    background-color: #512178;
+    color: #fff;
+    box-shadow:none;
+}
+.access-form .btn-success.focus,.access-form .btn-success:focus {
+   box-shadow:none;
+}
+
+.btn-primary.btn-file {
+    background-color: #00adc7;
+    border-color: #00adc7;
+}				
 							
 							
 							
@@ -970,6 +1026,10 @@ body .transparent-bg {
 										height:10px;
 										cursor:pointer;
 									}
+										
+										.member-photo > a {
+											cursor: default;
+										}
 									
 										.member-photo > a .tooltip,
 										.post-priority span .tooltip {
@@ -1001,9 +1061,34 @@ body .transparent-bg {
 											opacity: 1;
 										}
 										
+										.member-photo > a .remove-member {
+											position: absolute;
+											display: none;
+											right: 5px;
+											top: 2px;
+											background: #555;
+											color: #fff;
+											border-radius: 100%;
+											width: 15px;
+											height: 15px;
+											text-align: center;
+											font-size: 8px;
+											font-weight: bold;
+											font-style: normal;
+											line-height: 15px;
+											cursor: pointer;
+										}
+										
+										.member-photo > a:hover .remove-member {
+											display:block;
+										}
+										
 										.member-photo > a .tooltip {
 											left:0;
-											transform: translate(0, 70px);
+											/*transform: translate(0, 70px);*/
+											transform: translate(0, 0);
+											z-index: 1;
+											display:none;
 										}
 										
 										.post-priority span .tooltip {
@@ -1049,7 +1134,11 @@ body .transparent-bg {
 								}
 							
 									.related-documents a {
-										color:#00adc6;
+										display: inline-block;
+										margin-right: 8px;
+										margin-bottom: 3px;
+										white-space: nowrap;
+										color: #00adc6;
 									}
 								
 										.related-documents a .fa {
@@ -1065,7 +1154,7 @@ body .transparent-bg {
 										}
 									
 									.related-documents a:first-child {
-										margin-right:20px;
+										/*margin-right:20px;*/
 									}
 										
 								.post-timing {
@@ -1282,13 +1371,29 @@ body .transparent-bg {
 body .container-fluid {
 	padding-right: 0;
 	padding-left: 0;
+	height: auto;
+	min-height: 100%;
 }
 
 	.access-form,
 	.main.m-members .grid-view {
 		border-top: 1px #e8e8e8 solid;
-		padding: 50px;
+		padding: 14px 7px 9px 15px;
 	}
+	
+		.main.m-members .grid-view .summary {
+			padding: 10px 0;
+			text-align: center;
+		}
+		
+		.main.m-members .grid-view .pagination {
+			justify-content: center;
+		}
+		
+			.main.m-members .grid-view .pagination li {
+				padding: 0 10px;
+				font-size: 20px;
+			}
 		
 		.access-form input[type="text"] {
 			box-shadow: none;
@@ -1301,6 +1406,46 @@ body .container-fluid {
 			padding-left: 10px;
 			color: #de012f;
 		}
+		
+		.main.m-members .grid-view table tbody td {
+			vertical-align: middle;
+			font-size: 14px;
+		}
+		
+		.main.m-members .grid-view table thead th:last-child,
+		.main.m-members .grid-view table tbody td:last-child {
+			text-align: center;
+		}
+		
+		.main.m-members .grid-view table tbody td a[title="lead-view"],
+		.main.m-members .grid-view table tbody td a[title="lead-update"],
+		.main.m-members .grid-view table tbody td a[title="Delete"] {
+			margin: 0px 4px;
+			font-size: 16px;
+		}
+.main.m-members .grid-view table tbody td a[title="Delete"]:hover {
+    color:#de012f;
+}
+
+.main.m-members .grid-view table tbody td a[title="lead-update"]:hover {
+color:#00adc7;
+}
+		
+		.main.m-members .grid-view .user-form label,
+		.main.m-members .access-form label {
+			margin-top: 10px;
+			margin-bottom: 5px;
+			font-size: 15px;
+			font-weight: bold;
+			color: #555;
+		}
+.datepicker  table tr td.day:hover,  .datepicker table tr td.focused,.datepicker .datepicker-switch:hover, .datepicker table tr td.selected, .datepicker table tr td.selected.highlighted {
+    background: #00adc7 !important;
+    color: #fff;
+}
+.datepicker table tr td, .datepicker table tr th {
+    vertical-align: middle;
+}
 								
 @media screen and (max-width:1280px) {
 		.top-bar,

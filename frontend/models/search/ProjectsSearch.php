@@ -18,8 +18,8 @@ class ProjectsSearch extends Projects
     public function rules()
     {
         return [
-            [['id', 'status', 'state','status_important'], 'integer'],
-            [['ifi_name', 'project_name', 'project_dec', 'tender_stage', 'request_issued', 'deadline', 'budget', 'duration', 'eligibility_restrictions', 'selection_method', 'submission_method', 'evaluation_decision_making', 'beneficiary_stakeholder', 'create_de', 'update_de'], 'safe'],
+            [['id', 'status', 'state'], 'integer'],
+            [['ifi_name', 'project_name', 'project_dec', 'tender_stage', 'request_issued', 'deadline', 'budget', 'duration', 'eligibility_restrictions', 'selection_method', 'submission_method', 'evaluation_decision_making', 'beneficiary_stakeholder', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -62,8 +62,7 @@ class ProjectsSearch extends Projects
             'id' => $this->id,
             'status' => $this->status,
             'state' => $this->state,
-            'create_de' => $this->create_de,
-            'update_de' => $this->update_de,
+
         ]);
 
         $query->andFilterWhere(['like', 'ifi_name', $this->ifi_name])

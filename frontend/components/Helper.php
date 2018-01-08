@@ -9,6 +9,8 @@
 namespace frontend\components;
 
 use frontend\models\ChecklistUsers;
+use frontend\models\Companies;
+use frontend\models\Countries;
 use frontend\models\ProjectChecklists;
 use yii\base\Component;
 
@@ -32,7 +34,7 @@ class Helper extends Component
     public static function GetFilterUrl($url, $params, $kay, $value)
     {
 
-        if ($value == 0) {
+        if ($value == 0 || empty($value)) {
             unset($params[$kay]);
         } else {
             $params[$kay] = $value;
@@ -54,6 +56,60 @@ class Helper extends Component
                 $new_params[] = [
                     'title' => 'Archive',
                     'url' => self::GetFilterUrl($url, $params, 'a', 0)
+                ];
+            }
+            if ($kay == 'pending_approval') {
+                $new_params[] = [
+                    'title' => 'Pending approval',
+                    'url' => self::GetFilterUrl($url, $params, 'pending_approval', 0)
+                ];
+            }
+            if ($kay == 'in_progress') {
+                $new_params[] = [
+                    'title' => 'In progress',
+                    'url' => self::GetFilterUrl($url, $params, 'in_progress', 0)
+                ];
+            }
+            if ($kay == 'submitted') {
+                $new_params[] = [
+                    'title' => 'Submitted',
+                    'url' => self::GetFilterUrl($url, $params, 'submitted', 0)
+                ];
+            }
+            if ($kay == 'accepted') {
+                $new_params[] = [
+                    'title' => 'Accepted',
+                    'url' => self::GetFilterUrl($url, $params, 'accepted', 0)
+                ];
+            }
+            if ($kay == 'rejected') {
+                $new_params[] = [
+                    'title' => 'Rejected',
+                    'url' => self::GetFilterUrl($url, $params, 'rejected', 0)
+                ];
+            }
+            if ($kay == 'closed') {
+                $new_params[] = [
+                    'title' => 'Closed',
+                    'url' => self::GetFilterUrl($url, $params, 'closed', 0)
+                ];
+            }
+            if ($kay == 'country') {
+                $new_params[] = [
+                    'title' => Countries::GetCountryNameById($p)['country_name'],
+                    'url' => self::GetFilterUrl($url, $params, 'country', 0)
+                ];
+            }
+            if ($kay == 'deadline_from' && !empty($p)) {
+                $new_params[] = [
+                    'title' => 'From ' . $p,
+                    'url' => self::GetFilterUrl($url, $params, 'deadline_from', 0)
+                ];
+            }
+            if ($kay == 'deadline_to' && !empty($p)) {
+                $new_params[] = [
+                    'title' => 'To ' . $p,
+                    'url' => self::GetFilterUrl($url, $params, 'deadline_to', 0)
                 ];
             }
         }
@@ -114,11 +170,11 @@ class Helper extends Component
                 $s_class = 'applied';
                 break;
             case 4:
-                $s = 'Rejected';
+                $s = 'Dismissed';
                 $s_class = 'in-progress';
                 break;
             case 5:
-                $s = 'Closed';
+                $s = 'REJECTED';
                 $s_class = 'in-progress';
                 break;
         }
@@ -127,5 +183,15 @@ class Helper extends Component
             'class' => $s_class
         ];
 
+    }
+
+    public static function CheckAction($actions, $action)
+    {
+        foreach ($actions as $a) {
+            if ($a == $action) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -32,14 +32,8 @@ AddDefaultCharset utf-8
    RewriteRule \.(htaccess|htpasswd|svn|git) - [F]
 </ifmodule>
 
-# Use PHP56 as default
-AddHandler application/x-httpd-php56 .php
+# Use PHPstable as default
+AddHandler application/x-httpd-php-stable .php
 <IfModule mod_suphp.c>
-    suPHP_ConfigPath /opt/php56/lib
+    suPHP_ConfigPath /opt/phpstable/lib
 </IfModule>
-
-# Use PHP56 as default
-AddHandler application/x-httpd-php56 .php
-<IfModule mod_suphp.c>
-    suPHP_ConfigPath /opt/phpedge/lib
-</IfModule>

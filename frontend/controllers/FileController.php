@@ -21,13 +21,19 @@ use \yii\web\Response;
 class FileController extends Controller
 {
 
+    /**
+     * @param \yii\base\Action $action
+     * @return bool
+     */
     public function beforeAction($action)
     {
         $this->enableCsrfValidation = false;
         return parent::beforeAction($action);
     }
 
-
+    /**
+     * Upload File
+     */
     public function actionUpload()
     {
         $output_dir = "attachments/";

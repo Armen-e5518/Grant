@@ -15,7 +15,7 @@ $arch_class = ($project['state'] == 2) ? 'fa-archive-active' : '';
 $status = \frontend\components\Helper::GetStatusTitle($project['status']);
 ?>
 
-<div class="post-item project" data-id="<?= $project['id'] ?>">
+<div class="post-item project" href="#<?= $project['id'] ?>" data-id="<?= $project['id'] ?>">
     <div class="post-title-bar d-flex font-15 txt-upper">
         <div class="post-status applied font-w-700">
             <div title="Status" class="post-status <?= $status['class'] ?> font-w-700">
@@ -26,21 +26,21 @@ $status = \frontend\components\Helper::GetStatusTitle($project['status']);
             <span title="Project name"><?= $project['project_name'] ?></span>
         </div>
         <div class="post-priority d-flex">
-            <!--            --><?php //if ($project['pending_approval']): ?>
-            <!--                <span class="red p-rel brd-rad-4">-->
-            <!--                <em class="tooltip p-abs brd-rad-4 font-12 white-txt">Pending Approval</em>-->
-            <!--            </span>-->
-            <!--            --><?php //endif; ?>
-            <!--            --><?php //if ($project['submitted']): ?>
-            <!--                <span class="green p-rel brd-rad-4">-->
-            <!--                <em class="tooltip p-abs brd-rad-4 font-12 white-txt">Submitted</em>-->
-            <!--            </span>-->
-            <!--            --><?php //endif; ?>
-            <!--            --><?php //if ($project['submission_process']): ?>
-            <!--                <span class="pink p-rel brd-rad-4">-->
-            <!--                <em class="tooltip p-abs brd-rad-4 font-12 white-txt">Submission Process</em>-->
-            <!--            </span>-->
-            <!--            --><?php //endif; ?>
+            <?php if ($project['importance_1']): ?>
+                <span class="red p-rel brd-rad-4">
+                            <em class="tooltip p-abs brd-rad-4 font-12 white-txt">Importance</em>
+                        </span>
+            <?php endif; ?>
+            <?php if ($project['importance_2']): ?>
+                <span class="green p-rel brd-rad-4">
+                            <em class="tooltip p-abs brd-rad-4 font-12 white-txt">Most important</em>
+                        </span>
+            <?php endif; ?>
+            <?php if ($project['importance_3']): ?>
+                <span class="pink p-rel brd-rad-4">
+                            <em class="tooltip p-abs brd-rad-4 font-12 white-txt">More important</em>
+                        </span>
+            <?php endif; ?>
         </div>
     </div>
     <div class="post-relations d-flex font-14">
@@ -90,12 +90,18 @@ $status = \frontend\components\Helper::GetStatusTitle($project['status']);
         <div class="post-actions d-flex brd-rad-4 white-bg">
             <a href="#" data-id="<?= $project['id'] ?>"
                class="favorite-project fa <?= $favorite_class ?> rating no-underline black-txt" title="Favorite"></a>
-            <a href="/projects/add-archive?id=<?= $project['id'] ?>"
-               class="fa fa-archive <?= $arch_class ?> sharing no-underline" title="Archive"></a>
-            <a href="/projects/delete-project?id=<?= $project['id'] ?>"
-               class="fa fa-trash removal no-underline black-txt" title="Delete"></a>
-            <a href="/projects/update?id=<?= $project['id'] ?>" title="Update"
-               class="fa fa fa-pencil sharing no-underline"></a>
+            <?php if (Yii::$app->rule_check->CheckByKay(['add_new_and_menage_prospects'])): ?>
+                <a href="/projects/add-archive?id=<?= $project['id'] ?>"
+                   class="fa fa-archive <?= $arch_class ?> sharing no-underline" title="Archive"></a>
+            <?php endif; ?>
+            <?php if (Yii::$app->rule_check->CheckByKay(['add_new_and_menage_prospects'])): ?>
+                <a href="/projects/delete-project?id=<?= $project['id'] ?>"
+                   class="fa fa-trash removal no-underline black-txt" title="Delete"></a>
+            <?php endif; ?>
+            <?php if (Yii::$app->rule_check->CheckByKay(['add_new_and_menage_prospects'])): ?>
+                <a href="/projects/update?id=<?= $project['id'] ?>" title="Update"
+                   class="fa fa fa-pencil sharing no-underline"></a>
+            <?php endif; ?>
         </div>
     </div>
 </div>

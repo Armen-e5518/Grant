@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+
+
     $('.favorite-project').click(function () {
         var ob = $(this);
         var data = {};

@@ -15,7 +15,14 @@ $(document).ready(function () {
         // $('#id_project').show();
     }, 500)
 
+
     $('#projects .project').click(function () {
+        var hush = $(this).attr('data-id');
+        if (history.pushState) {
+            history.pushState(null, null, '#' + hush);
+        }
+
+
         $('#popup-project').addClass('active-popup');
         var f_project_data = false;
         var d_project_data;
@@ -45,7 +52,7 @@ $(document).ready(function () {
                 SetProjectDataInHtml(d_params, d_project_data, d_members_data, d_attachments, d_countries);
                 clearInterval(Inter)
             }
-        }, 200);
+        }, 800);
 
 
         var ob = $(this);
@@ -54,6 +61,9 @@ $(document).ready(function () {
 
         GetChecklistsByProjectId(data.id);
         GetProjectMembersListByProjectId(data.id);
+        setInterval(function () {
+            GetComments(data)
+        }, 5000)
         console.log(data.id);
         $.ajax({
             type: "POST",
@@ -133,21 +143,23 @@ $(document).ready(function () {
     });
 
     $('#id_project_members').on('click', '.remove-member', function () {
-        var ob = $(this);
-        var data = {};
-        data.user_id = ob.attr('data-id');
-        data.project_id = $('#id_project').attr('data-id');
-        $.ajax({
-            type: "POST",
-            url: "/ajax/delete-project-member",
-            data: data,
-            success: function (res) {
-                if (res) {
-                    ob.closest('.project-member').remove();
-                    GetProjectMembersListByProjectId(data.project_id);
+        if (confirm("Do you really want to delete!") == true) {
+            var ob = $(this);
+            var data = {};
+            data.user_id = ob.attr('data-id');
+            data.project_id = $('#id_project').attr('data-id');
+            $.ajax({
+                type: "POST",
+                url: "/ajax/delete-project-member",
+                data: data,
+                success: function (res) {
+                    if (res) {
+                        ob.closest('.project-member').remove();
+                        GetProjectMembersListByProjectId(data.project_id);
+                    }
                 }
-            }
-        });
+            });
+        }
     })
 });
 
@@ -200,7 +212,7 @@ function SetProjectDataInHtml(d_params, d_project_data, d_members_data, d_attach
         $('#id_project_members').append(
             '<div title="' + val.firstname + ' ' + val.lastname + '" class="project-member member-photo brd-rad-4">' +
             '<a href="#" class="d-block p-rel">' +
-            '<em data-id = "' + val.id + '" class="remove-member">X</em>' +
+            '<em data-id = "' + val.id + '" title="Remove member" class="remove-member">X</em>' +
             '<img src="' + img + '">' +
             '<em class="tooltip p-abs brd-rad-4 font-12 white-txt">' + val.firstname + ' ' + val.lastname + ' </em>' +
             '</a>' +
@@ -321,11 +333,11 @@ function GetStatusTile(id) {
             s_class = 'applied';
             break;
         case 4:
-            s = 'Rejected';
+            s = 'Dismissed';
             s_class = 'in-progress';
             break;
         case 5:
-            s = 'Closed';
+            s = 'REJECTED';
             s_class = 'in-progress';
             break;
     }
@@ -333,4 +345,34 @@ function GetStatusTile(id) {
         'title': s,
         'class': s_class
     }
+}
+
+function GetComments(data) {
+    $.ajax({
+        type: "POST",
+        url: "/ajax/get-comments-by-project-id",
+        data: data,
+        success: function (comments) {
+            if (comments) {
+                $('#id_commnets_data').html('');
+                if (comments) {
+                    comments.forEach(function (val, i) {
+                        $('#id_commnets_data').append(
+                            '<div class="txt-with-icon">' +
+                            '<i class="person-icon font-w-700" data-foo="' + val.user_cut + '" title="' + val.user_name + '"></i>' +
+                            '<div class="person-repost">' +
+                            '<a href="#" class="d-block no-underline font-w-700">' + val.user_name + '</a>' +
+                            '<span class="brd-rad-4 white-bg">' +
+                            ChangeCommentTextByTagHtml(val.comment) +
+                            '</span>' +
+                            '<a href="#" title="' + val.date + '" class="font-13 no-underline"><time class="timeago" datetime="' + val.date + '"></time></a>' +
+                            '</div>' +
+                            '</div>'
+                        )
+                    });
+                    $("time.timeago").timeago();
+                }
+            }
+        }
+    });
 }

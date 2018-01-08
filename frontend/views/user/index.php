@@ -18,6 +18,9 @@ $this->registerCssFile('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/c
 //$this->registerJsFile('//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js');
 //$this->registerJsFile('/js/members/src.js');
 
+$this->registerJsFile('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
+$this->registerJsFile('/main/assets/js/custom.js');
+
 $this->title = 'Members';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -28,12 +31,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="wrapper">
         <?= $this->render('/common/top-bar') ?>
         <div class="main m-members">
-            <div class="filter-bar">
+            <i id="show-left-slide" class="fa fa-arrow-circle-left brd-rad-4"></i>
+            <div class="filter-bar d-flex">
                 <span class="font-14 font-w-300 gray-txt"><?= Html::encode($this->title) ?></span>
+                <div class="btn-right">
+                    <?= Html::a('Create Member', ['create'], ['class' => 'btn btn-primary']) ?>
+                </div>
             </div>
-            <p align="center">
-                <?= Html::a('Create Member', ['create'], ['class' => 'btn btn-primary']) ?>
-            </p>
             <div>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
@@ -76,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'class' => 'yii\grid\ActionColumn',
                             'header' => 'Actions',
                             'headerOptions' => ['style' => 'color:#337ab7'],
-                            'template' => '{view}{update}{delete}',
+                            'template' => '{update}{delete}',
                             'buttons' => [
                                 'view' => function ($url, $model) {
                                     return Html::a('<i class="fa fa-eye" aria-hidden="true"></i>', $url, [

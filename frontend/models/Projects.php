@@ -49,8 +49,15 @@ class Projects extends \yii\db\ActiveRecord
         1 => "In progress",
         2 => "Submitted",
         3 => "Accepted",
-        4 => "Rejected",
-        5 => "Closed",
+        4 => "Dismiss",
+        5 => "Rejected",
+    ];
+
+    const IMPORTANT = [
+        0 => "Important 1",
+        1 => "Important 2",
+        2 => "Important 3",
+
     ];
 
     /**
@@ -80,7 +87,7 @@ class Projects extends \yii\db\ActiveRecord
             [['attachments'], 'file'],
             [['ifi_name', 'project_name', 'deadline', 'request_issued'], 'required'],
             [['tender_stage', 'project_dec'], 'string'],
-            [['status', 'state', 'pending_approval', 'submitted', 'submission_process', 'international_status'], 'integer'],
+            [['status', 'state', 'importance_1', 'importance_2', 'importance_3', 'international_status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['ifi_name', 'project_name', 'request_issued', 'deadline', 'budget', 'duration', 'eligibility_restrictions', 'selection_method', 'submission_method', 'evaluation_decision_making', 'beneficiary_stakeholder'], 'string', 'max' => 255],
         ];
@@ -110,9 +117,9 @@ class Projects extends \yii\db\ActiveRecord
             'state' => 'State',
             'create_de' => 'Create De',
             'update_de' => 'Update De',
-            'pending_approval' => 'Pending approval',
-            'submitted' => 'Submitted',
-            'submission_process' => 'Submission process',
+            'importance_1' => 'Important',
+            'importance_2' => 'Most important',
+            'importance_3' => 'More important',
             'international_status' => 'International / open for non residents',
         ];
     }
@@ -160,6 +167,51 @@ class Projects extends \yii\db\ActiveRecord
         if (!empty($params['f'])) {
             $query->rightJoin(ProjectFavorite::tableName() . ' f', 'f.project_id = p.id AND f.user_id = ' . Yii::$app->user->identity->getId());
         }
+
+        if (
+            !empty($params['pending_approval'])
+            || !empty($params['in_progress'])
+            || !empty($params['submitted'])
+            || !empty($params['accepted'])
+            || !empty($params['rejected'])
+            || !empty($params['closed'])
+        ) {
+            $q = ['OR'];
+            if (!empty($params['pending_approval'])) {
+                array_push($q, ['p.status' => 0]);
+            }
+            if (!empty($params['in_progress'])) {
+                array_push($q, ['p.status' => 1]);
+            }
+            if (!empty($params['submitted'])) {
+                array_push($q, ['p.status' => 2]);
+            }
+            if (!empty($params['accepted'])) {
+                array_push($q, ['p.status' => 3]);
+            }
+            if (!empty($params['rejected'])) {
+                array_push($q, ['p.status' => 4]);
+            }
+            if (!empty($params['closed'])) {
+                array_push($q, ['p.status' => 5]);
+            }
+            $query->andFilterWhere($q);
+        }
+        if (!empty($params['country'])) {
+            $query->rightJoin(ProjectCountries::tableName() . ' pc', 'pc.project_id = p.id');
+            $query->andWhere(['pc.country_id' => $params['country']]);
+        }
+        if (!empty($params['deadline_from']) && !empty($params['deadline_to'])) {
+            $query->andWhere(['between', 'p.deadline', $params['deadline_from'], $params['deadline_to']]);
+        } else {
+            if (!empty($params['deadline_from'])) {
+                $query->andWhere(['>', 'p.deadline', $params['deadline_from']]);
+            }
+            if (!empty($params['deadline_to'])) {
+                $query->andWhere(['<', 'p.deadline', $params['deadline_to']]);
+            }
+        }
+
         return $query
             ->orderBy(['p.deadline' => SORT_DESC])
             ->all();
@@ -179,11 +231,19 @@ class Projects extends \yii\db\ActiveRecord
         return false;
     }
 
+    /**
+     * @param $id
+     * @return static
+     */
     public static function GetProjectDataById($id)
     {
         return self::findOne(['id' => $id]);
     }
 
+    /**
+     * @param $post
+     * @return bool
+     */
     public static function SaveProjectTitle($post)
     {
         if (!empty($post['project_id'])) {
@@ -194,7 +254,11 @@ class Projects extends \yii\db\ActiveRecord
         return false;
     }
 
-    public static function SaveProjectDescription($post)
+    /**
+     * @param $post
+     * @return bool
+     */
+    public static function SaveProjectDescription($post = null)
     {
         if (!empty($post['project_id'])) {
             $model = self::findOne(['id' => $post['project_id']]);
@@ -204,12 +268,43 @@ class Projects extends \yii\db\ActiveRecord
         return false;
     }
 
-    public static function ChangeProjectStatus($post)
+    /**
+     * @param $post
+     * @return bool
+     */
+    public static function ChangeProjectStatus($post = null)
     {
         if (!empty($post['project_id']) && !empty($post['status'])) {
             $model = self::findOne(['id' => $post['project_id']]);
             $model->status = (int)$post['status'];
             return $model->save();
+        }
+        return false;
+    }
+
+    /**
+     * @param null $kay
+     * @return mixed
+     */
+    public function GetSatusTitelByKay($kay = null)
+    {
+        return self::STATUS[$kay];
+    }
+
+    /**
+     * @param null $kay
+     * @return string
+     */
+    public function GetProductState($kay = null)
+    {
+//        if($kay == 0){
+//            return 'Deleted';
+//        }
+        if($kay == 1){
+            return 'Active';
+        }
+        if($kay == 2){
+            return 'Archive';
         }
     }
 }

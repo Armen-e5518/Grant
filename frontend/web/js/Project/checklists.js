@@ -65,7 +65,7 @@ $(document).ready(function () {
         $('#id_checklist_members').append(
             '<div data-id="' + id + '" class="checklist-member-add member-photo brd-rad-4">' +
             '<a href="#" class="d-block p-rel">' +
-            '<em data-id="' + id + '" class="remove-member">X</em>' +
+            '<em data-id="' + id + '" title="Remove member" class="remove-member">X</em>' +
             '<img src="' + img + '">' +
             '<em class="tooltip p-abs brd-rad-4 font-12 white-txt">' + name + ' </em>' +
             '</a>' +

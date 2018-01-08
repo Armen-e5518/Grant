@@ -46,6 +46,7 @@ return [
             'rules' => [
                 '' => 'site/index',
                 'members' => 'user/index',
+                'reports' => 'projects/index',
                 '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
             ],
         ],
