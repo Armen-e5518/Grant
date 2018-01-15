@@ -9,7 +9,6 @@ $(document).ready(function () {
         url: "/ajax/get-all-users",
         success: function (res) {
             if (res) {
-                console.log(res)
                 Users = res;
 
             }

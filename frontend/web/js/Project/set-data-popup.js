@@ -1,5 +1,6 @@
 var f_params = false;
 var d_params;
+var commentInterval;
 
 $(document).ready(function () {
 
@@ -13,15 +14,12 @@ $(document).ready(function () {
         $('#popup-project').removeClass('active-popup');
         // $('#id_loader').hide();
         // $('#id_project').show();
-    }, 500)
+    }, 500);
 
 
-    $('#projects .project').click(function () {
-        var hush = $(this).attr('data-id');
-        if (history.pushState) {
-            history.pushState(null, null, '#' + hush);
-        }
+    $(document).on('click', '#projects .project', function () {
 
+        clearInterval(commentInterval);
 
         $('#popup-project').addClass('active-popup');
         var f_project_data = false;
@@ -61,7 +59,7 @@ $(document).ready(function () {
 
         GetChecklistsByProjectId(data.id);
         GetProjectMembersListByProjectId(data.id);
-        setInterval(function () {
+        commentInterval = setInterval(function () {
             GetComments(data)
         }, 5000)
         console.log(data.id);
@@ -185,6 +183,7 @@ function GetProjectMembersListByProjectId(id) {
 
 function SetProjectDataInHtml(d_params, d_project_data, d_members_data, d_attachments, d_countries) {
 
+    $('.status-class').hide();
     var Status = GetStatusTile(d_project_data.status);
     $('#id_project').attr('data-id', d_project_data.id);
     $('#id_project_title').html(d_project_data.ifi_name);
@@ -195,6 +194,7 @@ function SetProjectDataInHtml(d_params, d_project_data, d_members_data, d_attach
     $('#id_status_title').html(Status.title).removeClass('in-progress pending').addClass(Status.class);
 
     if (d_project_data.status == 0) {
+        $('#id_buttons').show();
         $('#id_approve').show();
         $('#id_reject').show();
     }
@@ -209,10 +209,11 @@ function SetProjectDataInHtml(d_params, d_project_data, d_members_data, d_attach
     }
     d_members_data.forEach(function (val, index) {
         var img = val.image_url ? d_params.user_url + val.image_url : '/images/no-user.png';
+        var delete_m = __DecisionMakersMenage ? '<em data-id = "' + val.id + '" title="Remove member" class="remove-member">X</em>' : '';
         $('#id_project_members').append(
             '<div title="' + val.firstname + ' ' + val.lastname + '" class="project-member member-photo brd-rad-4">' +
             '<a href="#" class="d-block p-rel">' +
-            '<em data-id = "' + val.id + '" title="Remove member" class="remove-member">X</em>' +
+            delete_m +
             '<img src="' + img + '">' +
             '<em class="tooltip p-abs brd-rad-4 font-12 white-txt">' + val.firstname + ' ' + val.lastname + ' </em>' +
             '</a>' +
@@ -266,8 +267,9 @@ function GetChecklistsByProjectId(id) {
                     var members = '';
                     var status = val.status == 1 ? 'disabled-area' : '';
                     var checked = val.status == 1 ? 'checked' : '';
+                    var checkbox = __CheckListMenage ? '<input ' + checked + ' data-id="' + val.id + '" class="checkbox-checklist" type="checkbox" id="checklist-id-' + val.id + '"><strong class="bullet p-rel brd-+rad-4"></strong>' : '';
+                    var delete_c = __CheckListMenage ? '<span title="Delete checklist" data-id = "' + val.id + '" class = "delete-checklist">X</span>' : '';
                     val.members.forEach(function (m) {
-
                         var img = (m.image_url && m.image_url != 'null') ? '/uploads/' + m.image_url : '/uploads/no-user.png';
                         members += '<div title="' + m.firstname + ' ' + m.lastname + '" class="member-photo brd-rad-4">' +
                             '<a href="#" class="d-block p-rel">' +
@@ -279,13 +281,13 @@ function GetChecklistsByProjectId(id) {
                     $('#id_checklists_data').append(
                         '<div class="txt-without-icon p-rel ' + status + '">' +
                         '<label for="checklist-id-' + val.id + '" class="p-abs" style="left:0;">' +
-                        '<input ' + checked + ' data-id="' + val.id + '" class="checkbox-checklist" type="checkbox" id="checklist-id-' + val.id + '">' +
-                        '<strong class="bullet p-rel brd-+rad-4"></strong>' +
+                        checkbox +
                         '</label>' +
                         '<span title="Title" class="d-block font-w-500 margin-btn-5">' + val.title + '</span>' +
                         '<span title="Description" class="d-block gray-txt font-w-300 margin-btn-5">' + val.description + '</span>' +
                         members +
                         '<span title="Deadline" class="d-block red-txt font-w-300"> Deadline: ' + val.deadline + '</span>' +
+                        delete_c +
                         '</div>'
                     )
                 });

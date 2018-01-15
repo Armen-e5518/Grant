@@ -33,8 +33,11 @@ class CountriesController extends Controller
 
     public function beforeAction($action)
     {
-
-        if (!Yii::$app->rule_check->CheckByKay(['companies_menage'])) {
+        if (Yii::$app->user->isGuest) {
+            $this->redirect(['site/index']);
+            return false;
+        }
+        if (!Yii::$app->rule_check->CheckByKay(['countries_menage'])) {
             $this->redirect('/');
         }
         return parent::beforeAction($action);

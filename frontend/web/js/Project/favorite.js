@@ -1,8 +1,5 @@
 $(document).ready(function () {
-
-
-
-    $('.favorite-project').click(function () {
+    $(document).on('click', '.favorite-project', function (e) {
         var ob = $(this);
         var data = {};
         data.id = ob.attr('data-id');
@@ -23,6 +20,7 @@ $(document).ready(function () {
                 }
             }
         });
+        e.stopPropagation();
     })
 
 });

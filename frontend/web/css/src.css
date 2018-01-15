@@ -41,10 +41,12 @@
     display: flex;
     align-items: center;
 }
+
 .attachment .delete-attachment {
     cursor: pointer;
     margin-left: auto;
 }
+
 .attachment img {
     width: 100px;
     margin-right: 10px;
@@ -155,9 +157,30 @@ div#id_checklist_buttons button {
     background: #96d700;
     color: #fff !important;
 }
-#id_project_title{
+
+#id_project_title {
     overflow: hidden;
 }
-.filter-tools{
+
+.filter-tools {
     min-width: 125px;
+}
+
+#id_checklists_data .delete-checklist {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    color: #de012f;
+    display: none;
+    cursor: pointer;
+}
+
+#id_checklists_data .txt-without-icon:hover > .delete-checklist {
+    display: block;
+}
+#id_checklists_data .txt-without-icon:hover{
+    background-color: #e9ecef;
+}
+#id_project_title {
+    font-size: 20px;
 }

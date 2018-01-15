@@ -4,7 +4,7 @@ $(document).ready(function () {
     $('#id_add_members').click(function () {
         $(this).hide();
         $('#id_members').show();
-    })
+    });
 
     $(document).on('change', '#id_members', function () {
         var data = {};
@@ -36,4 +36,5 @@ $(document).ready(function () {
             }
         });
     })
+
 });

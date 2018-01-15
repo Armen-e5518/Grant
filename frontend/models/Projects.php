@@ -167,7 +167,6 @@ class Projects extends \yii\db\ActiveRecord
         if (!empty($params['f'])) {
             $query->rightJoin(ProjectFavorite::tableName() . ' f', 'f.project_id = p.id AND f.user_id = ' . Yii::$app->user->identity->getId());
         }
-
         if (
             !empty($params['pending_approval'])
             || !empty($params['in_progress'])
@@ -300,11 +299,12 @@ class Projects extends \yii\db\ActiveRecord
 //        if($kay == 0){
 //            return 'Deleted';
 //        }
-        if($kay == 1){
+        if ($kay == 1) {
             return 'Active';
         }
-        if($kay == 2){
+        if ($kay == 2) {
             return 'Archive';
         }
+        return '';
     }
 }

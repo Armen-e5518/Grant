@@ -18,12 +18,9 @@ $(document).ready(function () {
 
 
     $('#id_attach_file').click(function () {
-        console.log(888)
         $('#fileuploader').show();
         $('#id_attach_file').hide();
-
         var project_id = $('#id_project').attr('data-id');
-        console.log(project_id)
         $("#fileuploader").uploadFile({
             url: "/file/upload",
             fileName: "myfile",

@@ -118,5 +118,12 @@ class ProjectChecklists extends \yii\db\ActiveRecord
         return false;
     }
 
+    public static function DeleteChecklistById($id = null)
+    {
+        if (!empty($id)) {
+            return self::deleteAll(['id' => $id]);
+        }
+        return false;
+    }
 
 }

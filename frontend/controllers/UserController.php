@@ -36,7 +36,10 @@ class UserController extends Controller
 
     public function beforeAction($action)
     {
-
+        if (Yii::$app->user->isGuest) {
+            $this->redirect(['site/index']);
+            return false;
+        }
         if (!Yii::$app->rule_check->CheckByKay(['members_menage'])) {
             $this->redirect('/');
         }

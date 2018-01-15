@@ -12,6 +12,7 @@ use frontend\models\User;
 use Yii;
 use frontend\models\Projects;
 use frontend\models\search\ProjectsSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -22,30 +23,14 @@ use yii\web\UploadedFile;
  */
 class ProjectsController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+
 
     public function beforeAction($action)
     {
-//      'index',
-//      'create',
-//      'update',
-//      'delete',
-//      'delete-project',
-//      'add-archive',
-
+        if (Yii::$app->user->isGuest) {
+            $this->redirect(['site/index']);
+            return false;
+        }
         $action_id = Yii::$app->controller->action->id;
         if (Helper::CheckAction(
             [

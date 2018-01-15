@@ -29,6 +29,9 @@ class CheckRules extends Component
     function init()
     {
         parent::init();
+        if (\Yii::$app->user->isGuest) {
+            return;
+        }
         $this->user_rules = UserRules::GetUserRules(\Yii::$app->user->identity->getId());
     }
 

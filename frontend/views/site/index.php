@@ -20,6 +20,7 @@ $this->registerJsFile('//hayageek.github.io/jQuery-Upload-File/4.0.11/jquery.upl
 $this->registerJsFile('//cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js');
 
 $this->registerJsFile('/js/Jquery/jquery.timeago.js');
+$this->registerJsFile('/js/Project/update-projects.js');
 $this->registerJsFile('/js/Project/SaveTexts.js');
 $this->registerJsFile('/js/Project/attachments.js');
 $this->registerJsFile('/js/Project/favorite.js');
@@ -92,21 +93,7 @@ $this->title = 'Grant Thornton';
                         </label>
                     </div>
                 </div>
-                <div class="center-area" id="projects">
-                    <?php if (!empty($date)): ?>
-                        <?php foreach ($date as $kay => $projects): ?>
-                            <fieldset class="posts-list">
-                                <legend class="font-12 txt-center black-txt txt-upper"><?= $kay ?></legend>
-                                <?php foreach ($projects as $k => $project): ?>
-                                    <?= $this->render('project', [
-                                        'project' => $project,
-                                        'favorites' => $favorites,
-                                    ]) ?>
-                                <?php endforeach; ?>
-                            </fieldset>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
+                <div class="center-area" id="projects"></div>
             </div>
         </div>
     </div>
@@ -192,7 +179,11 @@ $this->title = 'Grant Thornton';
          class="filtering-popup card-detail-popup brd-rad-4 font-15 p-rel">
         <i class="popup-close p-abs" title="Close"></i>
         <div class="card-detail-title txt-without-icon">
-            <textarea id="id_project_title" class="font-w-700 brd-rad-4 w-100-perc"></textarea>
+            <?php if (Yii::$app->rule_check->CheckByKay(['add_new_and_menage_prospects'])): ?>
+                <textarea id="id_project_title" class="font-w-700 brd-rad-4 w-100-perc"></textarea>
+            <?php else: ?>
+                <h1 id="id_project_title" class="font-w-700 brd-rad-4 w-100-perc"></h1>
+            <?php endif; ?>
         </div>
         <div class="card-body">
             <div class="card-post-items">
@@ -203,17 +194,21 @@ $this->title = 'Grant Thornton';
                     <div class="post-responsible-people font-15 font-w-700">
                         <span class="d-block">Responsible people</span>
                         <span id="id_project_members"></span>
-                        &nbsp;
-                        <a href="#" id="id_add_members" title="Add members" class="add-member font-14 font-w-700"><i
-                                    class="fa fa-user-plus"></i>Assign other members</a>
-                        <select id="id_members" title="Select a member" style="display: none"
-                                class="change-status-type padding-5 transparent-bg  gray-txt font-15">
-                            <option value="0">Select a members</option>
-                        </select>
+                        <?php if (Yii::$app->rule_check->CheckByKay(['add_new_decision_makers'])): ?>
+                            <a href="#" id="id_add_members" title="Add members" class="add-member font-14 font-w-700"><i
+                                        class="fa fa-user-plus"></i>Assign other members</a>
+                            <select id="id_members" title="Select a member" style="display: none"
+                                    class="change-status-type padding-5 transparent-bg  gray-txt font-15">
+                                <option value="0">Select a members</option>
+                            </select>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="txt-without-icon">
-                    Description <a href="#" title="Edit project description" id="id_edit_project_des">Edit</a>
+                    Description
+                    <?php if (Yii::$app->rule_check->CheckByKay(['add_new_and_menage_prospects'])): ?>
+                        <a href="#" title="Edit project description" id="id_edit_project_des">Edit</a>
+                    <?php endif; ?>
                     <span id="id_project_des" class="d-block description-txt"></span>
                     <textarea style="display: none"
                               class="d-block description-txt w-100-perc"
@@ -224,18 +219,20 @@ $this->title = 'Grant Thornton';
                     <h6 class="font-w-700 font-16">Attachments</h6>
                 </div>
                 <span id="id_project_attachments"></span>
-
-                <div class="txt-without-icon">
-                    <div id="fileuploader" style="display: none">Upload</div>
-                    <a href="#" title="Attach new file" id="id_attach_file" class="add-member font-14 font-w-700"><i
-                                class="fa fa-paperclip"></i>Attach file</a>
-                </div>
+                <?php if (Yii::$app->rule_check->CheckByKay(['add_new_and_menage_prospects'])): ?>
+                    <div class="txt-without-icon">
+                        <div id="fileuploader" style="display: none">Upload</div>
+                        <a href="#" title="Attach new file" id="id_attach_file" class="add-member font-14 font-w-700"><i
+                                    class="fa fa-paperclip"></i>Attach file</a>
+                    </div>
+                <?php endif; ?>
                 <br>
                 <div id="id_checklist_block" style="display: none">
                     <div class="txt-with-icon no-margin">
                         <h6 class="font-w-700 font-15 txt-upper"><i class="fa fa-calendar-check-o"></i>Checklist</h6>
-                        &nbsp;
-                        <a href="#edit" title="Edit checklist" id="id_checklist_edit">Edit</a>
+                        &nbsp;<?php if (Yii::$app->rule_check->CheckByKay(['assign_tasks'])): ?>
+                            <a href="#edit" title="Edit checklist" id="id_checklist_edit">Edit</a>
+                        <?php endif; ?>
                     </div>
                     <div class="txt-with-icon">
                         <div class="post-priority d-flex w-100-perc gray-bg">
@@ -262,12 +259,11 @@ $this->title = 'Grant Thornton';
                     <div class="w-100-perc">
                         <textarea id="id_comment"
                                   class="d-block font-w-300 brd-rad-4 w-100-perc"
-                                  placeholder="Wright a comment..."></textarea>
+                                  placeholder="Write a comment..."></textarea>
                         <button class="font-13 white-bg font-w-300"
                                 id="id_sent_comment"
                                 title="Submit comment"
-                                readonly>Send
-                        </button>
+                                readonly>Send</button>
                     </div>
                 </div>
                 <span id="id_commnets_data"></span>
@@ -296,123 +292,127 @@ $this->title = 'Grant Thornton';
                     </li>
                 </ul>
                 <div id="id_buttons">
-                    <ul>
-                        <li>
-                            <button style="display: none"
-                                    id="id_submit"
-                                    title="Submit project"
-                                    class="txt-upper green-txt transparent-bg green-border font-18 w-100-perc font-w-700 padding-5">
-                                <i class="fa fa-check"></i> Submit
-                            </button>
-                        </li>
-                        <li>
-                            <button style="display:none;"
-                                    id="id_approve"
-                                    title="Approve project"
-                                    class="txt-upper green-bg white-txt no-border font-18 w-100-perc font-w-700 padding-5">
-                                <i class="fa fa-check"></i> Approve
-                            </button>
-                        </li>
-                        <li>
-                            <button style="display:none;"
-                                    id="id_reject"
-                                    title="Reject project"
-                                    class="txt-upper transparent-bg red-border font-15 w-100-perc font-w-700">
-                                <i class="fa fa-times"></i> Dismiss
-                            </button>
-                        </li>
-                        <li>
-                            <button style="display:none;"
-                                    id="id_accepted"
-                                    title="Accepted project"
-                                    class="txt-upper green-txt transparent-bg green-border font-18 w-100-perc font-w-700 padding-5">
-                                <i class="fa fa-check"></i> Accepted
-                            </button>
-                        </li>
-                        <li>
-                            <button style="display:none;"
-                                    id="id_closed"
-                                    title="Closed project"
-                                    class="txt-upper transparent-bg red-border font-15 w-100-perc font-w-700">
-                                <i class="fa fa-times"></i> Rejected
-                            </button>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li>
-                            <select style="display: none"
-                                    id="id_change_status"
-                                    class="change-status-type padding-5 transparent-bg  gray-txt font-15 w-100-perc">
-                                <option>Change status</option>
-                                <?php foreach ($stats as $kay => $s): ?>
-                                    <option value="<?= $kay ?>"><?= $s ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li>
-                            <button style="display:none;"
-                                    id="id_add_checklist"
-                                    class="transparent-bg violet-border violet-txt font-15 w-100-perc font-w-500">
-                                <i class="fa fa-calendar-check-o"></i> Create checklist
-                            </button>
+                    <?php if (Yii::$app->rule_check->CheckByKay(['status_changes'])): ?>
+                        <ul>
+                            <li>
+                                <button style="display: none"
+                                        id="id_submit"
+                                        title="Submit project"
+                                        class="txt-upper status-class green-txt transparent-bg green-border font-18 w-100-perc font-w-700 padding-5">
+                                    <i class="fa fa-check"></i> Submit
+                                </button>
+                            </li>
+                            <li>
+                                <button style="display:none;"
+                                        id="id_approve"
+                                        title="Approve project"
+                                        class="txt-upper status-class green-bg white-txt no-border font-18 w-100-perc font-w-700 padding-5">
+                                    <i class="fa fa-check"></i> Approve
+                                </button>
+                            </li>
+                            <li>
+                                <button style="display:none;"
+                                        id="id_reject"
+                                        title="Reject project"
+                                        class="txt-upper status-class transparent-bg red-border font-15 w-100-perc font-w-700">
+                                    <i class="fa fa-times"></i> Dismiss
+                                </button>
+                            </li>
+                            <li>
+                                <button style="display:none;"
+                                        id="id_accepted"
+                                        title="Accepted project"
+                                        class="txt-upper status-class green-txt transparent-bg green-border font-18 w-100-perc font-w-700 padding-5">
+                                    <i class="fa fa-check"></i> Accepted
+                                </button>
+                            </li>
+                            <li>
+                                <button style="display:none;"
+                                        id="id_closed"
+                                        title="Closed project"
+                                        class="txt-upper status-class transparent-bg red-border font-15 w-100-perc font-w-700">
+                                    <i class="fa fa-times"></i> Rejected
+                                </button>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <select style="display: none"
+                                        id="id_change_status"
+                                        class="change-status-type padding-5 transparent-bg  gray-txt font-15 w-100-perc">
+                                    <option>Change status</option>
+                                    <?php foreach ($stats as $kay => $s): ?>
+                                        <option value="<?= $kay ?>"><?= $s ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </li>
+                        </ul>
+                    <?php endif; ?>
+                    <?php if (Yii::$app->rule_check->CheckByKay(['assign_tasks'])): ?>
+                        <ul>
+                            <li>
+                                <button style="display:none;"
+                                        id="id_add_checklist"
+                                        class="transparent-bg violet-border violet-txt font-15 w-100-perc font-w-500">
+                                    <i class="fa fa-calendar-check-o"></i> Create checklist
+                                </button>
 
-                            <div style="display: none" id="id_create_checklist"
-                                 class="subpopup filtering-popup card-detail-popup brd-rad-4 p-rel">
-                                <div class="list-data">
-                                    <span>Title</span>
-                                    <input id="id_checklist_title"
-                                           type="text"
-                                           class="d-block font-w-300 brd-rad-4 w-100-perc">
-                                </div>
-                                <div class="list-data">
-                                    <span>Description</span>
-                                    <div class="txt-without-icon no-padding">
+                                <div style="display: none" id="id_create_checklist"
+                                     class="subpopup filtering-popup card-detail-popup brd-rad-4 p-rel">
+                                    <div class="list-data">
+                                        <span>Title</span>
+                                        <input id="id_checklist_title"
+                                               type="text"
+                                               class="d-block font-w-300 brd-rad-4 w-100-perc">
+                                    </div>
+                                    <div class="list-data">
+                                        <span>Description</span>
+                                        <div class="txt-without-icon no-padding">
                                     <textarea id="id_checklist_desc"
                                               class="d-block font-w-300 brd-rad-4 w-100-perc"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="list-data">
+                                        <span>Deadline</span>
+                                        <input id="id_checklist_deadline"
+                                               type="text"
+                                               class="d-block font-w-300 brd-rad-4 w-100-perc">
+                                    </div>
+                                    <div class="post-responsible-people font-15 font-w-700">
+                                        <span class="d-block">Responsible people</span>
+                                        <span id="id_checklist_members"></span>
+                                        &nbsp;
+                                        <a href="#" id="id_checklist_add_members" title="Add members"
+                                           class="add-member font-14 font-w-700">
+                                            <i class="fa fa-user-plus"></i>Assign other members
+                                        </a>
+                                        <select id="id_checklist_members_list"
+                                                title="Select a member"
+                                                style="display: none"
+                                                class="change-status-type padding-5 transparent-bg  gray-txt font-15">
+                                            <option>Select a members</option>
+                                        </select>
+                                    </div>
+                                    <!--                            <label for="checklist-status" style="width:auto;">-->
+                                    <!--                                <input type="checkbox" id="checklist-status">-->
+                                    <!--                                <strong class="bullet p-rel brd-rad-4"></strong>-->
+                                    <!--                                <span class="font-w-300">Checklist Status</span>-->
+                                    <!--                            </label>-->
+                                    <div class="list-data" id="id_checklist_buttons">
+
+                                        <button title="Save" id="id_save_checklist"
+                                                class="red-border d-block font-15 white-bg font-w-700">
+                                            Create
+                                        </button>
+                                        <button title="Cencel" id="id_cancel_checklist"
+                                                class="red-border d-block font-15 white-bg font-w-700">
+                                            Cancel
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="list-data">
-                                    <span>Deadline</span>
-                                    <input id="id_checklist_deadline"
-                                           type="text"
-                                           class="d-block font-w-300 brd-rad-4 w-100-perc">
-                                </div>
-                                <div class="post-responsible-people font-15 font-w-700">
-                                    <span class="d-block">Responsible people</span>
-                                    <span id="id_checklist_members"></span>
-                                    &nbsp;
-                                    <a href="#" id="id_checklist_add_members" title="Add members"
-                                       class="add-member font-14 font-w-700">
-                                        <i class="fa fa-user-plus"></i>Assign other members
-                                    </a>
-                                    <select id="id_checklist_members_list"
-                                            title="Select a member"
-                                            style="display: none"
-                                            class="change-status-type padding-5 transparent-bg  gray-txt font-15">
-                                        <option>Select a members</option>
-                                    </select>
-                                </div>
-                                <!--                            <label for="checklist-status" style="width:auto;">-->
-                                <!--                                <input type="checkbox" id="checklist-status">-->
-                                <!--                                <strong class="bullet p-rel brd-rad-4"></strong>-->
-                                <!--                                <span class="font-w-300">Checklist Status</span>-->
-                                <!--                            </label>-->
-                                <div class="list-data" id="id_checklist_buttons">
-
-                                    <button title="Save" id="id_save_checklist"
-                                            class="red-border d-block font-15 white-bg font-w-700">
-                                        Create
-                                    </button>
-                                    <button title="Cencel" id="id_cancel_checklist"
-                                            class="red-border d-block font-15 white-bg font-w-700">
-                                        Cancel
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -440,3 +440,9 @@ $this->title = 'Grant Thornton';
         </svg>
     </div>
 </div>
+
+<script>
+    var __Get = <?=json_encode($get)?>;
+    var __CheckListMenage = <?=(Yii::$app->rule_check->CheckByKay(['assign_tasks'])) ? 1 : 0?>;
+    var __DecisionMakersMenage = <?=(Yii::$app->rule_check->CheckByKay(['add_new_decision_makers'])) ? 1 : 0?>;
+</script>

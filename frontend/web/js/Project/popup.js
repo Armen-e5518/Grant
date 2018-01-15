@@ -1,25 +1,19 @@
 $(document).ready(function () {
 
-    $('#popup-project .filtering-popup, #projects a ').click(function (e) {
-        // console.log('stopPropagation')
+    $('#popup-project .filtering-popup, #projects a').click(function (e) {
         e.stopPropagation();
-    })
+    });
 
-    // $('#projects .project').click(function (e) {
-    //     $('#popup-project').addClass('active-popup')
-    //     e.stopPropagation();
-    // });
+    $('.popup-close').click(function (e) {
+        $('#popup-filtering').removeClass('active-popup')
+    });
 
     $('#popup-project,i.popup-close').click(function (e) {
         $('#id_project').hide();
         $('#id_loader').show();
-        location.reload();
+        clearInterval(commentInterval);
+        UpdateProjectList();
         e.stopPropagation();
     })
 
-
 });
-
-function DataUpdateIndex() {
-    
-}

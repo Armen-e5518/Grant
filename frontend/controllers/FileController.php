@@ -27,6 +27,10 @@ class FileController extends Controller
      */
     public function beforeAction($action)
     {
+        if (Yii::$app->user->isGuest) {
+            $this->redirect(['site/index']);
+            return false;
+        }
         $this->enableCsrfValidation = false;
         return parent::beforeAction($action);
     }
@@ -60,6 +64,5 @@ class FileController extends Controller
                 echo $error;
             }
         }
-
     }
 }

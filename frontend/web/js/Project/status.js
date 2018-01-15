@@ -93,6 +93,7 @@ $(document).ready(function () {
 
 function ApproveStatus() {
     $('#id_checklist_block').show();
+    $('#id_buttons').show();
     // $('#id_change_status').show();
     $('#id_add_checklist').show();
     $('#id_submit').show();
@@ -100,6 +101,7 @@ function ApproveStatus() {
     $('#id_reject').hide();
 }
 function SubmitStatus() {
+    $('#id_buttons').show();
     $('#id_submit').hide();
     $('#id_checklist_block').show();
     // $('#id_change_status').show();

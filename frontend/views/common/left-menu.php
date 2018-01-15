@@ -22,7 +22,7 @@
         <?php endif; ?>
         <!--        <li><a href="#" class="d-block reports no-underline white-txt"><i class="fa fa-bar-chart"></i>Reports</a>-->
         <!--        </li>-->
-        <?php if (Yii::$app->rule_check->CheckByKay(['companies_menage'])): ?>
+        <?php if (Yii::$app->rule_check->CheckByKay(['countries_menage'])): ?>
             <li><a href="/countries"
                    class="d-block  <?= $active == 'country' ? 'active' : '' ?> countries no-underline white-txt"><i
                             class="fa fa-globe"></i>Countries</a>

@@ -27,6 +27,9 @@ class AjaxController extends Controller
 
     public function beforeAction($action)
     {
+        if (Yii::$app->user->isGuest) {
+            return 'Not login';
+        }
         $this->enableCsrfValidation = false;
         return parent::beforeAction($action);
     }
@@ -244,4 +247,28 @@ class AjaxController extends Controller
             }
         }
     }
+
+    public function actionUpdateProjectsList()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_HTML;
+            $post = Yii::$app->request->post();
+            $this->layout = false;
+            return $this->render('projects', [
+                'get' => $post
+            ]);
+        }
+    }
+
+    public function actionDeleteChecklistById()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                return ProjectChecklists::DeleteChecklistById($post['id']);
+            }
+        }
+    }
+
 }

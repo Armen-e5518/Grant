@@ -1,10 +1,10 @@
 $(document).ready(function () {
 
     $('#id_add_checklist').click(function () {
-        $('#id_checklist_members').html('')
-        $('#id_checklist_title').val('')
-        $('#id_checklist_desc').val('')
-        $('#id_checklist_deadline').val('')
+        $('#id_checklist_members').html('');
+        $('#id_checklist_title').val('');
+        $('#id_checklist_desc').val('');
+        $('#id_checklist_deadline').val('');
         $('#id_create_checklist').show();
         GetAllUsersChecklist()
     });
@@ -48,13 +48,33 @@ $(document).ready(function () {
         });
     });
 
+    $('#id_checklists_data').on('click', '.delete-checklist', function (e) {
+        if (confirm("Do you really want to delete checklist!") == true) {
+            var data = {};
+            data.id = $(this).attr('data-id');
+            $.ajax({
+                type: "POST",
+                url: "/ajax/delete-checklist-by-id",
+                data: data,
+                success: function (res) {
+                    if (res) {
+                        GetChecklistsByProjectId($('#id_project').attr('data-id'))
+                    }
+                }
+            });
+        }
+    });
+
     $('#id_checklist_edit').click(function () {
         $('#id_checklists_data .txt-without-icon').removeClass('disabled-area');
     });
 
     $('#id_checklist_members').on('click', '.remove-member', function () {
         $(this).closest('.checklist-member-add').remove();
-    })
+        $('#id_checklist_members_list').append(
+            '<option data-img = "' + $(this).attr('data-img') + '"  value="' + $(this).attr('data-id') + '">' + $(this).attr('data-name') + '</option>'
+        )
+    });
 
     $(document).on('change', '#id_checklist_members_list', function () {
         var id = $('#id_checklist_members_list option:selected').val();
@@ -63,9 +83,9 @@ $(document).ready(function () {
         var img = (img_o && img_o != 'null') ? '/uploads/' + img_o : '/uploads/no-user.png';
 
         $('#id_checklist_members').append(
-            '<div data-id="' + id + '" class="checklist-member-add member-photo brd-rad-4">' +
+            '<div title="' + name + '" data-id="' + id + '" class="checklist-member-add member-photo brd-rad-4">' +
             '<a href="#" class="d-block p-rel">' +
-            '<em data-id="' + id + '" title="Remove member" class="remove-member">X</em>' +
+            '<em data-id="' + id + '" title="Remove member" data-img="' + img_o + '" data-name = "' + name + '" class="remove-member">X</em>' +
             '<img src="' + img + '">' +
             '<em class="tooltip p-abs brd-rad-4 font-12 white-txt">' + name + ' </em>' +
             '</a>' +
@@ -86,10 +106,6 @@ $(document).ready(function () {
         $('#id_checklist_members_list').show();
     });
 
-
-    $('#aaa').click(function () {
-
-    })
 });
 
 function GetAllUsersChecklist() {
