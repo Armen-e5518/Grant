@@ -5,6 +5,7 @@ namespace frontend\models;
 use kartik\helpers\Html;
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 use yii\web\UploadedFile;
 
 /**
@@ -151,14 +152,24 @@ class Projects extends \yii\db\ActiveRecord
      */
     public static function GetAllProjects($params = null)
     {
-
         $query = (new \yii\db\Query())
             ->select(
                 [
                     'p.*',
                 ])
-            ->from('projects as p');
-
+            ->from('projects as p')
+            ->leftJoin(ProjectCountries::tableName() . ' pce', 'pce.project_id = p.id AND pce.country_id = ' . Yii::$app->user->identity->country_id)
+            ->leftJoin(ProjectMembers::tableName() . ' pme', 'pme.project_id = p.id AND pme.user_id = ' . Yii::$app->user->identity->getId())
+            ->andFilterWhere(['OR',
+//                ['pme.id IS not null'],
+//                ['not', ['pme.id' => null]],
+                ['IS NOT', 'pme.id', (new Expression('Null'))],
+                ['IS NOT', 'pce.id', (new Expression('Null'))],
+//                ['not', ['pce.id' => null]],
+//                ['pce.id IS not null'],
+//                ['is not', 'pce.id', null]
+            ]);
+//        WHERE pm.id IS not null or pc.id  is not null
         if (!empty($params['a'])) {
             $query->andWhere(['p.state' => self::STATUS_ARCHIVE]);
         } else {
@@ -197,8 +208,7 @@ class Projects extends \yii\db\ActiveRecord
             $query->andFilterWhere($q);
         }
         if (!empty($params['country'])) {
-            $query->rightJoin(ProjectCountries::tableName() . ' pc', 'pc.project_id = p.id');
-            $query->andWhere(['pc.country_id' => $params['country']]);
+            $query->andWhere(['pce.country_id' => $params['country']]);
         }
         if (!empty($params['deadline_from']) && !empty($params['deadline_to'])) {
             $query->andWhere(['between', 'p.deadline', $params['deadline_from'], $params['deadline_to']]);

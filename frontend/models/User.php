@@ -45,7 +45,7 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['imageFile'], 'file', 'extensions' => 'png, jpg'],
-            [['username', 'lastname', 'firstname', 'email'], 'required'],
+            [['username', 'lastname', 'firstname', 'email','country_id'], 'required'],
             [['status', 'created_at', 'updated_at', 'country_id', 'company_id'], 'integer'],
             [['username', 'lastname', 'firstname', 'password_hash', 'password_reset_token', 'email', 'image_url'], 'string', 'max' => 255],
             [['auth_key', 'email'], 'string', 'max' => 32],

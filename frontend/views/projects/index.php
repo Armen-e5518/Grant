@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use kartik\export\ExportMenu;
 
 $this->registerCssFile('/css/src.css');
 $this->registerCssFile('/main/assets/css/style.css');
@@ -27,74 +28,33 @@ $this->params['breadcrumbs'][] = $this->title;
                 <span class="font-14 font-w-300 gray-txt"><?= Html::encode($this->title) ?></span>
             </div>
             <div>
-                <?= GridView::widget([
+
+                <?php
+                $gridColumns = [
+                    ['class' => 'yii\grid\SerialColumn'],
+                    'id',
+                    'ifi_name',
+                    'project_name',
+                    'tender_stage',
+                    'deadline',
+                    ['class' => 'yii\grid\ActionColumn'],
+                ];
+
+                // Renders a export dropdown menu
+//                echo ExportMenu::widget([
+//                    'dataProvider' => $dataProvider,
+//                    'columns' => $gridColumns
+//                ]);
+
+                // You can choose to render your own GridView separately
+                echo \kartik\grid\GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
-                    'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
+                    'columns' => $gridColumns
+                ]);
+                ?>
 
-//                        'id',
-                        'ifi_name',
-                        'project_name',
-//                        'project_dec',
-                        'tender_stage',
-                        // 'request_issued',
-                        'deadline',
-                        // 'budget',
-                        // 'duration',
-                        // 'eligibility_restrictions',
-                        // 'selection_method',
-                        // 'submission_method',
-                        // 'evaluation_decision_making',
-                        // 'beneficiary_stakeholder',
-//                        'status',
-                        [
-                            'attribute' => 'status',
-//                'format' => 'html',
-                            'value' => function ($data) {
-                                return $data->GetSatusTitelByKay($data->status);
-                            },
-                        ],
-                        // 'state',
-                        [
-                            'attribute' => 'state',
-//                'format' => 'html',
-                            'value' => function ($data) {
-                                return $data->GetProductState($data->state);
-                            },
-                        ],
-                        // 'create_de',
-                        // 'update_de',
 
-                        [
-                            'class' => 'yii\grid\ActionColumn',
-                            'header' => 'Actions',
-                            'headerOptions' => ['style' => 'color:#337ab7'],
-                            'template' => '{update}{delete}',
-                            'buttons' => [
-                                'view' => function ($url, $model) {
-                                    return Html::a('<i class="fa fa-eye" aria-hidden="true"></i>', $url, [
-                                        'title' => Yii::t('app', 'lead-view'),
-                                    ]);
-                                },
-                                'update' => function ($url, $model) {
-                                    return Html::a('<i class="fa fa-pencil" aria-hidden="true"></i>', $url, [
-                                        'title' => Yii::t('app', 'lead-update'),
-                                    ]);
-                                },
-                                'delete' => function ($url, $model) {
-                                    return Html::a('<i class="fa fa-trash-o" aria-hidden="true"></i>', $url, [
-                                        'title' => Yii::t('app', 'Delete'),
-                                        'aria-label' => 'Delete',
-                                        'data-pjax' => '0',
-                                        'data-confirm' => 'Are you sure you want to delete this item?',
-                                        'data-method' => 'post',
-                                    ]);
-                                }
-                            ],
-                        ],
-                    ],
-                ]); ?>
             </div>
         </div>
     </div>

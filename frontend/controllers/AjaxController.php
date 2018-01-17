@@ -2,9 +2,7 @@
 
 namespace frontend\controllers;
 
-
 use frontend\components\Helper;
-use frontend\models\ChecklistUsers;
 use frontend\models\ProjectAttachments;
 use frontend\models\ProjectChecklists;
 use frontend\models\ProjectComments;
@@ -13,7 +11,6 @@ use frontend\models\ProjectFavorite;
 use frontend\models\ProjectMembers;
 use frontend\models\Projects;
 use frontend\models\User;
-use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 use Yii;
 use yii\web\Controller;
 use \yii\web\Response;
