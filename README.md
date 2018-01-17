@@ -1,21 +1,11 @@
-Yii 2 Advanced Project Template
+GrantThornton 
 ===============================
 
-Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-developing complex Web applications with multiple tiers.
+Grant Thornton is one of the world's leading organisations of independent assurance, tax and advisory firms.
 
-The template includes three tiers: front end, back end, and console, each of which
-is a separate Yii application.
-
-The template is designed to work in a team development environment. It supports
-deploying the application in different environments.
-
-Documentation is at [docs/guide/README.md](docs/guide/README.md).
-
-[![Latest Stable Version](https://poser.pugx.org/yiisoft/yii2-app-advanced/v/stable.png)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Total Downloads](https://poser.pugx.org/yiisoft/yii2-app-advanced/downloads.png)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Build Status](https://travis-ci.org/yiisoft/yii2-app-advanced.svg?branch=master)](https://travis-ci.org/yiisoft/yii2-app-advanced)
-
+Grant Thornton CJSC, the Armenian member of Grant Thornton International, is a multi-professional group of public accountants and auditors, specialist advisers in finance, business and management, as well as tax and legal advisers.  
+Grant Thornton was founded in early 1990s by Grant Thornton (France), organized by a common professional vision and especially focused on providing high quality services to its clients. 
+Grant Thornton Armenia is the leading audit and advisory services firm in the market, sharing the Grant Thornton philosophy worldwide. The firm provides partner-led, personalised services with high end professional standards and approaches dedicated to the needs of dynamic, growth orientated organizations of public and private sectors.
 DIRECTORY STRUCTURE
 -------------------
 
