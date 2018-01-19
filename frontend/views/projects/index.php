@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
 use kartik\export\ExportMenu;
 
 $this->registerCssFile('/css/src.css');
@@ -28,33 +27,30 @@ $this->params['breadcrumbs'][] = $this->title;
                 <span class="font-14 font-w-300 gray-txt"><?= Html::encode($this->title) ?></span>
             </div>
             <div>
-
                 <?php
                 $gridColumns = [
-                    ['class' => 'yii\grid\SerialColumn'],
-                    'id',
+//                    ['class' => 'yii\grid\SerialColumn'],
+//                    'id',
                     'ifi_name',
                     'project_name',
                     'tender_stage',
                     'deadline',
                     ['class' => 'yii\grid\ActionColumn'],
                 ];
-
-                // Renders a export dropdown menu
-//                echo ExportMenu::widget([
-//                    'dataProvider' => $dataProvider,
-//                    'columns' => $gridColumns
-//                ]);
+                //Renders a export dropdown menu
+                echo ExportMenu::widget([
+                    'dataProvider' => $dataProvider,
+                    'columns' => $gridColumns,
+                    'target' => ExportMenu::TARGET_SELF,
+                ]);
 
                 // You can choose to render your own GridView separately
                 echo \kartik\grid\GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
-                    'columns' => $gridColumns
+                    'columns' => $gridColumns,
                 ]);
                 ?>
-
-
             </div>
         </div>
     </div>

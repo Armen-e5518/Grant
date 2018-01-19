@@ -178,9 +178,19 @@ div#id_checklist_buttons button {
 #id_checklists_data .txt-without-icon:hover > .delete-checklist {
     display: block;
 }
-#id_checklists_data .txt-without-icon:hover{
+
+#id_checklists_data .txt-without-icon:hover {
     background-color: #e9ecef;
 }
+
 #id_project_title {
     font-size: 20px;
+}
+
+#w0-cols-list .checkbox input {
+    display: block !important;
+}
+
+#w4 .glyphicon-eye-open {
+    display: none;
 }

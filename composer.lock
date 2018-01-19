@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9ecaed8875fc229bbf693dd3df04eb45",
-    "content-hash": "49368e91b583965983c7f2be7c47c44b",
+    "hash": "c3b38ba9af4aa0bda2e41db282382537",
+    "content-hash": "34bed0352bcc49fda01f0886f01e7e8b",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -891,16 +891,16 @@
         },
         {
             "name": "kartik-v/yii2-grid",
-            "version": "v3.1.7",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "77e9286993ae4e570e7576578043e31ab08b9ee3"
+                "reference": "aba039087dffa688729cbc881ff2665074c0d279"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/77e9286993ae4e570e7576578043e31ab08b9ee3",
-                "reference": "77e9286993ae4e570e7576578043e31ab08b9ee3",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/aba039087dffa688729cbc881ff2665074c0d279",
+                "reference": "aba039087dffa688729cbc881ff2665074c0d279",
                 "shasum": ""
             },
             "require": {
@@ -940,7 +940,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2017-11-23 15:43:16"
+            "time": "2018-01-08 11:00:44"
         },
         {
             "name": "kartik-v/yii2-helpers",
@@ -5281,7 +5281,8 @@
     "stability-flags": {
         "kartik-v/yii2-widget-select2": 20,
         "kartik-v/yii2-widget-activeform": 20,
-        "kartik-v/yii2-date-range": 20
+        "kartik-v/yii2-date-range": 20,
+        "kartik-v/yii2-grid": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
