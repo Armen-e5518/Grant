@@ -9,13 +9,15 @@ use frontend\models\ProjectAttachments;
 use frontend\models\ProjectCountries;
 use frontend\models\ProjectMembers;
 use frontend\models\User;
+
+//use \PhpOffice\PhpWord\PhpWord;
+//use PhpOffice\PhpWord;
+use PhpOffice\PhpWord\PhpWord;
 use Yii;
 use frontend\models\Projects;
 use frontend\models\search\ProjectsSearch;
-use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 
 /**
@@ -53,8 +55,7 @@ class ProjectsController extends Controller
      * Lists all Projects models.
      * @return mixed
      */
-    public
-    function actionIndex()
+    public function actionIndex()
     {
         $searchModel = new ProjectsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -65,17 +66,107 @@ class ProjectsController extends Controller
         ]);
     }
 
+    public function actionWordTest()
+    {
+
+        // Creating the new document...
+        $phpWord = new PhpWord();
+
+//        /var/www/html/Grant/vendor/phpoffice/phpword/src/PhpWord/PhpWord.php
+        /* Note: any element you append to a document must reside inside of a Section. */
+
+// Adding an empty Section to the document...
+        $section = $phpWord->addSection();
+// Adding Text element to the Section having font styled by default...
+        $section->addText(
+            '"Learn from yesterday, live for today, hope for tomorrow. '
+            . 'The important thing is not to stop questioning." '
+            . '(Albert Einstein)'
+        );
+
+        /*
+         * Note: it's possible to customize font style of the Text element you add in three ways:
+         * - inline;
+         * - using named font style (new font style object will be implicitly created);
+         * - using explicitly created font style object.
+         */
+
+// Adding Text element with font customized inline...
+        $section->addText(
+            '"Great achievement is usually born of great sacrifice, '
+            . 'and is never the result of selfishness." '
+            . '(Napoleon Hill)',
+            array('name' => 'Tahoma', 'size' => 10)
+        );
+
+// Adding Text element with font customized using named font style...
+        $fontStyleName = 'oneUserDefinedStyle';
+        $phpWord->addFontStyle(
+            $fontStyleName,
+            array('name' => 'Tahoma', 'size' => 10, 'color' => '1B2232', 'bold' => true)
+        );
+        $section->addText(
+            '"The greatest accomplishment is not in never falling, '
+            . 'but in rising again after you fall." '
+            . '(Vince Lombardi)',
+            $fontStyleName
+        );
+
+// Adding Text element with font customized using explicitly created font style object...
+        $fontStyle = new \PhpOffice\PhpWord\Style\Font();
+        $fontStyle->setBold(true);
+        $fontStyle->setName('Tahoma');
+        $fontStyle->setSize(13);
+        $myTextElement = $section->addText('"Believe you can and you\'re halfway there." (Theodor Roosevelt)');
+        $myTextElement->setFontStyle($fontStyle);
+
+// Saving the document as OOXML file...
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save('words/helloWorld.docx');
+
+    }
+
     /**
      * Displays a single Projects model.
      * @param integer $id
      * @return mixed
      */
-    public
-    function actionView($id)
+    public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $project = Projects::GetProjectDataById($id);
+        // Creating the new document...
+        $phpWord = new PhpWord();
+
+//        /var/www/html/Grant/vendor/phpoffice/phpword/src/PhpWord/PhpWord.php
+        /* Note: any element you append to a document must reside inside of a Section. */
+
+// Adding an empty Section to the document...
+        $section = $phpWord->addSection();
+        $fontStyle = new \PhpOffice\PhpWord\Style\Font();
+        $fontStyle->setBold(true);
+        $fontStyle->setName('Tahoma');
+        $fontStyle->setSize(13);
+        $myTextElement = $section->addText('Title...');
+        $section->addImage(
+            Yii::$app->params['domain'] . '/images/no-user.png',
+            array(
+                'width' => 100,
+                'marginRight' => 0,
+
+            )
+        );
+        $myTextElement->setFontStyle($fontStyle);
+        $section->addText('Text', ['size' => 12]);
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $file = 'words/project_' . $id . '.docx';
+        if (file_exists($file)) {
+            unlink($file);
+        }
+        $objWriter->save($file);
+        if (file_exists($file)) {
+            return Yii::$app->response->SendFile($file);
+
+        }
     }
 
     /**
@@ -83,8 +174,7 @@ class ProjectsController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public
-    function actionCreate()
+    public function actionCreate()
     {
         $errors = true;
         $model = new Projects();
@@ -128,8 +218,7 @@ class ProjectsController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public
-    function actionUpdate($id)
+    public function actionUpdate($id)
     {
         $errors = true;
         $model = $this->findModel($id);
@@ -178,8 +267,7 @@ class ProjectsController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public
-    function actionDelete($id)
+    public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
@@ -190,8 +278,7 @@ class ProjectsController extends Controller
      * @param $id
      * @return \yii\web\Response
      */
-    public
-    function actionDeleteProject($id)
+    public function actionDeleteProject($id)
     {
         $this->findModel($id)->delete();
 
@@ -216,8 +303,7 @@ class ProjectsController extends Controller
      * @return Projects the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected
-    function findModel($id)
+    protected function findModel($id)
     {
         if (($model = Projects::findOne($id)) !== null) {
             return $model;

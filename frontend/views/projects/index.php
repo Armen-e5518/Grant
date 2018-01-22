@@ -33,9 +33,35 @@ $this->params['breadcrumbs'][] = $this->title;
 //                    'id',
                     'ifi_name',
                     'project_name',
+                    'project_dec',
+                    'request_issued',
                     'tender_stage',
                     'deadline',
-                    ['class' => 'yii\grid\ActionColumn'],
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'header' => 'Actions',
+                        'headerOptions' => ['style' => 'color:#337ab7'],
+                        'template' => '{view}{update}{delete}',
+                        'buttons' => [
+                            'view' => function ($url, $model) {
+                                return Html::a('<span class="fa fa-file-word-o"></span>', $url, [
+                                    'title' => Yii::t('app', 'Download word'),
+                                ]);
+                            },
+
+                            'update' => function ($url, $model) {
+                                return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
+                                    'title' => Yii::t('app', 'lead-update'),
+                                ]);
+                            },
+                            'delete' => function ($url, $model) {
+                                return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                                    'title' => Yii::t('app', 'lead-delete'),
+                                ]);
+                            }
+
+                        ],
+                    ],
                 ];
                 //Renders a export dropdown menu
                 echo ExportMenu::widget([
