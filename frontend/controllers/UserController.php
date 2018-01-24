@@ -2,9 +2,11 @@
 
 namespace frontend\controllers;
 
+use frontend\components\Helper;
 use frontend\models\Companies;
 use frontend\models\Countries;
 use frontend\models\RulesName;
+use frontend\models\UserCountries;
 use frontend\models\UserRules;
 use Yii;
 use frontend\models\User;
@@ -54,6 +56,8 @@ class UserController extends Controller
     public function actionIndex()
     {
 
+//        Helper::SandMail('garmen5518@gmail.com','New comment', 'http://gtnew.apps.am/projects/update?id=39 dev');
+//        exit;
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -87,7 +91,7 @@ class UserController extends Controller
     {
         $model = new User();
         $rules = RulesName::GetRules();
-
+        $countries = Countries::GetCountries();
         if (Yii::$app->request->isPost) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             $name = $model->upload();
@@ -106,6 +110,7 @@ class UserController extends Controller
         return $this->render('create', [
             'model' => $model,
             'rules' => $rules,
+            'countries' => $countries,
         ]);
     }
 
@@ -122,7 +127,7 @@ class UserController extends Controller
         $user_rules = UserRules::GetUserRulesByUserId($id);
         $countries = Countries::GetCountries();
         $companies = Companies::GetCompanies();
-
+        $select_countries = UserCountries::GetCountriesByUserId($id);
         if (Yii::$app->request->isPost) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             $name = $model->upload();
@@ -131,19 +136,19 @@ class UserController extends Controller
             }
         }
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && UserCountries::SaveCountriesByUserId($id, Yii::$app->request->post('countries'))) {
             $id = $model->UpdateUser($id);
             if (!empty($id) && UserRules::SaveRulesByUserId(Yii::$app->request->post('rules'), $id)) {
-                return $this->redirect(['view', 'id' => $id]);
+                return $this->redirect(['index']);
             }
         }
-
         return $this->render('update', [
             'model' => $model,
             'rules' => $rules,
             'user_rules' => $user_rules,
-            'countries' => $countries,
             'companies' => $companies,
+            'countries' => $countries,
+            'select_countries' => $select_countries,
         ]);
     }
 

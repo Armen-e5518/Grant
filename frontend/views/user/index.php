@@ -62,6 +62,19 @@ $this->params['breadcrumbs'][] = $this->title;
                             },
                         ],
                         [
+                            'attribute' => 'Countries',
+                            'format' => 'html',
+                            'value' => function ($data) {
+                                $s = '<ul>';
+                                $countries = $data->GetCountriesByUserId(($data->id));
+                                foreach ($countries as $r) {
+                                    $s .= '<li>' . $r . '</li>';
+                                }
+                                $s .= '</ul>';
+                                return $s;
+                            },
+                        ],
+                        [
                             'attribute' => 'image_url',
                             'format' => 'html',
                             'value' => function ($data) {

@@ -16,6 +16,7 @@ $(document).ready(function () {
             data: data,
             success: function (res) {
                 if (res) {
+                    AddNewNotificationInUser(data.id, data.project_id,1);
                     var img_o = $('#id_members option:selected').attr('data-img');
                     var name = $('#id_members option:selected').html();
                     var id = $('#id_members option:selected').val();
@@ -38,3 +39,21 @@ $(document).ready(function () {
     })
 
 });
+
+
+function AddNewNotificationInUser(user_id, project_id, type) {
+    var data = {};
+    data.user_id = user_id
+    data.project_id = project_id;
+    data.type = type;
+    $.ajax({
+        type: "POST",
+        url: "/ajax/add-new-notification",
+        data: data,
+        success: function (res) {
+            if (res) {
+
+            }
+        }
+    });
+}

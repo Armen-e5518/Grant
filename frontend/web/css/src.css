@@ -190,3 +190,35 @@ div#id_checklist_buttons button {
 #w0-cols-list .checkbox input {
     display: block !important;
 }
+
+.notifications {
+    display: none;
+    font-size: 12px;
+    /*padding: 5px;*/
+    right: 47px;
+    height: 200px;
+    overflow: auto;
+    background: #f4f4f4;
+    width: 200px;
+    position: absolute;
+    border: 1px solid #e8e8e8;
+}
+
+.notifications li {
+    padding: 5px;
+}
+
+.notifications li a {
+    cursor: pointer;
+}
+
+.notifications li a:hover {
+    text-decoration: underline;
+}
+
+.notifications .active-not a {
+    color: #de012f;
+}
+.project-info span{
+    font-style: italic;
+}

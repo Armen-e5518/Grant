@@ -31,6 +31,7 @@ $this->registerJsFile('/js/Project/set-data-popup.js');
 $this->registerJsFile('/js/Project/Members.js');
 $this->registerJsFile('/js/Project/checklists.js');
 $this->registerJsFile('/js/Project/status.js');
+$this->registerJsFile('/js/notifications/not.js');
 
 
 $this->title = 'Grant Thornton';
@@ -67,6 +68,9 @@ $this->title = 'Grant Thornton';
                         </ul>
                     </div>
                     <div class="filter-tools filter-tools nowrap">
+                        <a href="#" id="notification" class="fa fa-bell-o feedback p-rel no-underline">
+                            <em style="display: none" class="p-abs white-txt txt-center font-w-700">2</em>
+                        </a>
                         <?php
                         $class = Yii::$app->request->Get('f') ? 'fa-star' : 'fa-star-o';
                         echo Html::a(
@@ -75,7 +79,6 @@ $this->title = 'Grant Thornton';
                             [
                                 'class' => 'fa ' . $class . ' rating no-underline',
                                 'title' => 'Favorite'
-
                             ]);
                         ?>
                         <?php
@@ -91,6 +94,12 @@ $this->title = 'Grant Thornton';
                         <label class="fa fa-filter filtering p-rel" for="show-filtering-popup" id="filtering-icon">
                             <i title="Others filters" class="fa fa-angle-down font-14"></i>
                         </label>
+                        <div class="notifications">
+                            <ul id="notifications_list">
+                                <li><a href="">Text</a></li>
+                                <li><a href="">Text</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="center-area" id="projects"></div>
@@ -214,7 +223,39 @@ $this->title = 'Grant Thornton';
                               class="d-block description-txt w-100-perc"
                               id="id_project_des_text"></textarea>
                 </div>
+                <!---------------------info-------------------------->
                 <br>
+                <div class="project-info">
+                    <div class="txt-without-icon" id="id_tender_stage">
+                        Tender stage:
+                        <span class="d-block description-txt"></span>
+                    </div>
+                    <div class="txt-without-icon" id="id_budget">
+                        Budget:
+                        <span class="d-block description-txt"></span>
+                    </div>
+                    <div class="txt-without-icon" id="id_duration">
+                        Duration:
+                        <span class="d-block description-txt"></span>
+                    </div>
+                    <div class="txt-without-icon" id="id_eligibility_restrictions">
+                        Eligibility Restrictions:
+                        <span class="d-block description-txt"></span>
+                    </div>
+                    <div class="txt-without-icon" id="id_selection_method">
+                        Selection Method:
+                        <span class="d-block description-txt"></span>
+                    </div>
+                    <div class="txt-without-icon" id="id_evaluation_decision_making">
+                        Evaluation Decision Making:
+                        <span class="d-block description-txt"></span>
+                    </div>
+                    <div class="txt-without-icon" id="id_beneficiary_stakeholder">
+                        Beneficiary Stakeholder:
+                        <span class="d-block description-txt"></span>
+                    </div>
+                </div>
+                <!----------------------------------------------->
                 <div class="txt-without-icon">
                     <h6 class="font-w-700 font-16">Attachments</h6>
                 </div>
@@ -263,7 +304,8 @@ $this->title = 'Grant Thornton';
                         <button class="font-13 white-bg font-w-300"
                                 id="id_sent_comment"
                                 title="Submit comment"
-                                readonly>Send</button>
+                                readonly>Send
+                        </button>
                     </div>
                 </div>
                 <span id="id_commnets_data"></span>
@@ -443,6 +485,7 @@ $this->title = 'Grant Thornton';
 
 <script>
     var __Get = <?=json_encode($get)?>;
+    var __UserId = <?=Yii::$app->user->getId()?>;
     var __CheckListMenage = <?=(Yii::$app->rule_check->CheckByKay(['assign_tasks'])) ? 1 : 0?>;
     var __DecisionMakersMenage = <?=(Yii::$app->rule_check->CheckByKay(['add_new_decision_makers'])) ? 1 : 0?>;
 </script>

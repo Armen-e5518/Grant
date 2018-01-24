@@ -21,6 +21,10 @@ use yii\base\Component;
 class Helper extends Component
 {
 
+    /**
+     * @param $data
+     * @return array
+     */
     public static function ChangeProjectsFormat($data)
     {
         $new_d = [];
@@ -31,6 +35,13 @@ class Helper extends Component
         return $new_d;
     }
 
+    /**
+     * @param $url
+     * @param $params
+     * @param $kay
+     * @param $value
+     * @return array
+     */
     public static function GetFilterUrl($url, $params, $kay, $value)
     {
 
@@ -42,6 +53,11 @@ class Helper extends Component
         return array_merge($url, $params);
     }
 
+    /**
+     * @param $url
+     * @param $params
+     * @return array
+     */
     public static function GetFilterResets($url, $params)
     {
         $new_params = [];
@@ -116,6 +132,11 @@ class Helper extends Component
         return $new_params;
     }
 
+    /**
+     * @param null $text1
+     * @param null $text2
+     * @return string
+     */
     public static function GetFirstCharacters($text1 = null, $text2 = null)
     {
         $c1 = !empty($text1{0}) ? $text1{0} : '';
@@ -123,6 +144,9 @@ class Helper extends Component
         return ucwords($c1) . ucwords($c2);
     }
 
+    /**
+     * @return string
+     */
     public static function GetUserCharacters()
     {
         $text1 = \Yii::$app->user->identity->firstname;
@@ -132,6 +156,9 @@ class Helper extends Component
         return ucwords($c1) . ucwords($c2);
     }
 
+    /**
+     * @return string
+     */
     public static function GetUserName()
     {
         $text1 = \Yii::$app->user->identity->firstname;
@@ -139,6 +166,10 @@ class Helper extends Component
         return $text1 . ' ' . $text2;
     }
 
+    /**
+     * @param $project_id
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function GetChecklist($project_id)
     {
         $Checklists = ProjectChecklists::GetChecklistsByProjectId($project_id);
@@ -148,6 +179,10 @@ class Helper extends Component
         return $Checklists;
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
     public static function GetStatusTitle($id)
     {
         $s = '';
@@ -185,6 +220,11 @@ class Helper extends Component
 
     }
 
+    /**
+     * @param $actions
+     * @param $action
+     * @return bool
+     */
     public static function CheckAction($actions, $action)
     {
         foreach ($actions as $a) {
@@ -194,4 +234,6 @@ class Helper extends Component
         }
         return false;
     }
+
+
 }

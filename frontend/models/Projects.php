@@ -158,7 +158,8 @@ class Projects extends \yii\db\ActiveRecord
                     'p.*',
                 ])
             ->from('projects as p')
-            ->leftJoin(ProjectCountries::tableName() . ' pce', 'pce.project_id = p.id AND pce.country_id = ' . Yii::$app->user->identity->country_id)
+//            ->leftJoin(ProjectCountries::tableName() . ' pce', 'pce.project_id = p.id AND pce.country_id = ' . Yii::$app->user->identity->country_id)
+            ->leftJoin(ProjectCountries::tableName() . ' pce', 'pce.project_id = p.id AND pce.country_id IN (' . UserCountries::GetCountriesByUserIdByImplode() . ')')
             ->leftJoin(ProjectMembers::tableName() . ' pme', 'pme.project_id = p.id AND pme.user_id = ' . Yii::$app->user->identity->getId())
             ->andFilterWhere(['OR',
 //                ['pme.id IS not null'],
@@ -206,6 +207,8 @@ class Projects extends \yii\db\ActiveRecord
                 array_push($q, ['p.status' => 5]);
             }
             $query->andFilterWhere($q);
+        } else {
+            $query->andWhere(['p.status' => 0]);
         }
         if (!empty($params['country'])) {
             $query->andWhere(['pce.country_id' => $params['country']]);

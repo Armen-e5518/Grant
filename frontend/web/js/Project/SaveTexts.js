@@ -67,7 +67,10 @@ $(document).ready(function () {
             success: function (res) {
                 if (res) {
                     console.log(Users_teg)
-                    $('#id_comment').val('')
+                    Users_teg.forEach(function (val) {
+                        AddNewNotificationInUser(val, data.project_id, 0)
+                    });
+                    $('#id_comment').val('');
                     var val = res.model;
                     $('#id_commnets_data').prepend(
                         '<div class="txt-with-icon">' +
@@ -152,11 +155,15 @@ function GetUsersByString(Users, string) {
 
 function ChangeCommentTextByTag(Users, string) {
     Users_teg = [];
+    console.log(Users);
     // return string.replace(new RegExp("@([a-zA-Z0-9_-]*)", "g"), '[~$1]');
     return string.replace(new RegExp("@[a-zA-Z0-9_-]*", "g"), function (val, i) {
         var username = val.substr(1);
-        if (CheckUserExists(Users, username)) {
-            Users_teg.push(username);
+        var user_id = CheckUserExists(Users, username);
+        if (user_id) {
+            if (Users_teg.indexOf(user_id) == -1) {
+                Users_teg.push(user_id);
+            }
             return '[~' + username + ']';
         } else {
             return '@' + username;
@@ -176,7 +183,7 @@ function CheckUserExists(Users, username) {
     var f = false;
     Users.forEach(function (val) {
         if (val.username == username) {
-            f = true;
+            f = val.id;
         }
     });
     return f;

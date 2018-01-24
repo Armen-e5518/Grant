@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use frontend\components\Helper;
+use frontend\components\Mail;
 use frontend\models\ProjectAttachments;
 use frontend\models\ProjectChecklists;
 use frontend\models\ProjectComments;
@@ -11,6 +12,7 @@ use frontend\models\ProjectFavorite;
 use frontend\models\ProjectMembers;
 use frontend\models\Projects;
 use frontend\models\User;
+use frontend\models\UserNotifications;
 use Yii;
 use yii\web\Controller;
 use \yii\web\Response;
@@ -268,4 +270,34 @@ class AjaxController extends Controller
         }
     }
 
+    public function actionGetCurrentUserNotifications()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            return UserNotifications::GetCurrentUserNotifications();
+        }
+    }
+
+    public function actionReadNotification()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                return UserNotifications::ReadNotification($post['id']);
+            }
+        }
+    }
+
+    public function actionAddNewNotification()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                Mail::SandMailByType($post['user_id'], $post['project_id'],$post['type']);
+                return UserNotifications::AddNewNotificationInUser($post['user_id'], $post['project_id'],$post['type']);
+            }
+        }
+    }
 }

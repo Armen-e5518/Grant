@@ -17,7 +17,7 @@ $(document).ready(function () {
     }, 500);
 
 
-    $(document).on('click', '#projects .project', function () {
+    $(document).on('click', '#projects .project, #notifications_list a', function () {
 
         clearInterval(commentInterval);
 
@@ -192,7 +192,51 @@ function SetProjectDataInHtml(d_params, d_project_data, d_members_data, d_attach
     $('#id_project_created').html(d_project_data.request_issued);
     $('#id_project_members').html('');
     $('#id_status_title').html(Status.title).removeClass('in-progress pending').addClass(Status.class);
-
+// -------info------
+    if (d_project_data.tender_stage) {
+        $('#id_tender_stage').show();
+        $('#id_tender_stage span').html(d_project_data.tender_stage);
+    } else {
+        $('#id_tender_stage').hide();
+    }
+    if (d_project_data.budget) {
+        $('#id_budget').show();
+        $('#id_budget span').html(d_project_data.budget);
+    } else {
+        $('#id_budget').hide();
+    }
+    if (d_project_data.duration) {
+        $('#id_duration').show();
+        $('#id_duration span').html(d_project_data.duration);
+    } else {
+        $('#id_duration').hide();
+    }
+    if (d_project_data.eligibility_restrictions) {
+        $('#id_eligibility_restrictions').show();
+        $('#id_eligibility_restrictions').html(d_project_data.eligibility_restrictions);
+    } else {
+        $('#id_eligibility_restrictions').hide();
+    }
+    if (d_project_data.selection_method) {
+        $('#id_selection_method').show();
+        $('#id_selection_method span').html(d_project_data.selection_method);
+    } else {
+        $('#id_selection_method').hide();
+    }
+    if (d_project_data.evaluation_decision_making) {
+        $('#id_evaluation_decision_making').show();
+        $('#id_evaluation_decision_making span').html(d_project_data.evaluation_decision_making);
+    } else {
+        $('#id_evaluation_decision_making').hide();
+    }
+    if (d_project_data.beneficiary_stakeholder) {
+        $('#id_beneficiary_stakeholder').show();
+        $('#id_beneficiary_stakeholder span').html(d_project_data.beneficiary_stakeholder);
+    } else {
+        $('#id_beneficiary_stakeholder').hide();
+    }
+    // $('#id_project_members').html('');
+// -------------/
     if (d_project_data.status == 0) {
         $('#id_buttons').show();
         $('#id_approve').show();

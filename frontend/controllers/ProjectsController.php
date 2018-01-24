@@ -12,6 +12,7 @@ use frontend\models\User;
 
 //use \PhpOffice\PhpWord\PhpWord;
 //use PhpOffice\PhpWord;
+use frontend\models\UserNotifications;
 use PhpOffice\PhpWord\PhpWord;
 use Yii;
 use frontend\models\Projects;
@@ -200,7 +201,8 @@ class ProjectsController extends Controller
                     };
                 }
             }
-            if ($errors) {
+            if ($errors && UserNotifications::NewNotificationsByUsers(Yii::$app->request->post('members'), $model->id, 1)) {
+
                 return $this->redirect(['/']);
             }
         }

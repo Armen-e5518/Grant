@@ -21,6 +21,7 @@ use kartik\file\FileInput;
         <?= $form->field($model, 'ifi_name')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('ifi_name')])->label(false) ?>
         <?= $form->field($model, 'project_name')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('project_name')])->label(false) ?>
         <?= $form->field($model, 'project_dec')->textarea(['maxlength' => true, 'row' => 8, 'placeholder' => $model->getAttributeLabel('project_dec')])->label(false) ?>
+        <lable>Tender stage</lable>
         <?= $form->field($model, 'tender_stage')->dropDownList(['Propasal' => 'Propasal', 'Eol' => 'Eol',], ['prompt' => ''])->label(false) ?>
         <?= DatePicker::widget([
             'model' => $model,

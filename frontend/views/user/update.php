@@ -15,6 +15,8 @@ $this->registerJsFile('/main/assets/js/custom.js');
 $this->title = 'Update Member';
 
 $this->params['breadcrumbs'][] = $this->title;
+
+
 ?>
 
 
@@ -36,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	                    'countries' => $countries,
 	                    'user_country' => $user_country,
 	                    'companies' => $companies,
+	                    'select_countries' => $select_countries,
 	                ]) ?>
 	            </div>
         </div>

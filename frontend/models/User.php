@@ -20,7 +20,6 @@ use yii\web\UploadedFile;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
- * @property integer $country_id
  * @property integer company_id
  */
 class User extends \yii\db\ActiveRecord
@@ -45,11 +44,11 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['imageFile'], 'file', 'extensions' => 'png, jpg'],
-            [['username', 'lastname', 'firstname', 'email','country_id'], 'required'],
-            [['status', 'created_at', 'updated_at', 'country_id', 'company_id'], 'integer'],
+            [['username', 'lastname', 'firstname', 'email'], 'required'],
+            [['status', 'created_at', 'updated_at', 'company_id'], 'integer'],
             [['username', 'lastname', 'firstname', 'password_hash', 'password_reset_token', 'email', 'image_url'], 'string', 'max' => 255],
             [['auth_key', 'email'], 'string', 'max' => 32],
-            [['username'], 'unique'],
+            [['username', 'email'], 'unique'],
             [['email'], 'email'],
             [['password_reset_token'], 'unique'],
         ];
@@ -73,7 +72,6 @@ class User extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'image_url' => 'Image',
-            'country_id' => 'Country',
             'company_id' => 'Company',
         ];
     }
@@ -126,7 +124,6 @@ class User extends \yii\db\ActiveRecord
             $user->firstname = $this->firstname;
             $user->lastname = $this->lastname;
             $user->image_url = $this->image_url;
-            $user->country_id = $this->country_id;
             $user->company_id = $this->company_id;
             return $user->save() ? $user->id : false;
         }
@@ -160,6 +157,14 @@ class User extends \yii\db\ActiveRecord
 
     /**
      * @param $id
+     * @return static
+     */
+    public static function GetUserById($id)
+    {
+        return self::findOne(['id' => $id]);
+    }
+    /**
+     * @param $id
      * @return null
      */
     public function GetCompany($id)
@@ -185,6 +190,14 @@ class User extends \yii\db\ActiveRecord
     {
         if (!empty($ids)) {
             return self::find()->where(['id' => $ids])->asArray()->all();
+        }
+        return [];
+    }
+
+    public function GetCountriesByUserId($user_id = null)
+    {
+        if (!empty($user_id)) {
+            return UserCountries::GetCountryNameByUserId($user_id);
         }
         return [];
     }
