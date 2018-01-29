@@ -14,10 +14,16 @@ $(document).ready(function () {
                 }
             }
         });
-    })
+    });
 
+    $('#id_close_attach_file').click(function () {
+        $('#id_close_attach_file').hide();
+        $('#fileuploader').hide();
+        $('#id_attach_file').show();
+    });
 
     $('#id_attach_file').click(function () {
+        $('#id_close_attach_file').show();
         $('#fileuploader').show();
         $('#id_attach_file').hide();
         var project_id = $('#id_project').attr('data-id');
@@ -29,6 +35,7 @@ $(document).ready(function () {
                 var val = JSON.parse(data);
                 $('#fileuploader').hide();
                 $('#id_attach_file').show();
+                $('#id_close_attach_file').hide();
                 $('.ajax-file-upload-container').hide();
                 var type = ' <i class="fa fa-file" aria-hidden="true"></i>';
                 if (val.type == 'pdf') {
@@ -48,7 +55,7 @@ $(document).ready(function () {
                     '</div>' +
                     '</div>'
                 )
-            },
+            }
         });
     })
 

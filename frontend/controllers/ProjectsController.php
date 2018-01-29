@@ -135,29 +135,59 @@ class ProjectsController extends Controller
     public function actionView($id)
     {
         $project = Projects::GetProjectDataById($id);
-        // Creating the new document...
+
         $phpWord = new PhpWord();
-
-//        /var/www/html/Grant/vendor/phpoffice/phpword/src/PhpWord/PhpWord.php
-        /* Note: any element you append to a document must reside inside of a Section. */
-
-// Adding an empty Section to the document...
         $section = $phpWord->addSection();
-        $fontStyle = new \PhpOffice\PhpWord\Style\Font();
-        $fontStyle->setBold(true);
-        $fontStyle->setName('Tahoma');
-        $fontStyle->setSize(13);
-        $myTextElement = $section->addText('Title...');
-        $section->addImage(
-            Yii::$app->params['domain'] . '/images/no-user.png',
-            array(
-                'width' => 100,
-                'marginRight' => 0,
 
-            )
+        $tableStyle = array(
+            'borderColor' => '000000',
+            'borderSize' => 6,
         );
-        $myTextElement->setFontStyle($fontStyle);
-        $section->addText('Text', ['size' => 12]);
+        $firstRowStyle = array('bgColor' => '000000');
+        $phpWord->addTableStyle('myTable', $tableStyle, $firstRowStyle);
+        $table = $section->addTable('myTable');
+
+        $cellRowSpan = array('vMerge' => 'restart');
+        $cellRowContinue = array('vMerge' => 'continue');
+        $cellColSpan = array('gridSpan' => 2);
+
+        $table->addRow();
+        $table->addCell(5000, $cellRowSpan)->addText("Assignment name:");
+        $table->addCell(5000, $cellRowSpan)->addText("Approx. value of the contract (in current US$ or Euro):");
+        $table->addRow();
+        $table->addCell(5000, $cellRowSpan)->addText("Country:");
+        $table->addCell(5000, $cellRowSpan)->addText("Duration of assignment (months):");
+        $table->addRow();
+        $table->addCell(5000, $cellRowSpan)->addText("Location within country:");
+        $table->addCell(null, $cellRowContinue);
+        $table->addRow();
+        $table->addCell(5000, $cellRowSpan)->addText("Name of Client:");
+        $table->addCell(5000, $cellRowSpan)->addText("Total No. of staff-months of theassignment:");
+        $table->addRow();
+        $table->addCell(5000, $cellRowSpan)->addText("Address of Client:");
+        $table->addCell(5000, $cellRowSpan)->addText("Approx. value of the services provided bythe firm under the contract (in current US \$or Euro):");
+        $table->addRow();
+        $table->addCell(5000, $cellRowSpan)->addText("Start date (month/year):");
+        $table->addCell(5000, $cellRowSpan)->addText("No. of professional staff-months provided by associated consultants:");
+        $table->addRow();
+        $table->addCell(5000, $cellRowSpan)->addText("Completion date (month/year):");
+        $table->addCell(null, $cellRowContinue);
+        $table->addRow();
+        $table->addCell(5000, $cellRowSpan)->addText("Role on the Assignment:");
+        $table->addCell(5000, $cellRowSpan)->addText("[Sole Consultant, Lead partner, JV member, Subconsultant, Subcontractor]");
+        $table->addRow();
+        $table->addCell(5000, $cellRowSpan)->addText("Proportion carried out by the firm, %:");
+        $table->addCell(5000, $cellRowSpan)->addText("Name of senior professional staff of your");
+        $table->addRow();
+        $table->addCell(5000, $cellRowSpan)->addText("No of staff provided by the firm:");
+        $table->addCell(5000, $cellRowSpan)->addText("9");
+        $table->addRow();
+        $table->addCell(10000, $cellColSpan)->addText("Narrative description of project:");
+        $table->addRow();
+        $table->addCell(10000, $cellColSpan)->addText("Description of actual services provided by your staff within the assignment:");
+        $table->addRow();
+        $table->addCell(10000, $cellColSpan)->addText("Name of Firm:");
+
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         $file = 'words/project_' . $id . '.docx';
         if (file_exists($file)) {

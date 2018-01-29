@@ -261,7 +261,8 @@ $this->title = 'Grant Thornton';
                 </div>
                 <span id="id_project_attachments"></span>
                 <?php if (Yii::$app->rule_check->CheckByKay(['add_new_and_menage_prospects'])): ?>
-                    <div class="txt-without-icon">
+                    <div class="txt-without-icon attach-file-block">
+                        <span title="Closed" id="id_close_attach_file" style="display: none">X</span>
                         <div id="fileuploader" style="display: none">Upload</div>
                         <a href="#" title="Attach new file" id="id_attach_file" class="add-member font-14 font-w-700"><i
                                     class="fa fa-paperclip"></i>Attach file</a>

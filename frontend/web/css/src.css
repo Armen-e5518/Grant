@@ -99,29 +99,30 @@
 
 .user-tag-list {
     position: absolute;
-    background: #c0c6ca;
+    background: #edeff0;
     width: 200px;
     border-radius: 2px;
     height: 120px;
     overflow: auto;
     bottom: 0;
-    left: 199px;
+    left: 35px;
+    border: 1px solid #d6dadc;
 }
 
 .user-tag-list li {
     cursor: pointer;
     margin: 1px;
     padding: 5px 8px;
-    border: 1px solid #7b7676;
+    border: 1px solid #c8d1d6;
     border-radius: 3px;
 }
 
 .user-tag-list li:hover {
-    background: #b0b6ba;
+    background: #d6dadc;
 }
 
 .user-tag-list li.active-u {
-    background: #b0b6ba;
+    background: #d6dadc;
 }
 
 #id_sent_comment, .project {
@@ -219,6 +220,17 @@ div#id_checklist_buttons button {
 .notifications .active-not a {
     color: #de012f;
 }
-.project-info span{
+
+.project-info span {
     font-style: italic;
+}
+.attach-file-block{
+    position: relative;
+}
+#id_close_attach_file{
+    position: absolute;
+    left: 439px;
+    top: -6px;
+    color: red;
+    cursor: pointer;
 }
