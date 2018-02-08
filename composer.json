@@ -28,7 +28,10 @@
         "kartik-v/yii2-export": "*",
         "kartik-v/yii2-grid": "@dev",
         "phpoffice/phpword": "^0.14.0",
-        "comodojo/zip": "^2.1"
+        "comodojo/zip": "^2.1",
+        "cboden/ratchet": "0.3.*",
+        "cocur/slugify": "^3.1"
+
 
     },
     "require-dev": {

@@ -31,6 +31,29 @@ use yii\web\UploadedFile;
  * @property integer $submitted
  * @property string $create_de
  * @property string $update_de
+ * @property string $client_name
+ * @property string $project_value
+ * @property string $industry_id
+ * @property string $service_id
+ * @property string $consultants
+ * @property string $lead_partner
+ * @property string $partner_contact
+ * @property string $location_within_country
+ * @property string $address_client
+ * @property string $duration_assignment
+ * @property string $staff_months
+ * @property string $services_value
+ * @property string $start_date
+ * @property string $completion_date
+ * @property string $name_senior_professional
+ * @property string $assignment_id
+ * @property string $proportion
+ * @property string $no_professional_staff
+ * @property string $no_provided_staff
+ * @property string $narrative_description
+ * @property string $actual_services_description
+ * @property string $GetIndustryById
+ * @property string $name_firm
  */
 class Projects extends \yii\db\ActiveRecord
 {
@@ -89,8 +112,11 @@ class Projects extends \yii\db\ActiveRecord
             [['ifi_name', 'project_name', 'deadline', 'request_issued'], 'required'],
             [['tender_stage', 'project_dec'], 'string'],
             [['status', 'state', 'importance_1', 'importance_2', 'importance_3', 'international_status'], 'integer'],
+            [['industry_id', 'service_id', 'assignment_id', 'staff_months', 'proportion', 'no_professional_staff', 'no_provided_staff'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['ifi_name', 'project_name', 'request_issued', 'deadline', 'budget', 'duration', 'eligibility_restrictions', 'selection_method', 'submission_method', 'evaluation_decision_making', 'beneficiary_stakeholder'], 'string', 'max' => 255],
+            [['client_name', 'project_value', 'consultants', 'lead_partner', 'partner_contact', 'location_within_country', 'address_client', 'duration_assignment', 'services_value', 'start_date', 'completion_date'], 'string', 'max' => 255],
+            [['name_senior_professional', 'actual_services_description', 'name_firm'], 'string', 'max' => 255],
         ];
     }
 
@@ -103,6 +129,7 @@ class Projects extends \yii\db\ActiveRecord
             'id' => 'ID',
             'ifi_name' => 'Ifi Name',
             'project_name' => 'Project Name',
+            'name_firm' => 'Name of Firm',
             'project_dec' => 'Project Dec',
             'tender_stage' => 'Tender Stage',
             'request_issued' => 'Request Issued',
@@ -122,6 +149,29 @@ class Projects extends \yii\db\ActiveRecord
             'importance_2' => 'Most important',
             'importance_3' => 'More important',
             'international_status' => 'International / open for non residents',
+
+            'client_name' => 'Client name',
+            'project_value' => 'Project value',
+            'industry_id' => 'Industry',
+            'service_id' => 'Service line',
+            'consultants' => 'Associated consultants, if any ',
+            'lead_partner' => 'Lead partner ',
+            'partner_contact' => 'Partner contact',
+            'location_within_country' => 'Location within country',
+
+            'address_client' => 'Address of Client',
+            'duration_assignment' => 'Duration of assignment (months)',
+            'staff_months' => 'Total No. of staff-months of the assignment', //int
+            'services_value' => 'Approx. value of the services provided by the firm under the contract (in current US$ or Euro)',
+            'start_date' => 'Start date (month/year)',
+            'completion_date' => 'Completion date (month/year) ',
+            'name_senior_professional' => 'Name of senior professional staff of your firm involved and functions performed(indicate most significant profiles such as ProjectDirector/Coordinator,Team Leader) ',
+            'assignment_id' => 'Role on the Assignment ', //int
+            'proportion' => 'Proportion carried out by the firm, % ', //int
+            'no_professional_staff' => 'No. of professional staff-months provided by associated consultants ', //int
+            'no_provided_staff' => 'No of staff provided by the firm ', //int
+            'narrative_description' => 'Narrative description of project ',
+            'actual_services_description' => 'Description of actual services provided by your staff within the assignment ',
         ];
     }
 
@@ -225,6 +275,7 @@ class Projects extends \yii\db\ActiveRecord
         }
 
         return $query
+            ->groupBy('p.id')
             ->orderBy(['p.deadline' => SORT_DESC])
             ->all();
     }
@@ -320,4 +371,89 @@ class Projects extends \yii\db\ActiveRecord
         }
         return '';
     }
+
+    public static function SaveSubmittedData($data = null)
+    {
+        if (!empty($data)) {
+            $model = self::findOne(['id' => $data['project_id']]);
+            $model->client_name = !empty($data['client_name']) ? $data['client_name'] : null;
+            $model->project_value = !empty($data['project_value']) ? $data['project_value'] : null;
+            $model->industry_id = !empty($data['industry_id']) ? (int)$data['industry_id'] : null;
+            $model->service_id = !empty($data['service_id']) ? (int)$data['service_id'] : null;
+            $model->consultants = !empty($data['consultants']) ? $data['consultants'] : null;
+            $model->lead_partner = !empty($data['lead_partner']) ? $data['lead_partner'] : null;
+            $model->partner_contact = !empty($data['partner_contact']) ? $data['partner_contact'] : null;
+            $model->location_within_country = !empty($data['location_within_country']) ? $data['location_within_country'] : null;
+            return $model->save();
+        }
+        return false;
+    }
+
+    public static function SaveAcceptedData($data = null)
+    {
+        if (!empty($data)) {
+            $model = self::findOne(['id' => $data['project_id']]);
+            $model->address_client = !empty($data['address_client']) ? $data['address_client'] : null;
+            $model->duration_assignment = !empty($data['duration_assignment']) ? $data['duration_assignment'] : null;
+            $model->staff_months = !empty($data['staff_months']) ? $data['staff_months'] : null;
+            $model->services_value = !empty($data['services_value']) ? $data['services_value'] : null;
+            $model->start_date = !empty($data['start_date']) ? $data['start_date'] : null;
+            $model->completion_date = !empty($data['completion_date']) ? $data['completion_date'] : null;
+            $model->name_senior_professional = !empty($data['name_senior_professional']) ? $data['name_senior_professional'] : null;
+            $model->assignment_id = !empty($data['assignment_id']) ? (int)$data['assignment_id'] : null;
+            $model->proportion = !empty($data['proportion']) ? $data['proportion'] : null;
+            $model->no_professional_staff = !empty($data['no_professional_staff']) ? $data['no_professional_staff'] : null;
+            $model->no_provided_staff = !empty($data['no_provided_staff']) ? $data['no_provided_staff'] : null;
+            $model->narrative_description = !empty($data['narrative_description']) ? $data['narrative_description'] : null;
+            $model->actual_services_description = !empty($data['actual_services_description']) ? $data['actual_services_description'] : null;
+            if ($model->save()) {
+                return true;
+            } else {
+                return $model->getErrors();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param null $industry_id
+     * @return null
+     */
+    public function GetIndustryById($industry_id = null)
+    {
+        if (!empty($industry_id)) {
+            return Industrys::GetIndustryById($industry_id)['name'];
+        }
+        return null;
+    }
+
+    public function GetServiceById($service_id = null)
+    {
+        if (!empty($service_id)) {
+            return Services::GetServiceById($service_id)['name'];
+        }
+        return null;
+    }
+
+    public function GetStatus($id)
+    {
+        return self::STATUS[$id];
+    }
+
+    public function GetCountriesByProjectId($id)
+    {
+        if (!empty($id)) {
+            return implode(',', ProjectCountries::GetCountriesNameByProjectIdAllData($id));
+        }
+        return null;
+    }
+
+    public function GetAssignmentById($assignment_id = null)
+    {
+        if (!empty($assignment_id)) {
+            return Assignments::GetAssignmentById($assignment_id)['name'];
+        }
+        return null;
+    }
+
 }

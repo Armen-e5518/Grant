@@ -10,6 +10,7 @@ use yii\helpers\Url;
 $this->registerCssFile('/main/assets/css/style.css');
 $this->registerCssFile('//hayageek.github.io/jQuery-Upload-File/4.0.11/uploadfile.css');
 $this->registerCssFile('//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css');
+$this->registerCssFile('//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css');
 $this->registerCssFile('//cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css');
 
 $this->registerJsFile('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
@@ -17,8 +18,11 @@ $this->registerJsFile('/main/assets/js/custom.js');
 
 $this->registerJsFile('//code.jquery.com/ui/1.12.1/jquery-ui.js');
 $this->registerJsFile('//hayageek.github.io/jQuery-Upload-File/4.0.11/jquery.uploadfile.min.js');
+$this->registerJsFile('//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js');
 $this->registerJsFile('//cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js');
 
+//$this->registerJsFile('/js/Socket/run.js');
+$this->registerJsFile('/js/Project/data-table.js');
 $this->registerJsFile('/js/Jquery/jquery.timeago.js');
 $this->registerJsFile('/js/Project/update-projects.js');
 $this->registerJsFile('/js/Project/SaveTexts.js');
@@ -44,7 +48,7 @@ $this->title = 'Grant Thornton';
         <div class="main d-flex">
             <div class="w-100-perc">
                 <div class="filter-bar d-flex w-100-perc">
-                    <i id="show-left-slide" class="fa fa-arrow-circle-left brd-rad-4"></i>
+                    <i id="show-left-slide" class="	fa fa-align-justify brd-rad-4"></i>
                     <i id="show-right-slide" style="display: none" class="fa fa-arrow-circle-right brd-rad-4"></i>
                     <div class="breadcrumb font-14 font-w-300">
                         <a href="#" class="no-underline">Pipeline Management System</a>
@@ -68,7 +72,8 @@ $this->title = 'Grant Thornton';
                         </ul>
                     </div>
                     <div class="filter-tools filter-tools nowrap">
-                        <a href="#" id="notification" class="fa fa-bell-o feedback p-rel no-underline">
+                        <a href="#" title="Notifications" id="notification"
+                           class="fa fa-bell-o feedback p-rel no-underline">
                             <em style="display: none" class="p-abs white-txt txt-center font-w-700">2</em>
                         </a>
                         <?php
@@ -95,10 +100,12 @@ $this->title = 'Grant Thornton';
                             <i title="Others filters" class="fa fa-angle-down font-14"></i>
                         </label>
                         <div class="notifications">
-                            <ul id="notifications_list">
-                                <li><a href="">Text</a></li>
-                                <li><a href="">Text</a></li>
-                            </ul>
+                            <div class="not-title">
+                                <span>Notifications</span>
+                                <hr>
+                            </div>
+                            <span class="icon-close"><i class="fa fa-close"></i></span>
+                            <ul id="notifications_list"></ul>
                         </div>
                     </div>
                 </div>
@@ -399,7 +406,6 @@ $this->title = 'Grant Thornton';
                                         class="transparent-bg violet-border violet-txt font-15 w-100-perc font-w-500">
                                     <i class="fa fa-calendar-check-o"></i> Create checklist
                                 </button>
-
                                 <div style="display: none" id="id_create_checklist"
                                      class="subpopup filtering-popup card-detail-popup brd-rad-4 p-rel">
                                     <div class="list-data">
@@ -459,6 +465,178 @@ $this->title = 'Grant Thornton';
                 </div>
             </div>
         </div>
+        <div style="display: none"
+             id="id_pop_submitted"
+             class="subpopup filtering-popup card-detail-popup brd-rad-4 p-rel">
+            <div class="list-data">
+                <span>Client name</span>
+                <input id="id_client_name"
+                       type="text"
+                       class="d-block font-w-300 brd-rad-4 w-100-perc">
+            </div>
+            <div class="list-data">
+                <span>Project value</span>
+                <input id="id_project_value"
+                       type="text"
+                       class="d-block font-w-300 brd-rad-4 w-100-perc">
+            </div>
+            <div class="list-data">
+                <span>Associated consultants, if any</span>
+                <input id="id_consultants"
+                       type="text"
+                       class="d-block font-w-300 brd-rad-4 w-100-perc">
+            </div>
+            <div class="list-data">
+                <span>ALead partner</span>
+                <input id="id_lead_partner"
+                       type="text"
+                       class="d-block font-w-300 brd-rad-4 w-100-perc">
+            </div>
+            <div class="list-data">
+                <span>Partner contact</span>
+                <input id="id_partner_contact"
+                       type="text"
+                       class="d-block font-w-300 brd-rad-4 w-100-perc">
+            </div>
+            <div class="list-data">
+                <span>Location within country</span>
+                <input id="id_location_within_country"
+                       type="text"
+                       class="d-block font-w-300 brd-rad-4 w-100-perc">
+            </div>
+            <div class="post-responsible-people font-15 font-w-700">
+                <span class="d-block">Industry</span>
+                <select id="id_industry_id"
+                        title="Select a member"
+                        class="change-status-type padding-5 transparent-bg  gray-txt font-15">
+                    <option>Select a industry</option>
+                    <?php foreach ($industries as $kay => $industry): ?>
+                        <option value="<?= $kay ?>"><?= $industry ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="post-responsible-people font-15 font-w-700">
+                <span class="d-block">Service line</span>
+                <select id="id_service_id"
+                        title="Select a member"
+                        class="change-status-type padding-5 transparent-bg  gray-txt font-15">
+                    <option>Select a service</option>
+                    <?php foreach ($services as $kay => $service): ?>
+                        <option value="<?= $kay ?>"><?= $service ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="list-data" id="id_checklist_buttons">
+                <button title="Save" id="id_save_submitted"
+                        class="red-border d-block font-15 white-bg font-w-700">
+                    Save
+                </button>
+            </div>
+        </div>
+        <!--        ***********************-->
+        <div style="display: none"
+             id="id_pop_accepted"
+             class="subpopup filtering-popup card-detail-popup brd-rad-4 p-rel">
+            <div class="list-data">
+                <span>Address of Client</span>
+                <input id="id_address_client"
+                       type="text"
+                       class="d-block font-w-300 brd-rad-4 w-100-perc">
+            </div>
+            <div class="list-data">
+                <span>Duration of assignment (months)</span>
+                <input id="id_duration_assignment"
+                       type="text"
+                       class="d-block font-w-300 brd-rad-4 w-100-perc">
+            </div>
+            <div class="list-data">
+                <span>Total No. of staff-months of the assignment</span>
+                <input id="id_staff_months"
+                       type="number"
+                       class="d-block font-w-300 brd-rad-4 w-100-perc">
+            </div>
+            <div class="list-data">
+                <span>Approx. value of the services provided by the firm under the contract (in current US$ or Euro)</span>
+                <input id="id_services_value"
+                       type="text"
+                       class="d-block font-w-300 brd-rad-4 w-100-perc">
+            </div>
+            <div class="list-data">
+                <span>Start date (month/year)</span>
+                <select id="id_start_date"
+                        title="Select a member"
+                        class="change-status-type padding-5 transparent-bg  gray-txt font-15">
+                    <?php foreach (Helper::GetMonthAndYear(1995, 2020) as $kay => $d): ?>
+                        <option value="<?= $d ?>"><?= $d ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="list-data">
+                <span>Completion date (month/year)</span>
+                <select id="id_completion_date"
+                        title="Select a member"
+                        class="change-status-type padding-5 transparent-bg  gray-txt font-15">
+                    <?php foreach (Helper::GetMonthAndYear(1995, 2020) as $kay => $d): ?>
+                        <option value="<?= $d ?>"><?= $d ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="list-data">
+                <span>Name of senior professional staff of your firm involved and functions performed(indicate most significant profiles such as ProjectDirector/Coordinator,Team Leader)</span>
+                <input id="id_name_senior_professional"
+                       type="text"
+                       class="d-block font-w-300 brd-rad-4 w-100-perc">
+            </div>
+            <div class="list-data">
+                <span>Proportion carried out by the firm, %</span>
+                <input id="id_proportion"
+                       type="number"
+                       class="d-block font-w-300 brd-rad-4 w-100-perc">
+            </div>
+            <div class="list-data">
+                <span>No. of professional staff- months provided by associated consultants</span>
+                <input id="id_no_professional_staff"
+                       type="number"
+                       class="d-block font-w-300 brd-rad-4 w-100-perc">
+            </div>
+            <div class="list-data">
+                <span>No of staff provided by the firm</span>
+                <input id="id_no_provided_staff"
+                       type="number"
+                       class="d-block font-w-300 brd-rad-4 w-100-perc">
+            </div>
+            <div class="list-data">
+                <span>Narrative description of project</span>
+                <input id="id_narrative_description"
+                       type="text"
+                       class="d-block font-w-300 brd-rad-4 w-100-perc">
+            </div>
+            <div class="list-data">
+                <span>Description of actual services provided by your staff within the assignment</span>
+                <input id="id_actual_services_description"
+                       type="text"
+                       class="d-block font-w-300 brd-rad-4 w-100-perc">
+            </div>
+
+            <div class="post-responsible-people font-15 font-w-700">
+                <span class="d-block">Role on the Assignment</span>
+                <select id="id_assignment_id"
+                        title="Select a member"
+                        class="change-status-type padding-5 transparent-bg  gray-txt font-15">
+                    <option>Select a assignment</option>
+                    <?php foreach ($assignments as $kay => $assignment): ?>
+                        <option value="<?= $kay ?>"><?= $assignment ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="list-data" id="id_checklist_buttons">
+                <button title="Save" id="id_save_accepted"
+                        class="red-border d-block font-15 white-bg font-w-700">
+                    Save
+                </button>
+            </div>
+        </div>
+        <div id="id_layer_status"></div>
     </div>
     <div id="id_loader" style="width: 80px">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"
@@ -482,6 +660,7 @@ $this->title = 'Grant Thornton';
             </circle>
         </svg>
     </div>
+
 </div>
 
 <script>
@@ -489,4 +668,6 @@ $this->title = 'Grant Thornton';
     var __UserId = <?=Yii::$app->user->getId()?>;
     var __CheckListMenage = <?=(Yii::$app->rule_check->CheckByKay(['assign_tasks'])) ? 1 : 0?>;
     var __DecisionMakersMenage = <?=(Yii::$app->rule_check->CheckByKay(['add_new_decision_makers'])) ? 1 : 0?>;
+    var socket;
+    var socket_flag = false;
 </script>

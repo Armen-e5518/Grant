@@ -16,7 +16,7 @@ $(document).ready(function () {
             data: data,
             success: function (res) {
                 if (res) {
-                    AddNewNotificationInUser(data.id, data.project_id,1);
+                    AddNewNotificationInUser(data.id, data.project_id, 1, socket);
                     var img_o = $('#id_members option:selected').attr('data-img');
                     var name = $('#id_members option:selected').html();
                     var id = $('#id_members option:selected').val();
@@ -41,9 +41,9 @@ $(document).ready(function () {
 });
 
 
-function AddNewNotificationInUser(user_id, project_id, type) {
+function AddNewNotificationInUser(user_id, project_id, type, socket) {
     var data = {};
-    data.user_id = user_id
+    data.user_id = user_id;
     data.project_id = project_id;
     data.type = type;
     $.ajax({
@@ -52,7 +52,15 @@ function AddNewNotificationInUser(user_id, project_id, type) {
         data: data,
         success: function (res) {
             if (res) {
-
+                var message = {
+                    type: 'notification',
+                    date: {
+                        user_id: user_id,
+                        project_id: project_id,
+                        type: type
+                    }
+                };
+                socket.send(JSON.stringify(message));
             }
         }
     });

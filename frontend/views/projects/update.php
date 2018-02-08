@@ -28,7 +28,9 @@ $this->title = 'Update Project: ' . $model->ifi_name;
         <?= $this->render('/common/top-bar') ?>
         <div class="main m-members ">
             <i id="show-left-slide" class="fa fa-arrow-circle-left brd-rad-4"></i>
-            <h1><?= Html::encode($this->title) ?></h1>
+            <div class="filter-bar">
+                <span class="font-14 font-w-300 gray-txt"><?= Html::encode($this->title) ?></span>
+            </div>
             <div class="access-form">
                 <?= $this->render('_form', [
                     'model' => $model,

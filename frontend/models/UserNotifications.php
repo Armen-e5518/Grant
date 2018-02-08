@@ -82,8 +82,11 @@ class UserNotifications extends \yii\db\ActiveRecord
     public static function GetCurrentUserNotifications()
     {
         return self::find()
-            ->where(['user_id' => Yii::$app->user->getId()])
-            ->orderBy('status')
+            ->where([
+                'user_id' => Yii::$app->user->getId(),
+                'status' => 0
+            ])
+            ->orderBy(['date' => SORT_DESC])
             ->asArray()
             ->all();
     }

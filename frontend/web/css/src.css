@@ -193,16 +193,42 @@ div#id_checklist_buttons button {
 }
 
 .notifications {
+    z-index: 2;
     display: none;
     font-size: 12px;
     /*padding: 5px;*/
     right: 47px;
     height: 200px;
     overflow: auto;
-    background: #f4f4f4;
+    /*background: #f4f4f4;*/
     width: 200px;
     position: absolute;
     border: 1px solid #e8e8e8;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .15);
+    background: #fff;
+    border-radius: 3px;
+}
+
+.not-title {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 20px;
+}
+
+.not-title hr {
+    width: 91%;
+}
+
+.notifications .icon-close {
+    color: #6d6d6d;
+    position: absolute;
+    right: 6px;
+    top: 5px;
+    cursor: pointer;
+}
+
+.notifications .icon-close:hover {
+    color: black;
 }
 
 .notifications li {
@@ -224,13 +250,37 @@ div#id_checklist_buttons button {
 .project-info span {
     font-style: italic;
 }
-.attach-file-block{
+
+.attach-file-block {
     position: relative;
 }
-#id_close_attach_file{
+
+#id_close_attach_file {
     position: absolute;
     left: 439px;
     top: -6px;
     color: red;
     cursor: pointer;
+}
+
+#projects-data-t_filter input {
+    border: 1px solid;
+}
+
+#projects-data-t td {
+    text-align: center;
+}
+
+#projects-data-t .description-t {
+    text-align: left;
+}
+
+#projects {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#id_pop_submitted, #id_pop_accepted{
+    top: 37px;
+    max-width: 100% !important;
 }

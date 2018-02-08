@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	                    'rules' => $rules,
 	                    'user_rules' => $user_rules,
 	                    'countries' => $countries,
-	                    'user_country' => $user_country,
+//	                    'user_country' => $user_country,
 	                    'companies' => $companies,
 	                    'select_countries' => $select_countries,
 	                ]) ?>

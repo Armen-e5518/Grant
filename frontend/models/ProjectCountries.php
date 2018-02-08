@@ -100,4 +100,31 @@ class ProjectCountries extends \yii\db\ActiveRecord
         }
         return [];
     }
+
+    /**
+     * @param null $project_id
+     * @return array
+     */
+    public static function GetCountriesNameByProjectIdAllData($project_id = null)
+    {
+        if (!empty($project_id)) {
+            return $rows = (new \yii\db\Query())
+                ->select(
+                    [
+                        'c.country_name',
+                    ])
+                ->from('project_countries as pc')
+                ->leftJoin(Countries::tableName() . ' c', 'c.id = pc.country_id')
+                ->where(['pc.project_id' => $project_id])
+                ->column();
+        }
+        return [];
+    }
+
+    public static function GetCountriesNameByProjectIdString($project_id = null)
+    {
+        if (!empty($project_id)) {
+            return implode(',', self::GetCountriesNameByProjectIdAllData($project_id));
+        }
+    }
 }

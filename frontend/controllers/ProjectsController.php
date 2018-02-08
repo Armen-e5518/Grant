@@ -58,6 +58,9 @@ class ProjectsController extends Controller
      */
     public function actionIndex()
     {
+//        echo '<pre>';
+//        print_r(Helper::GetMonthAndYear(1990,2040));
+//        exit;
         $searchModel = new ProjectsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -134,6 +137,7 @@ class ProjectsController extends Controller
      */
     public function actionView($id)
     {
+        $model = new Projects();
         $project = Projects::GetProjectDataById($id);
 
         $phpWord = new PhpWord();
@@ -152,44 +156,44 @@ class ProjectsController extends Controller
         $cellColSpan = array('gridSpan' => 2);
 
         $table->addRow();
-        $table->addCell(5000, $cellRowSpan)->addText("Assignment name:");
-        $table->addCell(5000, $cellRowSpan)->addText("Approx. value of the contract (in current US$ or Euro):");
+        $table->addCell(5000, $cellRowSpan)->addText("Assignment name:{$project['project_name']}");
+        $table->addCell(5000, $cellRowSpan)->addText("Approx. value of the contract (in current US$ or Euro):{$project['project_value']}");
         $table->addRow();
-        $table->addCell(5000, $cellRowSpan)->addText("Country:");
-        $table->addCell(5000, $cellRowSpan)->addText("Duration of assignment (months):");
+        $table->addCell(5000, $cellRowSpan)->addText("Country:{$model->GetCountriesByProjectId($id)}");
+        $table->addCell(5000, $cellRowSpan)->addText("Duration of assignment (months):{$project['duration_assignment']}");
         $table->addRow();
-        $table->addCell(5000, $cellRowSpan)->addText("Location within country:");
+        $table->addCell(5000, $cellRowSpan)->addText("Location within country:{$project['location_within_country']}");
         $table->addCell(null, $cellRowContinue);
         $table->addRow();
-        $table->addCell(5000, $cellRowSpan)->addText("Name of Client:");
-        $table->addCell(5000, $cellRowSpan)->addText("Total No. of staff-months of theassignment:");
+        $table->addCell(5000, $cellRowSpan)->addText("Name of Client:{$project['client_name']}");
+        $table->addCell(5000, $cellRowSpan)->addText("Total No. of staff-months of theassignment:{$project['staff_months']}");
         $table->addRow();
-        $table->addCell(5000, $cellRowSpan)->addText("Address of Client:");
-        $table->addCell(5000, $cellRowSpan)->addText("Approx. value of the services provided bythe firm under the contract (in current US \$or Euro):");
+        $table->addCell(5000, $cellRowSpan)->addText("Address of Client:{$project['address_client']}");
+        $table->addCell(5000, $cellRowSpan)->addText("Approx. value of the services provided bythe firm under the contract (in current US \$or Euro):{$project['services_value']}");
         $table->addRow();
-        $table->addCell(5000, $cellRowSpan)->addText("Start date (month/year):");
-        $table->addCell(5000, $cellRowSpan)->addText("No. of professional staff-months provided by associated consultants:");
+        $table->addCell(5000, $cellRowSpan)->addText("Start date (month/year):{$project['start_date']}");
+        $table->addCell(5000, $cellRowSpan)->addText("No. of professional staff-months provided by associated consultants:{$project['start_date']}");
         $table->addRow();
-        $table->addCell(5000, $cellRowSpan)->addText("Completion date (month/year):");
+        $table->addCell(5000, $cellRowSpan)->addText("Completion date (month/year):{$project['completion_date']}");
         $table->addCell(null, $cellRowContinue);
         $table->addRow();
-        $table->addCell(5000, $cellRowSpan)->addText("Role on the Assignment:");
-        $table->addCell(5000, $cellRowSpan)->addText("[Sole Consultant, Lead partner, JV member, Subconsultant, Subcontractor]");
+        $table->addCell(5000, $cellRowSpan)->addText("Role on the Assignment:{$model->GetAssignmentById($project['assignment_id'])}");
+        $table->addCell(5000, $cellRowSpan)->addText("Proportion carried out by the firm, %:{$project['proportion']}");
         $table->addRow();
-        $table->addCell(5000, $cellRowSpan)->addText("Proportion carried out by the firm, %:");
-        $table->addCell(5000, $cellRowSpan)->addText("Name of senior professional staff of your");
+        $table->addCell(5000, $cellRowSpan)->addText("Name of associated consultants, if any:{$project['consultants']}");
+        $table->addCell(5000, $cellRowSpan)->addText("No. of professional staff-months provided by associated consultants:{$project['no_professional_staff']}");
         $table->addRow();
-        $table->addCell(5000, $cellRowSpan)->addText("No of staff provided by the firm:");
-        $table->addCell(5000, $cellRowSpan)->addText("9");
+        $table->addCell(5000, $cellRowSpan)->addText("No of staff provided by the firm:{$project['no_provided_staff']}");
+        $table->addCell(5000, $cellRowSpan)->addText(" ");
         $table->addRow();
-        $table->addCell(10000, $cellColSpan)->addText("Narrative description of project:");
+        $table->addCell(10000, $cellColSpan)->addText("Narrative description of project:{$project['narrative_description']}");
         $table->addRow();
-        $table->addCell(10000, $cellColSpan)->addText("Description of actual services provided by your staff within the assignment:");
+        $table->addCell(10000, $cellColSpan)->addText("Description of actual services provided by your staff within the assignment:{$project['actual_services_description']}");
         $table->addRow();
-        $table->addCell(10000, $cellColSpan)->addText("Name of Firm:");
+        $table->addCell(10000, $cellColSpan)->addText("Name of Firm:{$project['name_firm']}");
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        $file = 'words/project_' . $id . '.docx';
+        $file = 'words/project_' . $project['project_name'] . '.docx';
         if (file_exists($file)) {
             unlink($file);
         }
@@ -277,7 +281,8 @@ class ProjectsController extends Controller
                     };
                 }
             }
-            if ($errors) {
+            if ($errors && UserNotifications::NewNotificationsByUsers(Yii::$app->request->post('members'), $model->id, 1)) {
+
                 return $this->redirect(['/']);
             }
         }

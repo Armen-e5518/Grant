@@ -235,5 +235,16 @@ class Helper extends Component
         return false;
     }
 
+    public static function GetMonthAndYear($s_Year, $e_Year)
+    {
+        $a = [];
+        for ($i = $s_Year; $i <= $e_Year; $i++) {
+            for ($j = 1; $j <= 12; $j++) {
+                $s = $j < 10 ? 0 : '';
+                $a[] = $i . '/' . $s . $j;
+            }
+        }
+        return $a;
+    }
 
 }

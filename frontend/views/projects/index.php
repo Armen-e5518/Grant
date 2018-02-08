@@ -16,6 +16,8 @@ $this->registerJsFile('/main/assets/js/custom.js');
 
 $this->title = 'Projects';
 $this->params['breadcrumbs'][] = $this->title;
+
+Yii::$app->formatter->nullDisplay = '';
 ?>
 <div class="container-fluid d-flex my-content">
     <?= $this->render('/common/left-menu', ['active' => 'reports']) ?>
@@ -28,15 +30,73 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div>
                 <?php
-                $gridColumns = [
-//                    ['class' => 'yii\grid\SerialColumn'],
-//                    'id',
+                $gridColumnsMenu = [
+                    [
+                        'attribute' => '#',
+                        'content' => function ($model, $key, $index, $column) {
+                            return (int)($index + 1);
+                        }
+                    ],
+                    'name_firm',         //Firm name
+                    'client_name',
                     'ifi_name',
                     'project_name',
-                    'project_dec',
-                    'request_issued',
-                    'tender_stage',
-                    'deadline',
+                    'location_within_country',
+                    ['attribute' => 'status',
+                        'value' => function ($model) {
+                            return $model->GetStatus($model->status);
+                        }
+                    ],
+                    'budget',
+                    ['attribute' => 'industry_id',
+                        'value' => function ($model) {
+                            return $model->GetIndustryById($model->industry_id);
+                        }
+                    ],
+                    ['attribute' => 'service_id',
+                        'value' => function ($model) {
+                            return $model->GetServiceById($model->service_id);
+                        }
+                    ],
+                    'project_value',
+                    'consultants',
+                    'lead_partner',
+                    'partner_contact',
+
+                ];
+
+                $gridColumns = [
+                    [
+                        'attribute' => '#',
+                        'content' => function ($model, $key, $index, $column) {
+                            return (int)($index + 1);
+                        }
+                    ],
+                    'name_firm',         //Firm name
+                    'client_name',
+                    'ifi_name',
+                    'project_name',
+                    'location_within_country',
+                    ['attribute' => 'status',
+                        'value' => function ($model) {
+                            return $model->GetStatus($model->status);
+                        }
+                    ],
+                    'budget',
+                    ['attribute' => 'industry_id',
+                        'value' => function ($model) {
+                            return $model->GetIndustryById($model->industry_id);
+                        }
+                    ],
+                    ['attribute' => 'service_id',
+                        'value' => function ($model) {
+                            return $model->GetServiceById($model->service_id);
+                        }
+                    ],
+                    'project_value',
+                    'consultants',
+                    'lead_partner',
+                    'partner_contact',
                     [
                         'class' => 'yii\grid\ActionColumn',
                         'header' => 'Actions',
@@ -63,17 +123,21 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                     ],
                 ];
-                //Renders a export dropdown menu
                 echo ExportMenu::widget([
                     'dataProvider' => $dataProvider,
-                    'columns' => $gridColumns,
+                    'columns' => $gridColumnsMenu,
                     'target' => ExportMenu::TARGET_SELF,
-                ]);
+                    'exportConfig' =>
+                        [
+                            ExportMenu::FORMAT_HTML => false,
+                            ExportMenu::FORMAT_TEXT => false,
+                            ExportMenu::FORMAT_PDF => false,
+                        ]
 
-                // You can choose to render your own GridView separately
+                ]);
                 echo \kartik\grid\GridView::widget([
                     'dataProvider' => $dataProvider,
-                    'filterModel' => $searchModel,
+//                    'filterModel' => $searchModel,
                     'columns' => $gridColumns,
                 ]);
                 ?>

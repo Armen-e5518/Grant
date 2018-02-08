@@ -19,6 +19,8 @@ use kartik\file\FileInput;
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data',]]); ?>
     <div class="col-md-6">
         <?= $form->field($model, 'ifi_name')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('ifi_name')])->label(false) ?>
+        <?= $form->field($model, 'client_name')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('client_name')])->label(false) ?>
+        <?= $form->field($model, 'name_firm')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('name_firm')])->label(false) ?>
         <?= $form->field($model, 'project_name')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('project_name')])->label(false) ?>
         <?= $form->field($model, 'project_dec')->textarea(['maxlength' => true, 'row' => 8, 'placeholder' => $model->getAttributeLabel('project_dec')])->label(false) ?>
         <lable>Tender stage</lable>
@@ -86,6 +88,7 @@ use kartik\file\FileInput;
             ]
         ]);
         ?>
+
     </div>
     <div class="col-md-6">
         <?= $form->field($model, 'eligibility_restrictions')->textInput(['maxlength' => true, 'placeholder' => $model->getAttributeLabel('eligibility_restrictions')])->label(false) ?>
@@ -111,7 +114,7 @@ use kartik\file\FileInput;
             ?>
         </div>
     </div>
-    <div class="form-group col-md-12">
+    <div class="form-group col-md-12" style="margin-top: 20px">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => 'btn btn-success']) ?>
     </div>
     <?php ActiveForm::end(); ?>

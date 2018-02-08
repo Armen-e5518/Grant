@@ -295,8 +295,30 @@ class AjaxController extends Controller
             \Yii::$app->response->format = Response::FORMAT_JSON;
             $post = Yii::$app->request->post();
             if (!empty($post)) {
-                Mail::SandMailByType($post['user_id'], $post['project_id'],$post['type']);
-                return UserNotifications::AddNewNotificationInUser($post['user_id'], $post['project_id'],$post['type']);
+                Mail::SandMailByType($post['user_id'], $post['project_id'], $post['type']);
+                return UserNotifications::AddNewNotificationInUser($post['user_id'], $post['project_id'], $post['type']);
+            }
+        }
+    }
+
+    public function actionSaveSubmittedData()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                return Projects::SaveSubmittedData($post);
+            }
+        }
+    }
+
+    public function actionSaveAcceptedData()
+    {
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+            if (!empty($post)) {
+                return Projects::SaveAcceptedData($post);
             }
         }
     }

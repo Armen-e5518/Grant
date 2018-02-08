@@ -68,7 +68,7 @@ $(document).ready(function () {
                 if (res) {
                     console.log(Users_teg)
                     Users_teg.forEach(function (val) {
-                        AddNewNotificationInUser(val, data.project_id, 0)
+                        AddNewNotificationInUser(val, data.project_id, 0 ,socket)
                     });
                     $('#id_comment').val('');
                     var val = res.model;

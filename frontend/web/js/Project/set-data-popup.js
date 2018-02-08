@@ -52,17 +52,19 @@ $(document).ready(function () {
             }
         }, 800);
 
-
         var ob = $(this);
         var data = {};
         data.id = ob.attr('data-id');
 
         GetChecklistsByProjectId(data.id);
+
         GetProjectMembersListByProjectId(data.id);
+
         commentInterval = setInterval(function () {
             GetComments(data)
         }, 5000)
         console.log(data.id);
+
         $.ajax({
             type: "POST",
             url: "/ajax/get-project-data-by-id",
@@ -295,6 +297,7 @@ function SetProjectDataInHtml(d_params, d_project_data, d_members_data, d_attach
             '</div>'
         )
     })
+
 }
 
 function GetChecklistsByProjectId(id) {

@@ -2,11 +2,14 @@
 namespace frontend\controllers;
 
 use frontend\components\Helper;
+use frontend\models\Assignments;
 use frontend\models\Countries;
+use frontend\models\Industrys;
 use frontend\models\ProjectComments;
 use frontend\models\ProjectFavorite;
 use frontend\models\ProjectMembers;
 use frontend\models\Projects;
+use frontend\models\Services;
 use frontend\models\User;
 use phpDocumentor\Reflection\Project;
 use Yii;
@@ -86,30 +89,34 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-//        phpinfo();
-//        exit;
+
         $get = Yii::$app->request->get();
         $projects = Projects::GetAllProjects($get);
-
-//        $projects = Helper::ChangeProjectsFormat($projects);
-//        echo '<pre>';
-//        var_dump($get);
-//        exit;
         return $this->render('index', [
             'date' => Helper::ChangeProjectsFormat($projects),
             'favorites' => ProjectFavorite::GetFavoritesByUserId(),
             'params' => Helper::GetFilterResets(['/site/index'], $get),
             'stats' => Projects::IMPORTANT,
             'countries' => Countries::GetCountries(),
+            'services' =>Services::GetServices(),
+            'industries' =>Industrys::GetIndustrys(),
+            'assignments' =>Assignments::GetAssignments(),
             'get' => $get
         ]);
     }
 
     public function actionTest()
     {
-        var_dump(Yii::$app->rule_check->CheckByKay(['add_new_prospects']));
-        exit;
-        print_r(Helper::GetFirstCharacters('arm', 'dav'));
+        $a = [
+
+
+
+        ];
+        foreach ($a as $b) {
+            $model = new Assignments();
+            $model->name = $b;
+            $model->save();
+        }
     }
 
     /**
